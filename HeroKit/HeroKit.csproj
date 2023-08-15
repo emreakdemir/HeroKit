@@ -9,7 +9,7 @@
         <Title>HeroKit</Title>
         <Authors>Emre Akdemir</Authors>
         <PackageProjectUrl>https://github.com/emreakdemir/herokit</PackageProjectUrl>
-        <PackageIcon>herokit.svg</PackageIcon>
+        <PackageIcon>herokit.png</PackageIcon>
         <RepositoryUrl>git@github.com:emreakdemir/herokit.git</RepositoryUrl>
         <PackageTags>csharp, dotnet7, extensions</PackageTags>
         <AssemblyVersion>1.0.0</AssemblyVersion>
@@ -33,7 +33,7 @@
 
     <ItemGroup>
         <None Include="README.md" Pack="true" PackagePath=""/>
-        <None Include="herokit.svg" Pack="true" PackagePath=""/>
+        <None Include="herokit.png" Pack="true" PackagePath=""/>
     </ItemGroup>
 
 </Project>
