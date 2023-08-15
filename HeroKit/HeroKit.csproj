@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <LangVersion>latestmajor</LangVersion>
+        <Title>HeroKit</Title>
+        <Authors>Emre Akdemir</Authors>
+        <PackageProjectUrl>https://github.com/emreakdemir/herokit</PackageProjectUrl>
+        <PackageIcon>herokit.svg</PackageIcon>
+        <RepositoryUrl>git@github.com:emreakdemir/herokit.git</RepositoryUrl>
+        <PackageTags>csharp, dotnet7, extensions</PackageTags>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <Version>1.0.0-a.1</Version>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <Description>The HeroKit library, providing utility operations, offers a comprehensive set of extension methods for controlling, converting, and manipulating various data types. Designed for projects developed in C#, this extensive library enables performing diverse operations on different data types, ranging from arrays to date-time values, objects, and strings.</Description>
+        <Copyright>Copyright © 2023 Emre Akdemir</Copyright>
+        <RepositoryType>git</RepositoryType>
+        <EmbedAllSources>true</EmbedAllSources>
+        <PackageReleaseNotes>Initial Release.</PackageReleaseNotes>
+        <NeutralLanguage>en</NeutralLanguage>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+        <Deterministic>false</Deterministic>
+        <Optimize>true</Optimize>
+        <PackRelease>true</PackRelease>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath=""/>
+        <None Include="herokit.svg" Pack="true" PackagePath=""/>
+    </ItemGroup>
+
+</Project>
