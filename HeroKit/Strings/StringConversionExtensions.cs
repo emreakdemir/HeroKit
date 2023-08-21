@@ -49,6 +49,7 @@ public static class StringConversionExtensions
                 return defaultValue;
 
             Type type = typeof(T).GetUnderlyingType();
+
             if (Enum.IsDefined(type, value))
                 return (T)Enum.Parse(type, value, true);
 
@@ -62,5 +63,4 @@ public static class StringConversionExtensions
 
         return defaultValue;
     }
-
 }
