@@ -30,6 +30,8 @@ Aşağıda, bu kütüphanenin nasıl kullanılacağına dair örnekler bulabilir
 - [ArrayConversionExtensions](#arrayconversionextensions)
 - [ArrayManipulationExtensions](#arraymanipulationextensions)
 - [AssemblyExtensions](#assemblyextensions)
+- [BooleanControlExtensions](#booleancontrolextensions)
+- [BooleanConversionExtensions](#booleanconversionextensions)
 - [DateTimeFormattingExtensions](#datetimeformattingextensions)
 - [ObjectControlExtensions](#objectcontrolextensions)
 - [ObjectConversionExtensions](#objectconversionextensions)
@@ -191,6 +193,95 @@ class Program
         {
             string assemblyTitle = titleAttribute.Title; // Assembly başlığı
         }
+    }
+}
+```
+
+## BooleanControlExtensions
+
+Bu sınıf, Boolean (bool) türündeki değerler için uzantı yöntemlerini içerir.
+
+### `IsTrue(this bool? value)`
+Bu uzantı yöntemi, bir boole (bool) değerinin boş olup olmadığını kontrol eder. Değer boş değilse ve true ise true döndürür; aksi takdirde false döndürür.
+
+### `IsFalse(this bool? value)`
+Bu uzantı yöntemi, bir boole (bool) değerinin boş olup olmadığını kontrol eder. Değerin boş olup olmadığını ve true olup olmadığını belirlemek için IsTrue yöntemini kullanır. Değer boş değilse ve false ise true döndürür; aksi takdirde false döndürür.
+
+### `AllTrue(this IEnumerable<bool> values)`
+Bu uzantı yöntemi, bir koleksiyondaki tüm boolean değerlerinin true olup olmadığını kontrol eder. Koleksiyondaki tüm değerlerin true olup olmadığını belirlemek için LINQ All yöntemini kullanır. Eğer öyleyse true döndürür; aksi takdirde false döndürür.
+
+### `AnyTrue(this IEnumerable<bool> values)`
+Bu uzantı yöntemi, bir koleksiyondaki herhangi bir boolean değerinin true olup olmadığını kontrol eder. Koleksiyondaki en az bir değerin true olup olmadığını belirlemek için LINQ Any yöntemini kullanır. Böyle bir değer varsa true döndürür; aksi takdirde false döndürür.
+
+### `AllFalse(this IEnumerable<bool> values)`
+Bu uzantı yöntemi, bir koleksiyondaki tüm boolean değerlerinin false olup olmadığını kontrol eder. LINQ All yöntemini ve negasyon (!) operatörünü kullanarak koleksiyondaki tüm değerlerin false olup olmadığını belirler. Eğer öyleyse true döndürür; aksi takdirde false döndürür.
+
+### `AnyFalse(this IEnumerable<bool> values)`
+Bu uzantı yöntemi, bir koleksiyondaki herhangi bir boolean değerinin false olup olmadığını kontrol eder. LINQ Any yöntemini ve negasyon (!) operatörünü kullanarak koleksiyondaki en az bir değerin false olup olmadığını belirler. Böyle bir değer varsa true döndürür; aksi takdirde false döndürür.
+
+## Kullanım
+
+Bu kütüphanedeki uzantı yöntemlerini kullanarak Boolean (bool) türündeki değerler üzerinde işlemler gerçekleştirebilirsiniz. Aşağıda kullanım örnekleri bulunmaktadır:
+
+using HeroKit.Booleans;
+```csharp
+
+using HeroKit.Booleans;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        bool? nullableValue = true;
+        bool isNullableValueTrue = nullableValue.IsTrue(); // true döndürür
+
+        List<bool> boolList = new List<bool> { true, false, true };
+        bool allValuesTrue = boolList.AllTrue(); // false döndürür
+        bool anyValueTrue = boolList.AnyTrue(); // true döndürür
+
+        List<bool> anotherBoolList = new List<bool> { false, false, false };
+        bool allValuesFalse = anotherBoolList.AllFalse(); // true döndürür
+        bool anyValueFalse = anotherBoolList.AnyFalse(); // true döndürür
+    }
+}
+
+```
+
+## `BooleanConversionExtensions`
+
+## ToYesNo(this bool value)
+
+Bu uzantı yöntemi, bir boolean değerini "Evet" veya "Hayır" dize temsiline dönüştürür. Eğer değer true ise "Evet" döner, aksi halde "Hayır" döner.
+
+## ToYesNo(this bool? value)
+
+Bu uzantı yöntemi, bir boole değerini "Evet" veya "Hayır" dize temsiline dönüştürür. Eğer değer null değilse ve true ise "Evet" döner, aksi halde "Hayır" döner.
+
+## ToInt(this bool value)
+
+Bu uzantı yöntemi, bir boolean değerini bir tamsayı temsiline dönüştürür. Değer true ise 1 döner, değer false ise 0 döner.
+
+## Kullanım
+
+Bu sınıf tarafından sağlanan uzantı yöntemlerini kullanarak boolean değerler üzerinde kolayca dönüşümler yapabilirsiniz. İşte bazı örnekler:
+
+```csharp
+using HeroKit.BooleanConversions;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        bool deger1 = true;
+        string deger1EvetHayir = deger1.ToYesNo(); // "Evet" döner
+        int deger1Tamsayi = deger1.ToInt(); // 1 döner
+        
+        bool? deger2 = false;
+        string deger2EvetHayir = deger2.ToYesNo(); // "Hayır" döner
+        
+        // Null olabilen boolean dönüşümü
+        bool? deger3 = null;
+        string deger3EvetHayir = deger3.ToYesNo(); // "Hayır" döner
     }
 }
 ```

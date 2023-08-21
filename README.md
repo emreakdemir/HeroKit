@@ -29,6 +29,8 @@ The HeroKit library contains extension methods to provide helpful functionalitie
 - [ArrayConversionExtensions](#arrayconversionextensions)
 - [ArrayManipulationExtensions](#arraymanipulationextensions)
 - [AssemblyExtensions](#assemblyextensions)
+- [BooleanControlExtensions](#booleancontrolextensions)
+- [BooleanConversionExtensions](#booleanconversionextensions)
 - [DateTimeFormattingExtensions](#datetimeformattingextensions)
 - [ObjectControlExtensions](#objectcontrolextensions)
 - [ObjectConversionExtensions](#objectconversionextensions)
@@ -191,6 +193,97 @@ class Program
     }
 }
 ```
+
+## `BooleanControlExtensions`
+
+This class contains extension methods for values of the Boolean (bool) type.
+
+### `IsTrue(this bool? value)`
+
+This extension method checks whether a nullable boolean value is true. If the value is not null and true, it returns true; otherwise, it returns false.
+
+### `IsFalse(this bool? value)`
+
+This extension method checks whether a nullable boolean value is false. It uses the IsTrue method to determine if the value is not null and true. If the value is not null and false, it returns true; otherwise, it returns false.
+
+### `AllTrue(this IEnumerable<bool> values)`
+This extension method checks if all boolean values in a collection are true. It uses the LINQ All method to determine if all values in the collection are true. If they are, it returns true; otherwise, it returns false.
+
+### `AnyTrue(this IEnumerable<bool> values)`
+This extension method checks if any boolean value in a collection is true. It uses the LINQ Any method to determine if at least one value in the collection is true. If there is such a value, it returns true; otherwise, it returns false.
+
+### `AllFalse(this IEnumerable<bool> values)`
+This extension method checks if all boolean values in a collection are false. It uses the LINQ All method along with the negation (!) operator to determine if all values in the collection are false. If they are, it returns true; otherwise, it returns false.
+
+### `AnyFalse(this IEnumerable<bool> values)`
+
+This extension method checks if any boolean value in a collection is false. It uses the LINQ Any method along with the negation (!) operator to determine if at least one value in the collection is false. If there is such a value, it returns true; otherwise, it returns false.
+
+## Usage
+
+Using the extension methods in this library, you can perform operations on values of the `Boolean` (`bool`) type. Below are usage examples:
+
+```csharp
+using HeroKit.Booleans;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        bool? nullableValue = true;
+        bool isNullableValueTrue = nullableValue.IsTrue(); // Returns true
+
+        List<bool> boolList = new List<bool> { true, false, true };
+        bool allValuesTrue = boolList.AllTrue(); // Returns false
+        bool anyValueTrue = boolList.AnyTrue(); // Returns true
+
+        List<bool> anotherBoolList = new List<bool> { false, false, false };
+        bool allValuesFalse = anotherBoolList.AllFalse(); // Returns true
+        bool anyValueFalse = anotherBoolList.AnyFalse(); // Returns true
+    }
+}
+
+```
+
+## `BooleanConversionExtensions`
+
+## ToYesNo(this bool value)
+
+This extension method converts a boolean value to a string representation of "Yes" or "No". If the value is true, it returns "Yes"; otherwise, it returns "No".
+
+## ToYesNo(this bool? value)
+
+This extension method converts a nullable boolean value to a string representation of "Yes" or "No". If the value is not null and true, it returns "Yes"; otherwise, it returns "No".
+
+## ToInt(this bool value)
+
+This extension method converts a boolean value to an integer representation. It returns 1 if the value is true, and 0 if the value is false.
+
+## Usage
+
+Using the extension methods provided by this class, you can easily perform conversions on boolean values. Here are some examples:
+
+```csharp
+using HeroKit.BooleanConversions;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        bool value1 = true;
+        string value1AsYesNo = value1.ToYesNo(); // Returns "Yes"
+        int value1AsInt = value1.ToInt(); // Returns 1
+        
+        bool? value2 = false;
+        string value2AsYesNo = value2.ToYesNo(); // Returns "No"
+        
+        // Nullable boolean conversion
+        bool? value3 = null;
+        string value3AsYesNo = value3.ToYesNo(); // Returns "No"
+    }
+}
+```
+
 
 ## `DateTimeFormattingExtensions`
 
