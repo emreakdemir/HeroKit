@@ -259,6 +259,14 @@ This extension method converts a nullable boolean value to a string representati
 
 This extension method converts a boolean value to an integer representation. It returns 1 if the value is true, and 0 if the value is false.
 
+## ToString(this bool value, string trueText, string falseText)
+
+This extension method converts a boolean value to given string equivalents. If the value is `true`, it returns `trueText`, otherwise, it returns `falseText`.
+
+## ToString(this bool? value, string trueText, string falseText, string nullText = "-")
+
+This extension method converts a boolean value to given string equivalents. If the value is `null`, it returns `nullText`, if it's `true`, it returns `trueText`, otherwise, it returns `falseText`.
+
 ## Usage
 
 Using the extension methods provided by this class, you can easily perform conversions on boolean values. Here are some examples:
@@ -280,6 +288,12 @@ class Program
         // Nullable boolean conversion
         bool? value3 = null;
         string value3AsYesNo = value3.ToYesNo(); // Returns "No"
+
+        bool? nullableValue = true;
+        string result = nullableValue.ToString("True", "False", "Null"); // "True"
+
+        bool someValue = true;
+        string result = someValue.ToString("True", "False"); // "True"
     }
 }
 ```

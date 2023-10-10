@@ -7,21 +7,21 @@ The HeroKit library, providing utility operations, offers a comprehensive set of
 The HeroKit library contains extension methods to provide helpful functionalities in C# projects. Below, you can find examples of how to use this library:
 
 1. Add the HeroKit library to your project:
-   - Open NuGet Package Manager Console to add the library to your project via NuGet Package Manager.
-   - Enter the following command to add the HeroKit library to your project:
-     ```
-     Install-Package HeroKit
-     ```
+    - Open NuGet Package Manager Console to add the library to your project via NuGet Package Manager.
+    - Enter the following command to add the HeroKit library to your project:
+      ```
+      Install-Package HeroKit
+      ```
 
 2. Don't forget to include the relevant namespace statements before using extension methods:
-   - For instance, if you're working with arrays, add the namespace of the relevant class at the beginning of your project (`using HeroKit.Arrays;`).
+    - For instance, if you're working with arrays, add the namespace of the relevant class at the beginning of your project (`using HeroKit.Arrays;`).
 
 3. Perform operations using extension methods:
-   - You can use classes like `ArrayControlExtensions`, `ArrayConversionExtensions`, `ArrayManipulationExtensions` for array-related operations.
-   - For date and time formatting, you can utilize methods from the `DateTimeFormattingExtensions` class.
-   - For object control and conversions, use `ObjectControlExtensions` and `ObjectConversionExtensions` classes.
-   - String operations can be performed using `StringControlExtensions`, `StringConversionExtensions`, and `StringManipulationExtensions` classes.
-   - For type control and conversions, you can use the `TypeControlExtensions` class.
+    - You can use classes like `ArrayControlExtensions`, `ArrayConversionExtensions`, `ArrayManipulationExtensions` for array-related operations.
+    - For date and time formatting, you can utilize methods from the `DateTimeFormattingExtensions` class.
+    - For object control and conversions, use `ObjectControlExtensions` and `ObjectConversionExtensions` classes.
+    - String operations can be performed using `StringControlExtensions`, `StringConversionExtensions`, and `StringManipulationExtensions` classes.
+    - For type control and conversions, you can use the `TypeControlExtensions` class.
 
 ## Contents
 
@@ -259,6 +259,14 @@ This extension method converts a nullable boolean value to a string representati
 
 This extension method converts a boolean value to an integer representation. It returns 1 if the value is true, and 0 if the value is false.
 
+## ToString(this bool value, string trueText, string falseText)
+
+This extension method converts a boolean value to given string equivalents. If the value is `true`, it returns `trueText`, otherwise, it returns `falseText`.
+
+## ToString(this bool? value, string trueText, string falseText, string nullText = "-")
+
+This extension method converts a boolean value to given string equivalents. If the value is `null`, it returns `nullText`, if it's `true`, it returns `trueText`, otherwise, it returns `falseText`.
+
 ## Usage
 
 Using the extension methods provided by this class, you can easily perform conversions on boolean values. Here are some examples:
@@ -280,6 +288,12 @@ class Program
         // Nullable boolean conversion
         bool? value3 = null;
         string value3AsYesNo = value3.ToYesNo(); // Returns "No"
+
+        bool? nullableValue = true;
+        string result = nullableValue.ToString("True", "False", "Null"); // "True"
+
+        bool someValue = true;
+        string result = someValue.ToString("True", "False"); // "True"
     }
 }
 ```
