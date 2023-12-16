@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using Xunit;
-
 namespace HeroKit.Tests.Booleans;
 
 public class BooleanControlExtensionsTests
