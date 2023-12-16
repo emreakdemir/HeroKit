@@ -17,7 +17,7 @@ public static class ArrayConversionExtensions
     public static List<T> ToList<T>(this T[] items, Func<object, T> mapFunction)
     {
         if (items.IsNullOrEmpty() || mapFunction.IsNull())
-            return new List<T>();
+            return [];
 
         return items.Cast<object>().Select((_, i) => mapFunction(items.GetValue(i)))
                     .Where(val => val.IsNotNull())
