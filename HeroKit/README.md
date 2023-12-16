@@ -544,6 +544,34 @@ Converts a given string to the specified enum type.
 
 Returns: The converted enum value or the default value if conversion fails.
 
+### `ToByteArray(string text)`
+
+   This method converts a base64 encoded string (variable: `text`) to a byte array. This method returns a byte array.
+
+### `ToNullable<T>(string source)`
+
+   This function converts a string (variable: `source`) to a nullable value of the specified type `T`. It returns a tuple containing the conversion status (boolean) and the nullable result value (of type T).
+
+### `ToBoolean(string value, string trueCondition, bool defaultvalue)`
+
+   This method attempts to convert the `value` (a string representation of a logical value) to its `System.Boolean` equivalent. It takes a string `trueCondition` and a boolean `defaultvalue`. It returns a boolean value.
+
+### `ToShort(string value)`
+
+   This method converts the `value` (a string representation of a number) to its equivalent short integer. It returns a short integer.
+
+### `ToInt(string value)`
+
+   This method converts a string (variable: `value`) to an integer. This method returns an integer.
+
+### `ToLong(string value)`
+
+   Converts the `value` (a string representation of a number) to its equivalent `System.Int64` value. It returns a long integer.
+
+### `ToDateTime(string value, CultureInfo cultureInfo, DateTime defaultValue)`
+
+   This method converts a string representation of a date and time (`value`) to its `System.DateTime` equivalent by using the optional `cultureInfo` and `defaultValue`. It returns a DateTime object.
+
 ## Usage
 
 Using the extension methods in this library, you can convert and manipulate values of the String type. Below are usage examples:
@@ -591,6 +619,19 @@ Replaces Turkish characters in a given string with their non-accented counterpar
 - `value`: The string in which Turkish characters will be replaced.
 
 Returns: The string with replaced Turkish characters.
+
+### `Format(this string value, params object[] args)`:
+
+This static method extends the string class by replacing the format items in a specified string with the string representation of specified objects.
+
+Returns: Return Value: A copy of value in which the format items have been replaced by the string representations of the corresponding objects in args.
+
+### `ToDashCase(this string input)`:
+
+This static method extends the string class by converting the input string to dash case.
+
+Returns: The string converted to dash case.
+
 
 ## Usage
 
