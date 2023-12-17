@@ -13,7 +13,7 @@
         <RepositoryUrl>git@github.com:emreakdemir/herokit.git</RepositoryUrl>
         <PackageTags>csharp, dotnet7, extensions</PackageTags>
         <AssemblyVersion>1.0.0</AssemblyVersion>
-        <Version>1.0.0-alpha.3</Version>
+        <Version>1.0.0-alpha.4</Version>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -21,7 +21,7 @@
         <Copyright>Copyright © 2023 Emre Akdemir</Copyright>
         <RepositoryType>git</RepositoryType>
         <EmbedAllSources>true</EmbedAllSources>
-        <PackageReleaseNotes>added new boolean conversion functions and optimized existing ones.</PackageReleaseNotes>
+        <PackageReleaseNotes>added new extensions and tests</PackageReleaseNotes>
         <NeutralLanguage>en</NeutralLanguage>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
