@@ -36,4 +36,25 @@ public static class ObjectConversionExtensions
 
         return (T)Convert.ChangeType(source, type, CultureInfo.InvariantCulture);
     }
+
+    /// <summary>
+    /// Tries to cast an object to the specified type.
+    /// </summary>
+    /// <typeparam name="T">The target type to cast to.</typeparam>
+    /// <param name="source">The object to be casted.</param>
+    /// <param name="result">The result of the cast operation if successful, or the default value of type T if unsuccessful.</param>
+    /// <returns>True if the cast operation is successful, false otherwise.</returns>
+    public static bool TryCast<T>(this object source, out T result)
+    {
+        try
+        {
+            result = source.ConvertTo<T>();
+            return true;
+        }
+        catch
+        {
+            result = default(T);
+            return false;
+        }
+    }
 }
