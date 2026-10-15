@@ -44,7 +44,7 @@ public static partial class StringManipulationExtensions
         normalizedValue = WhitespaceRunRegex().Replace(normalizedValue, " ").Trim();
         normalizedValue = normalizedValue[..Math.Min(normalizedValue.Length, 200)].Trim();
         normalizedValue = WhitespaceRegex().Replace(normalizedValue, "-");
-        normalizedValue = DashRunRegex().Replace(normalizedValue, "-");
+        normalizedValue = DashRunRegex().Replace(normalizedValue, "-").Trim('-');
 
         return normalizedValue;
     }

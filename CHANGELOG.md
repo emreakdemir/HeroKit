@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- `ToSlug` no longer returns leading or trailing dashes: `"  ---  "` becomes `""` and `"- Hello -"` becomes `"hello"`.
+
 ### Added
 - e-Fatura / e-Arşiv helpers: `InvoiceNumberTr` (parse, create, next number, format), `IsValidInvoiceNumberTr`, `IsValidEttn`; `[InvoiceNumberTr]` and `[Ettn]` attributes; `InvoiceNumberTr()` and `Ettn()` FluentValidation rules (#96).
 
