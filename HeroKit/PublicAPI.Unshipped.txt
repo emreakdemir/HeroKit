@@ -1,5 +1,6 @@
 #nullable enable
 HeroKit.DateTimes.DateTimeRangeExtensions
+HeroKit.Decimals.DecimalPriceExtensions
 HeroKit.Enumerables.EnumerableExtensions
 static HeroKit.DateTimes.DateTimeRangeExtensions.Age(this System.DateOnly birthDate, System.DateOnly asOf) -> int
 static HeroKit.DateTimes.DateTimeRangeExtensions.Age(this System.DateTime birthDate, System.DateTime asOf) -> int
@@ -23,6 +24,13 @@ static HeroKit.DateTimes.DateTimeRangeExtensions.StartOfWeek(this System.DateOnl
 static HeroKit.DateTimes.DateTimeRangeExtensions.StartOfWeek(this System.DateTime value) -> System.DateTime
 static HeroKit.DateTimes.DateTimeRangeExtensions.StartOfWeek(this System.DateTime value, System.DayOfWeek firstDayOfWeek) -> System.DateTime
 static HeroKit.DateTimes.DateTimeRangeExtensions.StartOfYear(this System.DateTime value) -> System.DateTime
+static HeroKit.Decimals.DecimalPriceExtensions.AddPercent(this decimal value, decimal percent) -> decimal
+static HeroKit.Decimals.DecimalPriceExtensions.ExcludeVat(this decimal grossAmount, decimal ratePercent, int? decimals = null) -> decimal
+static HeroKit.Decimals.DecimalPriceExtensions.IncludeVat(this decimal netAmount, decimal ratePercent, int? decimals = null) -> decimal
+static HeroKit.Decimals.DecimalPriceExtensions.RoundToStep(this decimal value, decimal step, System.MidpointRounding mode = System.MidpointRounding.AwayFromZero) -> decimal
+static HeroKit.Decimals.DecimalPriceExtensions.SubtractPercent(this decimal value, decimal percent) -> decimal
+static HeroKit.Decimals.DecimalPriceExtensions.ToPsychologicalPrice(this decimal value, decimal ending = 0.99) -> decimal
+static HeroKit.Decimals.DecimalPriceExtensions.VatAmountFromGross(this decimal grossAmount, decimal ratePercent, int? decimals = null) -> decimal
 static HeroKit.Enumerables.EnumerableExtensions.IsNotNullOrEmpty<T>(this System.Collections.Generic.IEnumerable<T>? source) -> bool
 static HeroKit.Enumerables.EnumerableExtensions.IsNullOrEmpty<T>(this System.Collections.Generic.IEnumerable<T>? source) -> bool
 static HeroKit.Enumerables.EnumerableExtensions.Page<T>(this System.Collections.Generic.IEnumerable<T>! source, int pageNumber, int pageSize) -> System.Collections.Generic.IEnumerable<T>!
