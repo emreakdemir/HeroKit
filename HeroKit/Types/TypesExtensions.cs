@@ -54,19 +54,6 @@ public static class TypesExtensions
     }
 
     /// <summary>
-    /// Gets the default value for a specified type.
-    /// </summary>
-    /// <typeparam name="T">The type for which to retrieve the default value.</typeparam>
-    /// <returns>The default value of the specified type.</returns>
-    [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "Only value types reach Activator.CreateInstance. Value types always have a default value and need no constructor.")]
-    public static T? GetDefault<T>()
-    {
-        Type type = typeof(T).GetUnderlyingType();
-
-        return type.IsValueType ? (T)Activator.CreateInstance(type)! : default;
-    }
-
-    /// <summary>
     /// Gets the concrete implementation type for a given interface or abstract type.
     /// </summary>
     /// <param name="type">The interface or abstract type to get the implementation for.</param>

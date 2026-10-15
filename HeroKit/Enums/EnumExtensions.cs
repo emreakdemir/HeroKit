@@ -3,55 +3,49 @@ using System.Globalization;
 namespace HeroKit.Enums;
 
 /// <summary>
-/// Provides extension methods for working with enums.
+/// Provides extension methods for enums.
 /// </summary>
 public static class EnumExtensions
 {
     /// <summary>
-    /// Checks if the specified value is defined in the given enumeration type.
+    /// Checks whether a value is defined in its enum type.
     /// </summary>
-    /// <typeparam name="T">The enum type to be checked.</typeparam>
-    /// <param name="value">The value to be checked.</param>
-    /// <returns>True if the value is defined in the enum type; otherwise, false.</returns>
-    public static bool IsDefined<T>(this T value) where T : struct, IConvertible => Enum.IsDefined(typeof(T), value);
+    /// <typeparam name="T">The enum type.</typeparam>
+    /// <param name="value">The value to check.</param>
+    /// <returns>True if the value is defined; otherwise false.</returns>
+    public static bool IsDefined<T>(this T value) where T : struct, Enum => Enum.IsDefined(value);
 
     /// <summary>
-    /// Converts an enum value to its equivalent byte representation.
+    /// Converts an enum value to a byte.
     /// </summary>
-    /// <param name="value">The enum value to be converted.</param>
-    /// <returns>The byte representation of the enum value.</returns>
-    /// <remarks>
-    /// This method is an extension method that can be called on any enum value.
-    /// </remarks>
+    /// <param name="value">The enum value to convert.</param>
+    /// <returns>The underlying value as a byte.</returns>
+    /// <exception cref="OverflowException">The underlying value does not fit in a byte.</exception>
     public static byte ToByte(this Enum value) => Convert.ToByte(value, CultureInfo.InvariantCulture);
 
     /// <summary>
-    /// Gets the string representation of the specified enum value.
+    /// Converts an enum value to its underlying numeric value in the requested type.
     /// </summary>
-    /// <typeparam name="T">The enum type.</typeparam>
+    /// <typeparam name="T">The numeric type, for example int or long.</typeparam>
     /// <param name="value">The enum value.</param>
-    /// <returns>The string representation of the enum value.</returns>
-    public static string GetValue<T>(this Enum value) => Convert.ToString(Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)!;
+    /// <returns>The underlying value.</returns>
+    /// <example>
+    /// <code>
+    /// DayOfWeek.Friday.ToUnderlying&lt;int&gt;(); // 5
+    /// </code>
+    /// </example>
+    public static T ToUnderlying<T>(this Enum value) where T : struct, IConvertible =>
+        (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
 
     /// <summary>
-    /// Returns a list of all values defined in the given enumeration type.
+    /// Returns all values defined in an enum type.
     /// </summary>
     /// <typeparam name="TEnum">The enum type.</typeparam>
-    /// <returns>A list of all values defined in the enum type.</returns>
-    public static List<TEnum> ToList<TEnum>()
-    {
-        var type = typeof(TEnum);
-
-        if (!type.IsEnum)
-            throw new ArgumentException("T must be type of System.Enum");
-
-        // GetValuesAsUnderlyingType avoids creating a TEnum[] at runtime, which Native AOT cannot always do.
-        Array values = Enum.GetValuesAsUnderlyingType(type);
-        var result = new List<TEnum>(values.Length);
-
-        foreach (object value in values)
-            result.Add((TEnum)Enum.ToObject(type, value));
-
-        return result;
-    }
+    /// <returns>A list of all defined values in declaration order.</returns>
+    /// <example>
+    /// <code>
+    /// EnumExtensions.ToList&lt;DayOfWeek&gt;(); // Sunday … Saturday
+    /// </code>
+    /// </example>
+    public static List<TEnum> ToList<TEnum>() where TEnum : struct, Enum => [.. Enum.GetValues<TEnum>()];
 }

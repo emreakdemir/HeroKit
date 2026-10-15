@@ -65,14 +65,4 @@ public static class PropertyInfoExtensions
         property.SetValue(instance, converted);
         return true;
     }
-
-    /// <summary>
-    /// Sets the value of a PropertyInfo on an instance of a class.
-    /// </summary>
-    /// <param name="property">The PropertyInfo to set.</param>
-    /// <param name="instance">The instance of the class.</param>
-    /// <param name="value">The value to be set.</param>
-    /// <typeparam name="T">The type of the instance.</typeparam>
-    [Obsolete("PropertyInfo.SetValue(object, object) hides this method in instance syntax. Use TrySetConvertedValue instead. This method will be removed in 2.0.0.")]
-    public static void SetValue<T>(this PropertyInfo property, T instance, object? value) => property.TrySetConvertedValue(instance, value);
 }

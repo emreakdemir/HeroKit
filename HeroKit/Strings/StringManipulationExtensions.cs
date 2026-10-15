@@ -116,11 +116,11 @@ public static partial class StringManipulationExtensions
     /// <summary>
     /// Converts the input string to dash case.
     /// </summary>
-    /// <param name="input">The input string.</param>
+    /// <param name="value">The input string.</param>
     /// <returns>The string converted to dash case.</returns>
-    public static string ToDashCase(this string input)
+    public static string ToDashCase(this string value)
     {
-        return UpperCaseLetterRegex().Replace(input, m => (m.Index == 0 ? string.Empty : "-") + m.Value.ToLowerInvariant());
+        return UpperCaseLetterRegex().Replace(value, m => (m.Index == 0 ? string.Empty : "-") + m.Value.ToLowerInvariant());
     }
     
     /// <summary>
@@ -159,20 +159,4 @@ public static partial class StringManipulationExtensions
             }
         });
     }
-
-    /// <summary>
-    /// Converts a string to uppercase using the Turkish culture.
-    /// </summary>
-    /// <param name="input">The string to convert.</param>
-    /// <returns>The uppercase representation of the input string.</returns>
-    [Obsolete("Use ToUpper(CultureInfo.GetCultureInfo(\"tr-TR\")) instead. This method will be removed in 2.0.0.")]
-    public static string ToUpperTr(this string input) => input.ToUpper(TurkishCulture);
-
-    /// <summary>
-    /// Converts the input string to lowercase using the Turkish culture.
-    /// </summary>
-    /// <param name="input">The string to convert.</param>
-    /// <returns>The converted lowercase string.</returns>
-    [Obsolete("Use ToLower(CultureInfo.GetCultureInfo(\"tr-TR\")) instead. This method will be removed in 2.0.0.")]
-    public static string ToLowerTr(this string input) => input.ToLower(TurkishCulture);
 }
