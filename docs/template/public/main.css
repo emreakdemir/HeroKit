@@ -262,4 +262,18 @@ article,
     font-size: 0.8rem;
     white-space: nowrap;
   }
+  .hk-actions {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .hk-actions a {
+    align-items: center;
+    display: flex;
+    font-size: 0.85rem;
+    justify-content: center;
+    line-height: 1.2;
+    padding: 0.55rem 0.4rem;
+    text-align: center;
+  }
 }
