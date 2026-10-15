@@ -43,4 +43,16 @@ public class StringConversionExtensionsTests
     {
         Assert.Equal((decimal)expected, input.ToDecimal());
     }
+
+    [Theory]
+    [InlineData(null, false, false)]
+    [InlineData(null, true, true)]
+    [InlineData("", true, true)]
+    [InlineData("True", false, true)]
+    [InlineData("TRUE", false, true)]
+    [InlineData("false", true, false)]
+    public void ToBoolean_ShouldReturnDefaultForMissingInput(string input, bool defaultValue, bool expected)
+    {
+        Assert.Equal(expected, input.ToBoolean(defaultvalue: defaultValue));
+    }
 }
