@@ -8,7 +8,7 @@
 
 English: [README.md](README.md) · **Dokümantasyon: [herokit.emreakdemir.dev](https://herokit.emreakdemir.dev)**
 
-.NET için günlük işlerde kullanılan uzantı metotları; Türkçe veriler için birinci sınıf destekle: TCKN, VKN, IBAN, telefon, plaka, il, resmî tatiller ve yazıyla tutar.
+.NET için günlük işlerde kullanılan uzantı metotları; Türkçe veriler için birinci sınıf destekle: TCKN, VKN, IBAN, telefon, plaka, bölge, resmî tatiller ve yazıyla tutar. Ülke kuralları tek bir modeli (`Country`, `Language`, `Currency`) izler; yeni ülkeler yeni metot gerekmeden eklenebilir.
 
 ```bash
 dotnet add package HeroKit
@@ -16,24 +16,28 @@ dotnet add package HeroKit
 
 .NET 8 ve .NET 10'u hedefler. Bağımlılığı yoktur. Null işaretleri tamdır ve Native AOT ile uyumludur.
 
-## Türkçe veri araçları
+## Ülkeler ve diller
 
 ```csharp
 using HeroKit.Banking;
-using HeroKit.Turkish;
+using HeroKit.Globalization;
+using HeroKit.Globalization.Turkey;
 
-"10000000146".IsValidTckn();                  // true  (T.C. Kimlik No)
-"4840847211".IsValidVkn();                    // true  (Vergi Kimlik No)
-"TR330006100519786457841326".FormatIban();   // "TR33 0006 1005 1978 6457 8413 26"
-"0532 123 45 67".ToE164Tr();                  // "+905321234567"
-"34abc123".FormatPlateTr();                   // "34 ABC 123"
-"34".ToProvinceName();                        // "İstanbul"
-"34710".IsValidPostalCodeTr();                // true
-123.50m.ToTurkishCurrencyWords();             // "yüz yirmi üç Türk lirası elli kuruş"
-1234.5m.ToTurkishLira();                      // "₺1.234,50"
-"istanbul ılıca".ToTitleCaseTr();             // "İstanbul Ilıca"
-new DateOnly(2026, 3, 19).AddBusinessDaysTr(1); // 2026-03-23 (bayram ve hafta sonu atlanır)
+"10000000146".IsValidTckn();                                   // true  (T.C. Kimlik No)
+"4840847211".IsValidVkn();                                     // true  (Vergi Kimlik No)
+"TR330006100519786457841326".FormatIban();                     // "TR33 0006 1005 1978 6457 8413 26"
+"0532 123 45 67".ToE164(Countries.Turkey);                     // "+905321234567"
+"34abc123".FormatVehiclePlate(Countries.Turkey);               // "34 ABC 123"
+Countries.Turkey.FindRegion("34")?.Name;                       // "İstanbul"
+"34710".IsValidPostalCode(Countries.Turkey);                   // true
+123.50m.ToCurrencyWords(Currencies.TurkishLira);               // "yüz yirmi üç Türk lirası elli kuruş"
+1234.5m.ToCurrencyString(Currencies.TurkishLira);              // "₺1.234,50"
+"istanbul ılıca".ToTitleCase(Languages.Turkish);               // "İstanbul Ilıca"
+new DateOnly(2026, 3, 19).AddBusinessDays(1, Countries.Turkey); // 2026-03-23 (bayram ve hafta sonu atlanır)
+"ABC2026000000001".IsValidGibInvoiceNumber();                  // true  (e-Fatura / e-Arşiv)
 ```
+
+Her metot bir `Country`, `Language` ya da `Currency` alır. Türkiye hazır gelir. Başka bir ülkeyi desteklemek için kural arayüzlerini uygulayın ve `Countries.Register(new Country(...) { PhoneNumbers = ... })` çağırın: yeni metot gerekmez. Türkçe sıralama ICU olmadan da çalışır: `names.OrderBy(n => n, Languages.Turkish.TextRules!.Comparer)`.
 
 ## Form doğrulama
 
@@ -44,12 +48,12 @@ public sealed class Customer
 {
     [Required, Tckn] public string? IdentityNumber { get; set; }
     [Iban] public string? Iban { get; set; }
-    [TurkishPhone(MobileOnly = true)] public string? Mobile { get; set; }
-    [PlateTr] public string? Plate { get; set; }
+    [PhoneNumber("TR", MobileOnly = true)] public string? Mobile { get; set; }
+    [VehiclePlate("TR")] public string? Plate { get; set; }
 }
 ```
 
-Ayrıca: `[Vkn]`, `[TaxIdTr]`, `[PostalCodeTr]`, `[CardNumber]`. ASP.NET Core, Blazor ve `Validator` ile çalışır.
+Ayrıca: `[Vkn]`, `[TaxId("TR")]`, `[NationalId("TR")]`, `[PostalCode("TR")]`, `[GibInvoiceNumber]`, `[Ettn]`, `[CardNumber]`. ASP.NET Core, Blazor ve `Validator` ile çalışır.
 
 FluentValidation mı kullanıyorsunuz? [HeroKit.FluentValidation](https://www.nuget.org/packages/HeroKit.FluentValidation) paketini ekleyin: `RuleFor(x => x.IdentityNumber).Tckn();`
 
@@ -79,7 +83,7 @@ using HeroKit.Strings;
 | Kart | `IsValidCardNumber` (Luhn), `GetCardBrand` (Troy dahil) |
 | Enum | `GetDescription`, `ToEnum`, `ToUnderlying<T>` |
 
-Bütün metotlar [rehberlerde ve API referansında](https://herokit.emreakdemir.dev). 1.x'ten mi geçiyorsunuz? [Geçiş rehberine](https://herokit.emreakdemir.dev/articles/migrating-to-2.html) bakın.
+Bütün metotlar [rehberlerde ve API referansında](https://herokit.emreakdemir.dev). 2.x'ten mi geçiyorsunuz? [3.0 geçiş rehberine](https://herokit.emreakdemir.dev/articles/migrating-to-3.html) bakın. 1.x'ten mi geçiyorsunuz? [2.0 geçiş rehberine](https://herokit.emreakdemir.dev/articles/migrating-to-2.html) bakın.
 
 ## Sorular ve katkı
 
