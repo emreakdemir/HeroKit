@@ -1,6 +1,7 @@
 #nullable enable
 HeroKit.Banking.IbanExtensions
 HeroKit.Turkish.TurkishIdentityExtensions
+HeroKit.Turkish.TurkishNumberWordsExtensions
 HeroKit.Turkish.TurkishPhoneExtensions
 static HeroKit.Banking.IbanExtensions.FormatIban(this string? value) -> string?
 static HeroKit.Banking.IbanExtensions.IsValidIban(this string? value) -> bool
@@ -8,6 +9,9 @@ static HeroKit.Banking.IbanExtensions.NormalizeIban(this string? value) -> strin
 static HeroKit.Turkish.TurkishIdentityExtensions.IsValidTaxIdTr(this string? value) -> bool
 static HeroKit.Turkish.TurkishIdentityExtensions.IsValidTckn(this string? value) -> bool
 static HeroKit.Turkish.TurkishIdentityExtensions.IsValidVkn(this string? value) -> bool
+static HeroKit.Turkish.TurkishNumberWordsExtensions.ToTurkishCurrencyWords(this decimal amount, string! unit = "Türk lirası", string! subunit = "kuruş") -> string!
+static HeroKit.Turkish.TurkishNumberWordsExtensions.ToTurkishWords(this int value) -> string!
+static HeroKit.Turkish.TurkishNumberWordsExtensions.ToTurkishWords(this long value) -> string!
 static HeroKit.Turkish.TurkishPhoneExtensions.FormatPhoneTr(this string? value) -> string?
 static HeroKit.Turkish.TurkishPhoneExtensions.IsValidMobileTr(this string? value) -> bool
 static HeroKit.Turkish.TurkishPhoneExtensions.IsValidPhoneTr(this string? value) -> bool
