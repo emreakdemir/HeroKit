@@ -45,6 +45,8 @@ public sealed class Customer
 | `[CardNumber]` | Uzunluk ve Luhn |
 | `[GibInvoiceNumber]` | GİB biçiminde e-fatura / e-arşiv fatura numarası, örneğin `ABC2026000000001` |
 | `[Ettn]` | ETTN: 8-4-4-4-12 biçiminde boş olmayan bir UUID |
+| `[Mersis]` | MERSİS numarası: "0", geçerli bir VKN ve 5 haneli sıra numarası |
+| `[Gtin]` | GS1 kontrol haneli barkod numarası (EAN-8, UPC-A, EAN-13, GTIN-14) |
 | `[PhoneNumber("TR")]` | Bir ülkenin telefon numarası; cep telefonları için `MobileOnly = true` |
 | `[VehiclePlate("TR")]` | Bir ülkenin araç plakası |
 | `[PostalCode("TR")]` | Bir ülkenin posta kodu (TR: 5 rakam, geçerli il öneki) |
@@ -79,7 +81,7 @@ public sealed class CustomerValidator : AbstractValidator<Customer>
 }
 ```
 
-Kurallar: `Tckn`, `Vkn`, `Iban`, `CardNumber`, `GibInvoiceNumber`, `Ettn` ve ülke kuralları `PhoneNumber(country, mobileOnly)`, `VehiclePlate(country)`, `PostalCode(country)`, `NationalId(country)`, `TaxId(country)`. Mesajlar `{PropertyName}` kullanır; değiştirmek için `WithMessage` kullanın.
+Kurallar: `Tckn`, `Vkn`, `Iban`, `CardNumber`, `GibInvoiceNumber`, `Ettn`, `Mersis`, `Gtin` ve ülke kuralları `PhoneNumber(country, mobileOnly)`, `VehiclePlate(country)`, `PostalCode(country)`, `NationalId(country)`, `TaxId(country)`. Mesajlar `{PropertyName}` kullanır; değiştirmek için `WithMessage` kullanın.
 
 ## Notlar
 

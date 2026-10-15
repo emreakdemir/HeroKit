@@ -45,6 +45,8 @@ public sealed class Customer
 | `[CardNumber]` | Length and Luhn |
 | `[GibInvoiceNumber]` | e-Fatura / e-Arşiv invoice number in the GİB format, for example `ABC2026000000001` |
 | `[Ettn]` | ETTN: a non-empty UUID in the 8-4-4-4-12 format |
+| `[Mersis]` | MERSİS number: "0", a valid VKN and a 5-digit serial |
+| `[Gtin]` | Barcode number (EAN-8, UPC-A, EAN-13, GTIN-14) with the GS1 check digit |
 | `[PhoneNumber("TR")]` | Phone number of a country; `MobileOnly = true` for mobiles |
 | `[VehiclePlate("TR")]` | Vehicle plate of a country |
 | `[PostalCode("TR")]` | Postal code of a country (TR: 5 digits, valid province prefix) |
@@ -79,7 +81,7 @@ public sealed class CustomerValidator : AbstractValidator<Customer>
 }
 ```
 
-Rules: `Tckn`, `Vkn`, `Iban`, `CardNumber`, `GibInvoiceNumber`, `Ettn`, and the country rules `PhoneNumber(country, mobileOnly)`, `VehiclePlate(country)`, `PostalCode(country)`, `NationalId(country)`, `TaxId(country)`. Messages use `{PropertyName}`; replace them with `WithMessage`.
+Rules: `Tckn`, `Vkn`, `Iban`, `CardNumber`, `GibInvoiceNumber`, `Ettn`, `Mersis`, `Gtin`, and the country rules `PhoneNumber(country, mobileOnly)`, `VehiclePlate(country)`, `PostalCode(country)`, `NationalId(country)`, `TaxId(country)`. Messages use `{PropertyName}`; replace them with `WithMessage`.
 
 ## Notes
 

@@ -23,7 +23,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>herokit.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>Country rules work with Countries.UnitedStates: PhoneNumber, PostalCode, NationalId (SSN) and TaxId (SSN, ITIN, EIN). Upgrading from 1.x or 2.x: https://herokit.emreakdemir.dev/articles/upgrading.html</PackageReleaseNotes>
+        <PackageReleaseNotes>New Mersis() and Gtin() rules. Country rules work with Countries.Turkey and Countries.UnitedStates. Upgrading from 1.x or 2.x: https://herokit.emreakdemir.dev/articles/upgrading.html</PackageReleaseNotes>
         <Copyright>Copyright © 2023-2026 Emre Akdemir</Copyright>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>

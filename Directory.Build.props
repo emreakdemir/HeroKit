@@ -1,6 +1,6 @@
 <Project>
     <!-- Shared by HeroKit and HeroKit.FluentValidation so both packages always ship with the same version. -->
     <PropertyGroup>
-        <Version>3.1.0</Version>
+        <Version>3.2.0</Version>
     </PropertyGroup>
 </Project>

@@ -81,6 +81,121 @@ public static partial class StringManipulationExtensions
     }
 
     /// <summary>
+    /// Hides the middle of a string and keeps characters visible at both ends, for example a national id, IBAN or phone number in logs.
+    /// </summary>
+    /// <remarks>
+    /// Whitespace is kept and not counted, so formatted values keep their layout. When the string has no more non-whitespace characters
+    /// than <paramref name="visibleStart"/> and <paramref name="visibleEnd"/> together, every character is hidden, so a short value is never shown whole.
+    /// </remarks>
+    /// <param name="value">The string to mask.</param>
+    /// <param name="visibleStart">The number of non-whitespace characters to keep visible at the start.</param>
+    /// <param name="visibleEnd">The number of non-whitespace characters to keep visible at the end.</param>
+    /// <param name="maskChar">The character that replaces hidden characters. Defaults to '*'.</param>
+    /// <returns>The masked string, or null if <paramref name="value"/> is null.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="visibleStart"/> or <paramref name="visibleEnd"/> is negative.</exception>
+    /// <example>
+    /// <code>
+    /// "10000000146".MaskMiddle(2, 2);                      // "10*******46"
+    /// "TR33 0006 1005 1978 6457 8413 26".MaskMiddle(4, 4); // "TR33 **** **** **** **** **13 26"
+    /// "0532 123 45 67".MaskMiddle(4, 2);                   // "0532 *** ** 67"
+    /// </code>
+    /// </example>
+    [return: NotNullIfNotNull(nameof(value))]
+    public static string? MaskMiddle(this string? value, int visibleStart, int visibleEnd, char maskChar = '*')
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(visibleStart);
+        ArgumentOutOfRangeException.ThrowIfNegative(visibleEnd);
+
+        if (string.IsNullOrEmpty(value))
+            return value;
+
+        int significant = 0;
+        foreach (char c in value)
+        {
+            if (!char.IsWhiteSpace(c))
+                significant++;
+        }
+
+        bool hideAll = significant <= visibleStart + visibleEnd;
+        return string.Create(value.Length, (value, visibleStart, visibleEnd, significant, hideAll, maskChar), static (destination, state) =>
+        {
+            int position = 0;
+            for (int i = 0; i < state.value.Length; i++)
+            {
+                char c = state.value[i];
+                if (char.IsWhiteSpace(c))
+                {
+                    destination[i] = c;
+                    continue;
+                }
+
+                bool visible = !state.hideAll && (position < state.visibleStart || position >= state.significant - state.visibleEnd);
+                destination[i] = visible ? c : state.maskChar;
+                position++;
+            }
+        });
+    }
+
+    /// <summary>
+    /// Hides an e-mail address except the first character of the local part and the domain.
+    /// </summary>
+    /// <param name="value">The e-mail address.</param>
+    /// <param name="maskChar">The character that replaces hidden characters. Defaults to '*'.</param>
+    /// <returns>The masked address, or null if <paramref name="value"/> is null. A value without a local part and a domain is hidden completely.</returns>
+    /// <example>
+    /// <code>
+    /// "emre.akdemir@example.com".MaskEmail(); // "e***********@example.com"
+    /// </code>
+    /// </example>
+    [return: NotNullIfNotNull(nameof(value))]
+    public static string? MaskEmail(this string? value, char maskChar = '*')
+    {
+        if (string.IsNullOrEmpty(value))
+            return value;
+
+        int at = value.LastIndexOf('@');
+        if (at <= 0 || at == value.Length - 1)
+            return new string(maskChar, value.Length);
+
+        return string.Create(value.Length, (value, at, maskChar), static (destination, state) =>
+        {
+            state.value.AsSpan().CopyTo(destination);
+            int keep = state.at > 1 ? 1 : 0;
+            destination[keep..state.at].Fill(state.maskChar);
+        });
+    }
+
+    /// <summary>
+    /// Hides a personal name except the first letter of each word.
+    /// </summary>
+    /// <param name="value">The name.</param>
+    /// <param name="maskChar">The character that replaces hidden characters. Defaults to '*'.</param>
+    /// <returns>The masked name, or null if <paramref name="value"/> is null.</returns>
+    /// <example>
+    /// <code>
+    /// "Ayşe Nur Yılmaz".MaskName(); // "A*** N** Y*****"
+    /// </code>
+    /// </example>
+    [return: NotNullIfNotNull(nameof(value))]
+    public static string? MaskName(this string? value, char maskChar = '*')
+    {
+        if (string.IsNullOrEmpty(value))
+            return value;
+
+        return string.Create(value.Length, (value, maskChar), static (destination, state) =>
+        {
+            bool startOfWord = true;
+            for (int i = 0; i < state.value.Length; i++)
+            {
+                char c = state.value[i];
+                bool whitespace = char.IsWhiteSpace(c);
+                destination[i] = whitespace || startOfWord ? c : state.maskChar;
+                startOfWord = whitespace;
+            }
+        });
+    }
+
+    /// <summary>
     /// Returns the first characters of a string. Shorter strings are returned whole.
     /// </summary>
     /// <param name="value">The source string.</param>

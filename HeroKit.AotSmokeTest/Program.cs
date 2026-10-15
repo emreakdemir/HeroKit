@@ -29,6 +29,11 @@ var checks = new (string Name, bool Passed)[]
     ("Lira", 1234.5m.ToCurrencyString(Currencies.TurkishLira) == "₺1.234,50"),
     ("Words", 123.50m.ToCurrencyWords(Currencies.TurkishLira) == "yüz yirmi üç Türk lirası elli kuruş"),
     ("Holidays", new DateOnly(2026, 3, 19).AddBusinessDays(1, Countries.Turkey) == new DateOnly(2026, 3, 23)),
+    ("Turkish business data", "TR78 0006 2000 0000 0006 2950 05".GetBank()?.Code == "00062"
+        && "₺1.234,56".ToAmount(Currencies.TurkishLira) == 1234.56m
+        && "0879001756600379".IsValidMersis()
+        && GibInvoiceQrCode.TryParse("""{"vkntckn":"4840847211","avkntckn":"11111111111","no":"ABC2026000000001","ettn":"51d3bb18-9650-4c8e-825d-5a7f845be630","tarih":"2026-10-15","odenecek":"120.00"}""", out GibInvoiceQrCode? qr)
+        && qr.PayableAmount == 120m),
     ("United States", "(212) 555-0123".ToE164(Countries.UnitedStates) == "+12125550123"
         && 1.01m.ToCurrencyWords(Currencies.USDollar) == "one dollar and one cent"
         && new DateOnly(2026, 7, 2).AddBusinessDays(1, Countries.UnitedStates) == new DateOnly(2026, 7, 6)),

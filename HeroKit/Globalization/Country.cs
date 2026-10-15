@@ -47,6 +47,9 @@ public sealed class Country(string code, string name, Language language)
     /// </summary>
     public IIdentifierRules? IbanRules { get; init; }
 
+    /// <summary>Gets the banks and how to find them from an IBAN, or null.</summary>
+    public IBankDirectory? Banks { get; init; }
+
     /// <summary>Gets the first-level administrative regions, for example the 81 Turkish provinces.</summary>
     public IReadOnlyList<Region> Regions { get; init; } = [];
 

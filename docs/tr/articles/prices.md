@@ -37,6 +37,30 @@ using HeroKit.Globalization;
 
 `Currency` kendi simgesini, ayırıcılarını ve birim adlarını taşır; çıktı geçerli kültüre bağlı değildir. Diğer para birimleri için kendi örneğinizi oluşturun; örneğin `new Currency("EUR", "€", Languages.Turkish) { UnitName = "Euro", SubunitName = "sent" }`. Bkz. [Ülkeler ve diller](countries-and-languages.md).
 
+## Tutar okuma
+
+```csharp
+using HeroKit.Globalization;
+
+"₺1.234,56".ToAmount(Currencies.TurkishLira);                     // 1234.56
+"1.234,56 TL".TryToAmount(Currencies.TurkishLira, out decimal a); // true, 1234.56
+"1.5".TryToAmount(Currencies.TurkishLira, out _);                 // false: "." binlik ayırıcıdır
+"$1,234.56".ToAmount(Currencies.USDollar);                        // 1234.56
+```
+
+`TryToAmount` ve `ToAmount`, bir para biriminin ayırıcılarıyla yazılmış metni okur; simge, kısaltma ya da ISO kodu ve baştaki işaret isteğe bağlıdır. Binlik ayırıcılar tam kısmı üçer haneli gruplara bölmelidir; böylece yanlış yazılmış bir fiyat başka bir sayı olarak okunmaz, reddedilir. Makinenin kültürü kullanılmaz.
+
+## Barkodlar
+
+```csharp
+using HeroKit.Barcodes;
+
+"8691234567890".IsValidGtin(); // true (EAN-13; GS1 Türkiye önekleri 868 ve 869)
+"96385074".IsValidGtin();      // true (EAN-8)
+```
+
+`IsValidGtin`, EAN-8, UPC-A, EAN-13 ve GTIN-14 numaralarını GS1 kontrol hanesiyle doğrular.
+
 ## Yuvarlama
 
 KDV yardımcıları yuvarlanmamış değer döner. Faturalarda olağan kural olan `MidpointRounding.AwayFromZero` ile yuvarlamak için `decimals: 2` verin.

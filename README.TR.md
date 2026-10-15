@@ -26,12 +26,15 @@ using HeroKit.Globalization.Turkey;
 "10000000146".IsValidTckn();                                   // true  (T.C. Kimlik No)
 "4840847211".IsValidVkn();                                     // true  (Vergi Kimlik No)
 "TR330006100519786457841326".FormatIban();                     // "TR33 0006 1005 1978 6457 8413 26"
+"TR78 0006 2000 0000 0006 2950 05".GetBank()?.Name;            // "Türkiye Garanti Bankası A.Ş."
 "0532 123 45 67".ToE164(Countries.Turkey);                     // "+905321234567"
 "34abc123".FormatVehiclePlate(Countries.Turkey);               // "34 ABC 123"
 Countries.Turkey.FindRegion("34")?.Name;                       // "İstanbul"
 "34710".IsValidPostalCode(Countries.Turkey);                   // true
 123.50m.ToCurrencyWords(Currencies.TurkishLira);               // "yüz yirmi üç Türk lirası elli kuruş"
 1234.5m.ToCurrencyString(Currencies.TurkishLira);              // "₺1.234,50"
+"₺1.234,56".ToAmount(Currencies.TurkishLira);                  // 1234.56
+"10000000146".MaskMiddle(2, 2);                                // "10*******46" (KVKK)
 "istanbul ılıca".ToTitleCase(Languages.Turkish);               // "İstanbul Ilıca"
 new DateOnly(2026, 3, 19).AddBusinessDays(1, Countries.Turkey); // 2026-03-23 (bayram ve hafta sonu atlanır)
 "ABC2026000000001".IsValidGibInvoiceNumber();                  // true  (e-Fatura / e-Arşiv)

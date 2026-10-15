@@ -100,9 +100,10 @@ using HeroKit.Globalization.Turkey;
 "4840847211".IsValidVkn();                          // true (VKN)
 "10000000146".IsValidNationalId(Countries.Turkey);  // true (TCKN)
 "4840847211".IsValidTaxId(Countries.Turkey);        // true: VKN or TCKN
+"0879001756600379".IsValidMersis();                 // true: "0", VKN, 5-digit serial
 ```
 
-These are checksum checks. They confirm that a number is well formed, not that it is issued. Input must contain digits only.
+These are checksum checks; `IsValidMersis` checks the VKN inside the MERSİS number. They confirm that a number is well formed, not that it is issued. Input must contain digits only.
 
 ### IBAN
 
@@ -114,9 +115,14 @@ var iban = "tr33 0006 1005 1978 6457 8413 26";
 iban.IsValidIban();   // true
 iban.NormalizeIban(); // "TR330006100519786457841326"
 iban.FormatIban();    // "TR33 0006 1005 1978 6457 8413 26"
+
+"TR78 0006 2000 0000 0006 2950 05".GetBank()?.Name; // "Türkiye Garanti Bankası A.Ş."
+Countries.Turkey.Banks!.All;                        // 30 banks with their 5-digit EFT codes
 ```
 
 IBAN validation works for every country with the ISO 13616 mod-97 check. When a registered country has `IbanRules`, its length and fixed positions are checked too: Türkiye IBANs must have 26 characters.
+
+`GetBank` reads the bank code of a valid IBAN (positions 5–9 for Türkiye) and looks it up in the bank directory of the country (`Country.Banks`). It returns null for an unknown code. The list follows the EFT codes of the Banks Association of Türkiye; open an issue when a bank is missing.
 
 ### Regions, plates and postal codes
 
@@ -240,3 +246,18 @@ invoice.Next().ToString(); // "ABC2026000000042"
 A GİB invoice number has 16 characters: a series of 3 upper-case letters or digits (A–Z, 0–9), a 4-digit year (2000–2099) and a 9-digit sequence from 1. `Create` throws `ArgumentException` for an invalid part; `Next` throws `InvalidOperationException` when the sequence reaches 999,999,999. An ETTN is a non-empty UUID in the 8-4-4-4-12 format.
 
 The `[GibInvoiceNumber]` and `[Ettn]` attributes and the `GibInvoiceNumber()` and `Ettn()` FluentValidation rules are described in [Form validation](validation.md).
+
+#### QR code (karekod)
+
+```csharp
+if (GibInvoiceQrCode.TryParse(scannedText, out GibInvoiceQrCode? qr))
+{
+    qr.SellerTaxId;       // "4840847211"
+    qr.Number.ToString(); // "ABC2026000000001"
+    qr.Date;              // 2026-10-15
+    qr.PayableAmount;     // 120.00
+    qr.VatAmounts[20m];   // 20.00 (VAT per rate)
+}
+```
+
+`TryParse` reads the JSON text in the QR code of an e-Fatura or e-Arşiv invoice. It requires a valid seller and buyer VKN or TCKN ("11111111111" is accepted for e-Arşiv buyers without one), invoice number, ETTN and date. Amounts are optional; every field is also in `Fields`. It reads the text only and does not ask GİB whether the invoice exists.

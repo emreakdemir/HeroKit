@@ -81,4 +81,22 @@ public static class TurkeyIdentityExtensions
     private static bool IsAllDigits(ReadOnlySpan<char> value) => !value.ContainsAnyExceptInRange('0', '9');
 
     private static int Digit(string value, int index) => value[index] - '0';
+
+    /// <summary>
+    /// Checks whether a string is a valid MERSİS number (Central Registry Record System number of a Turkish company).
+    /// </summary>
+    /// <remarks>
+    /// A MERSİS number has 16 digits: "0", the 10-digit VKN of the company and a 5-digit serial. The check is structural:
+    /// it verifies the embedded VKN, not that the number is registered.
+    /// </remarks>
+    /// <param name="value">The number to check, for example "0879001756600379".</param>
+    /// <returns>True if the value has 16 digits, starts with 0 and contains a valid VKN; otherwise false.</returns>
+    /// <example>
+    /// <code>
+    /// "0879001756600379".IsValidMersis(); // true
+    /// "0879001756700379".IsValidMersis(); // false: the embedded VKN is invalid
+    /// </code>
+    /// </example>
+    public static bool IsValidMersis(this string? value) =>
+        value is { Length: 16 } && value[0] == '0' && IsAllDigits(value) && value.Substring(1, 10).IsValidVkn();
 }

@@ -1,1 +1,3 @@
 #nullable enable
+static HeroKit.FluentValidation.HeroKitRuleBuilderExtensions.Gtin<T>(this FluentValidation.IRuleBuilder<T, string?>! ruleBuilder) -> FluentValidation.IRuleBuilderOptions<T, string?>!
+static HeroKit.FluentValidation.HeroKitRuleBuilderExtensions.Mersis<T>(this FluentValidation.IRuleBuilder<T, string?>! ruleBuilder) -> FluentValidation.IRuleBuilderOptions<T, string?>!

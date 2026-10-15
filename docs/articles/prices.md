@@ -37,6 +37,30 @@ using HeroKit.Globalization;
 
 A `Currency` holds its own symbol, separators and unit names, so the output does not depend on the current culture. Create your own instance for other currencies, for example `new Currency("EUR", "€", Languages.Turkish) { UnitName = "Euro", SubunitName = "sent" }`. See [Countries and languages](countries-and-languages.md).
 
+## Reading amounts
+
+```csharp
+using HeroKit.Globalization;
+
+"₺1.234,56".ToAmount(Currencies.TurkishLira);                     // 1234.56
+"1.234,56 TL".TryToAmount(Currencies.TurkishLira, out decimal a); // true, 1234.56
+"1.5".TryToAmount(Currencies.TurkishLira, out _);                 // false: "." groups thousands
+"$1,234.56".ToAmount(Currencies.USDollar);                        // 1234.56
+```
+
+`TryToAmount` and `ToAmount` read text with the separators of a currency, with or without its symbol, abbreviation or ISO code, and with a leading sign. Group separators must split the whole part into groups of three digits, so a mistyped price is rejected instead of being read as a different number. The culture of the machine is not used.
+
+## Barcodes
+
+```csharp
+using HeroKit.Barcodes;
+
+"8691234567890".IsValidGtin(); // true (EAN-13; GS1 Türkiye prefixes are 868 and 869)
+"96385074".IsValidGtin();      // true (EAN-8)
+```
+
+`IsValidGtin` checks EAN-8, UPC-A, EAN-13 and GTIN-14 numbers with the GS1 check digit.
+
 ## Rounding
 
 VAT helpers return unrounded values. Pass `decimals: 2` to round with `MidpointRounding.AwayFromZero`, the usual rule on invoices.
