@@ -41,7 +41,7 @@ public static class IntegerExtensions
     /// </summary>
     /// <param name="number">The number to check.</param>
     /// <returns>true if the number is odd, false otherwise.</returns>
-    public static bool IsOddNumber(this int number) => ((number % 2) == 1);
+    public static bool IsOddNumber(this int number) => ((number % 2) != 0);
 
     /// <summary>
     /// Returns the month name of the given integer value.
@@ -64,11 +64,11 @@ public static class IntegerExtensions
     }
 
     /// <summary>
-    /// Converts the given integer point value to pixel value.
+    /// Converts the given typographic point value to pixels at 96 DPI (1pt = 4/3px).
     /// </summary>
     /// <param name="point">The integer point value.</param>
     /// <returns>The pixel value after conversion.</returns>
-    public static decimal ToPixel(this int point) => decimal.Truncate(point * 4 / 5) + 1;
+    public static decimal ToPixel(this int point) => point * 4m / 3m;
 
     /// <summary>
     /// Returns the given number of seconds as milliseconds.

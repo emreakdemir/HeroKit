@@ -22,8 +22,12 @@ public static class StringConversionExtensions
         var numberFormat = new NumberFormatInfo
         {
             NumberDecimalSeparator = numberDecimalSeperator,
+            NumberGroupSeparator = numberDecimalSeperator == "." ? "," : ".",
         };
-        if (autoReplaceDotToSeperator)
+
+        // A dot is treated as a decimal point only when the separator is not already present,
+        // so values with thousands separators such as "1.234,56" keep their grouping.
+        if (autoReplaceDotToSeperator && !@this.Contains(numberDecimalSeperator))
             @this = @this.Replace(".", numberDecimalSeperator);
 
         return Convert.ToDecimal(@this, numberFormat);
@@ -38,29 +42,16 @@ public static class StringConversionExtensions
     /// <returns>The enum value converted from the string.</returns>
     public static T ToEnum<T>(this string value, T defaultValue = default)
     {
-        try
-        {
-            if (string.IsNullOrEmpty(value))
-                return defaultValue;
+        if (string.IsNullOrWhiteSpace(value))
+            return defaultValue;
 
-            if (!value.IsNumeric())
-                return defaultValue;
+        Type type = typeof(T).GetUnderlyingType();
 
-            if (!int.TryParse(value, out int numeric))
-                return defaultValue;
+        if (!type.IsEnum)
+            return defaultValue;
 
-            Type type = typeof(T).GetUnderlyingType();
-
-            if (Enum.IsDefined(type, value))
-                return (T)Enum.Parse(type, value, true);
-
-            if (Enum.IsDefined(type, numeric))
-                return (T)Enum.ToObject(type, numeric);
-        }
-        catch
-        {
-            // ignored
-        }
+        if (Enum.TryParse(type, value.Trim(), true, out object parsed) && Enum.IsDefined(type, parsed))
+            return (T)parsed;
 
         return defaultValue;
     }

@@ -17,7 +17,9 @@ public class StringConversionExtensionsTests
 
     [Theory]
     [InlineData("", TestValues.FirstValue)]
-    [InlineData("SecondValue", TestValues.FirstValue)]
+    [InlineData("SecondValue", TestValues.SecondValue)]
+    [InlineData("thirdvalue", TestValues.ThirdValue)]
+    [InlineData("99", TestValues.FirstValue)]
     [InlineData("2", TestValues.SecondValue)]
     [InlineData("3", TestValues.ThirdValue)]
     [InlineData("NonExistentValue", TestValues.FirstValue)]
@@ -31,5 +33,14 @@ public class StringConversionExtensionsTests
 
         // Assert
         Assert.Equal(expectedResult, result);
+    }
+
+    [Theory]
+    [InlineData("1.234,56", 1234.56)]
+    [InlineData("1234,56", 1234.56)]
+    [InlineData("1234.56", 1234.56)]
+    public void ToDecimal_ShouldHandleGroupSeparators(string input, double expected)
+    {
+        Assert.Equal((decimal)expected, input.ToDecimal());
     }
 }
