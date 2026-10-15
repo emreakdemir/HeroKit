@@ -12,6 +12,8 @@ HeroKit.Turkish.InvoiceNumberTr.Series.get -> string!
 HeroKit.Turkish.InvoiceNumberTr.Series.init -> void
 HeroKit.Turkish.InvoiceNumberTr.Year.get -> int
 HeroKit.Turkish.InvoiceNumberTr.Year.init -> void
+HeroKit.Turkish.TurkishSortingExtensions
+HeroKit.Turkish.TurkishStringComparer
 HeroKit.Validation.EttnAttribute
 HeroKit.Validation.EttnAttribute.EttnAttribute() -> void
 HeroKit.Validation.InvoiceNumberTrAttribute
@@ -19,6 +21,9 @@ HeroKit.Validation.InvoiceNumberTrAttribute.InvoiceNumberTrAttribute() -> void
 const HeroKit.Turkish.InvoiceNumberTr.MaxSequence = 999999999 -> int
 override HeroKit.Turkish.InvoiceNumberTr.GetHashCode() -> int
 override HeroKit.Turkish.InvoiceNumberTr.ToString() -> string!
+override HeroKit.Turkish.TurkishStringComparer.Compare(string? x, string? y) -> int
+override HeroKit.Turkish.TurkishStringComparer.Equals(string? x, string? y) -> bool
+override HeroKit.Turkish.TurkishStringComparer.GetHashCode(string! obj) -> int
 override HeroKit.Validation.EttnAttribute.IsValid(object? value) -> bool
 override HeroKit.Validation.InvoiceNumberTrAttribute.IsValid(object? value) -> bool
 static HeroKit.Turkish.EInvoiceExtensions.IsValidEttn(this string? value) -> bool
@@ -27,4 +32,10 @@ static HeroKit.Turkish.InvoiceNumberTr.Create(string! series, int year, int sequ
 static HeroKit.Turkish.InvoiceNumberTr.TryParse(string? value, out HeroKit.Turkish.InvoiceNumberTr result) -> bool
 static HeroKit.Turkish.InvoiceNumberTr.operator !=(HeroKit.Turkish.InvoiceNumberTr left, HeroKit.Turkish.InvoiceNumberTr right) -> bool
 static HeroKit.Turkish.InvoiceNumberTr.operator ==(HeroKit.Turkish.InvoiceNumberTr left, HeroKit.Turkish.InvoiceNumberTr right) -> bool
+static HeroKit.Turkish.TurkishSortingExtensions.OrderByTurkish(this System.Collections.Generic.IEnumerable<string!>! source) -> System.Linq.IOrderedEnumerable<string!>!
+static HeroKit.Turkish.TurkishSortingExtensions.OrderByTurkish<T>(this System.Collections.Generic.IEnumerable<T>! source, System.Func<T, string?>! keySelector, bool ignoreCase = false) -> System.Linq.IOrderedEnumerable<T>!
+static HeroKit.Turkish.TurkishSortingExtensions.OrderByTurkishDescending<T>(this System.Collections.Generic.IEnumerable<T>! source, System.Func<T, string?>! keySelector, bool ignoreCase = false) -> System.Linq.IOrderedEnumerable<T>!
+static HeroKit.Turkish.TurkishSortingExtensions.ThenByTurkish<T>(this System.Linq.IOrderedEnumerable<T>! source, System.Func<T, string?>! keySelector, bool ignoreCase = false) -> System.Linq.IOrderedEnumerable<T>!
+static HeroKit.Turkish.TurkishStringComparer.IgnoreCase.get -> HeroKit.Turkish.TurkishStringComparer!
+static HeroKit.Turkish.TurkishStringComparer.Instance.get -> HeroKit.Turkish.TurkishStringComparer!
 ~override HeroKit.Turkish.InvoiceNumberTr.Equals(object obj) -> bool
