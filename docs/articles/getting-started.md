@@ -15,8 +15,9 @@ Every helper is an extension method. Import the namespace of the area you need:
 | Namespace | What it covers |
 |---|---|
 | `HeroKit.Strings` | Checks, conversions, slugs, casing, truncating and masking |
-| `HeroKit.Turkish` | TCKN/VKN, phone numbers, amounts in words, Turkish casing |
-| `HeroKit.Banking` | IBAN validation and formatting |
+| `HeroKit.Turkish` | TCKN/VKN, phone numbers, provinces, plates, postal codes, lira, amounts in words, Turkish casing |
+| `HeroKit.Banking` | IBAN and card number validation |
+| `HeroKit.Validation` | Form validation attributes: `[Tckn]`, `[Iban]`, `[TurkishPhone]`, ... |
 | `HeroKit.Enumerables` | Null-safe checks, conditional filters, paging |
 | `HeroKit.DateTimes` | Formatting and date ranges |
 | `HeroKit.Decimals` | Price rounding and VAT |
@@ -32,6 +33,6 @@ using HeroKit.Strings;
 
 ## Conventions
 
-- **Null input does not throw.** Checks return `false`, conversions return the default value, string helpers return `null` or an empty string as documented.
-- **Parsing is culture-invariant.** Pass a `CultureInfo` when a culture matters, for example `"07.03.2026".ToDateTime(CultureInfo.GetCultureInfo("tr-TR"))`.
+- **Bad input does not throw.** Checks return `false`; conversions have a lenient `ToX` (default value) and a checked `TryToX` form; string helpers return `null` or an empty string as documented.
+- **Parsing is culture-invariant.** Pass a `CultureInfo` when a culture matters, for example `"07.03.2026".ToDateTime(provider: CultureInfo.GetCultureInfo("tr-TR"))`.
 - **Deprecated APIs** are marked `[Obsolete]` with the replacement in the message and are removed only in the next major version.

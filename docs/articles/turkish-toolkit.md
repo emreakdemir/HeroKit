@@ -28,6 +28,21 @@ iban.FormatIban();    // "TR33 0006 1005 1978 6457 8413 26"
 
 IBAN validation works for every country.
 
+## Provinces, plates and postal codes
+
+```csharp
+"34".ToProvinceName();          // "İstanbul"
+6.ToProvinceName();             // "Ankara"
+"sanliurfa".ToProvinceCode();   // 63 (case and diacritics ignored)
+TurkishProvinces.All.Count;     // 81
+
+"34abc123".FormatPlateTr();     // "34 ABC 123"
+"06 A 1234".IsValidPlateTr();   // true
+"34 Q 1234".IsValidPlateTr();   // false: Q is not a plate letter
+
+"34710".IsValidPostalCodeTr();  // true
+```
+
 ## Phone numbers
 
 ```csharp
@@ -49,6 +64,13 @@ Accepted prefixes: `+90`, `0090`, `90`, `0` or none. The check is structural, no
 
 10.20m.ToTurkishCurrencyWords("Euro", "sent");
 // "on Euro yirmi sent"
+```
+
+## Turkish lira
+
+```csharp
+1234.5m.ToTurkishLira();                       // "₺1.234,50"
+1234.5m.ToTurkishLira(TurkishLiraFormat.Code); // "1.234,50 TL"
 ```
 
 ## Casing and comparison

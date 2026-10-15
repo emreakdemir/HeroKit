@@ -1,790 +1,89 @@
 # HeroKit
 
 [![NuGet](https://img.shields.io/nuget/v/HeroKit.svg)](https://www.nuget.org/packages/HeroKit)
+[![NuGet downloads](https://img.shields.io/nuget/dt/HeroKit.svg)](https://www.nuget.org/packages/HeroKit)
+[![Build & Test](https://github.com/emreakdemir/HeroKit/actions/workflows/build-tests.yml/badge.svg)](https://github.com/emreakdemir/HeroKit/actions/workflows/build-tests.yml)
 [![Coverage](https://raw.githubusercontent.com/emreakdemir/HeroKit/badges/coverage.svg)](https://github.com/emreakdemir/HeroKit/actions/workflows/build-tests.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-English: [README.md](README.md) · Dokümantasyon: [herokit.emreakdemir.dev](https://herokit.emreakdemir.dev)
+English: [README.md](README.md) · **Dokümantasyon: [herokit.emreakdemir.dev](https://herokit.emreakdemir.dev)**
 
-Yardımcı işlemler sağlayan HeroKit kütüphanesi, farklı veri türlerini kontrol etmek, dönüştürmek ve manipüle etmek için kullanılan geniş bir dizi uzantı metodu sunmaktadır. Bu kapsamlı kütüphane, C# dilinde geliştirilen projelerde, dizilerden tarih-saat değerlerine, nesnelerden metinlere kadar birçok farklı veri tipi üzerinde çeşitli işlemler yapmak için tasarlanmıştır.
+.NET için günlük işlerde kullanılan uzantı metotları; Türkçe veriler için birinci sınıf destekle: TCKN, VKN, IBAN, telefon, plaka, il ve yazıyla tutar.
+
+```bash
+dotnet add package HeroKit
+```
+
+.NET 8 ve .NET 10'u hedefler. Bağımlılığı yoktur. Null işaretleri tamdır ve Native AOT ile uyumludur.
 
 ## Türkçe veri araçları
-
-Türkçe veriler için doğrulama, biçimlendirme ve metin yardımcıları. Başka hiçbir .NET uzantı kütüphanesi bunları sunmuyor.
 
 ```csharp
 using HeroKit.Banking;
 using HeroKit.Turkish;
 
-"10000000146".IsValidTckn();                  // true  (T.C. Kimlik No kontrolü)
-"4840847211".IsValidVkn();                    // true  (Vergi Kimlik No kontrolü)
-"tr33 0006 1005 1978 6457 8413 26".IsValidIban();  // true  (ISO 13616 mod-97, TR uzunluğu)
+"10000000146".IsValidTckn();                  // true  (T.C. Kimlik No)
+"4840847211".IsValidVkn();                    // true  (Vergi Kimlik No)
 "TR330006100519786457841326".FormatIban();   // "TR33 0006 1005 1978 6457 8413 26"
 "0532 123 45 67".ToE164Tr();                  // "+905321234567"
-"+905321234567".FormatPhoneTr();              // "0532 123 45 67"
+"34abc123".FormatPlateTr();                   // "34 ABC 123"
+"34".ToProvinceName();                        // "İstanbul"
+"34710".IsValidPostalCodeTr();                // true
 123.50m.ToTurkishCurrencyWords();             // "yüz yirmi üç Türk lirası elli kuruş"
+1234.5m.ToTurkishLira();                      // "₺1.234,50"
 "istanbul ılıca".ToTitleCaseTr();             // "İstanbul Ilıca"
-"IŞIK".EqualsTr("ışık");                      // true
 ```
 
-## Neden HeroKit
-
-- **Varsayılan olarak güvenli:** Bütün API'lerde null işaretleri, kültürden bağımsız çevirme, null girdide hata fırlatmama.
-- **Trim ve Native AOT uyumlu:** CI'da gerçek bir AOT derlemesiyle doğrulanıyor.
-- **Kararlı API:** Public API analizörle takip ediliyor; hiçbir metot önce `[Obsolete]` sürümü çıkmadan kaldırılmıyor.
-- **Küçük ve hızlı:** Bağımlılık yok; sık kullanılan yollar BenchmarkDotNet ile ölçülüyor.
-
-## Kurulum & Kullanım
-
-Aşağıda, bu kütüphanenin nasıl kullanılacağına dair örnekler bulabilirsiniz:
-
-1. Paketi projeye ekleyin (.NET 8 ve .NET 10 desteklenir):
-
-   ```
-   dotnet add package HeroKit
-   ```
-
-   ya da NuGet Paket Yöneticisi Konsolu'ndan:
-
-   ```
-   Install-Package HeroKit
-   ```
-
-2. Projede ilgili namespace ifadelerini eklemeyi unutmayın:
-    - Örneğin, dizilerle ilgili işlemler yapacaksanız, ilgili sınıfın namespace ifadesini projenizin başına ekleyin (`using HeroKit.Arrays;`).
-
-3. Uzantı metotlarını kullanarak işlemleri gerçekleştirin:
-    - Dizilerle ilgili işlemler için `ArrayControlExtensions`, `ArrayConversionExtensions`, `ArrayManipulationExtensions` gibi sınıflar ve bu sınıflardaki metotlar kullanılabilir.
-    - Tarih ve saat biçimlemesi için `DateTimeFormattingExtensions` sınıfındaki metotları kullanabilirsiniz.
-    - Nesne kontrolü ve dönüşümleri için `ObjectControlExtensions` ve `ObjectConversionExtensions` sınıflarını kullanabilirsiniz.
-    - String işlemleri için `StringControlExtensions`, `StringConversionExtensions`, ve `StringManipulationExtensions` sınıfları kullanılabilir.
-    - Tür kontrolü ve dönüşümleri için `TypeControlExtensions` sınıfını kullanabilirsiniz.
-
-
-## İçerik
-
-- [ArrayControlExtensions](#arraycontrolextensions)
-- [ArrayConversionExtensions](#arrayconversionextensions)
-- [ArrayManipulationExtensions](#arraymanipulationextensions)
-- [AssemblyExtensions](#assemblyextensions)
-- [BooleanControlExtensions](#booleancontrolextensions)
-- [BooleanConversionExtensions](#booleanconversionextensions)
-- [DateTimeFormattingExtensions](#datetimeformattingextensions)
-- [ObjectControlExtensions](#objectcontrolextensions)
-- [ObjectConversionExtensions](#objectconversionextensions)
-- [StringControlExtensions](#stringcontrolextensions)
-- [StringConversionExtensions](#stringconversionextensions)
-- [StringManipulationExtensions](#stringmanipulationextensions)
-- [TypeControlExtensions](#typecontrolextensions)
-- [TypesExtensions](#typesextensions)
-
-
-## `ArrayControlExtensions`
-
-Bu sınıf, dizi (array) türü üzerinde değer kontrolü yapmak için uzantı metotları içerir.
-
-### `IsNullOrEmpty<T>(this T[] array)`
-
-Verilen bir dizinin (array) null veya boş olup olmadığını kontrol eder.
-
-- `T`: Dizideki öğelerin türü.
-- `array`: Kontrol edilecek dizi.
-
-Dönen değer: Dizi null veya boş ise true, aksi halde false.
-
-### `IsNotNullOrEmpty<T>(this T[] array)`
-
-Verilen bir dizinin (array) null veya boş olmadığını kontrol eder.
-
-- `T`: Dizideki öğelerin türü.
-- `array`: Kontrol edilecek dizi.
-
-Dönen değer: Dizi null veya boş değilse true, aksi halde false.
-
-## Kullanım
-
-Bu kütüphanedeki uzantı metotlarını kullanarak, dizilerin boş veya dolu olup olmadığını kontrol edebilirsiniz. Aşağıda kullanım örnekleri bulunmaktadır:
+## Form doğrulama
 
 ```csharp
-using HeroKit.Arrays;
+using HeroKit.Validation;
 
-class Program
+public sealed class Customer
 {
-    static void Main()
-    {
-        int[] emptyArray = new int[0];
-        int[] filledArray = new int[] { 1, 2, 3 };
-
-        bool isEmpty = emptyArray.IsNullOrEmpty(); // true
-        bool isNotEmpty = filledArray.IsNotNullOrEmpty(); // true
-    }
+    [Required, Tckn] public string? IdentityNumber { get; set; }
+    [Iban] public string? Iban { get; set; }
+    [TurkishPhone(MobileOnly = true)] public string? Mobile { get; set; }
+    [PlateTr] public string? Plate { get; set; }
 }
 ```
 
-## `ArrayConversionExtensions`
+Ayrıca: `[Vkn]`, `[TaxIdTr]`, `[PostalCodeTr]`, `[CardNumber]`. ASP.NET Core, Blazor ve `Validator` ile çalışır.
 
-Bu sınıf, dizi (array) türündeki verileri çeşitli formatlara dönüştürmek için uzantı metotları içerir.
+## Dönüşümler
 
-### `ToList<T>(this T[] items, Func<object, T> mapFunction)`
-
-Verilen bir diziyi (array) bir liste olarak dönüştürmek için kullanılır. Her bir öğe üzerine bir eşleme fonksiyonu uygulanır.
-
-- `T`: Dizideki öğelerin ve listenin türü.
-- `items`: Dönüştürülecek dizi.
-- `mapFunction`: Her bir öğe üzerine uygulanacak eşleme fonksiyonu.
-
-Dönen değer: Dönüştürülmüş öğelerden oluşan liste.
-
-### `UrlTokenEncode(this byte[] array)`
-
-Bir byte dizisini URL dostu bir stringe kodlar.
-
-- `array`: Kodlanacak byte dizisi.
-
-Dönen değer: URL dostu kodlanmış string.
-
-## Kullanım
-
-Bu kütüphanedeki uzantı metotlarını kullanarak, dizileri farklı veri tiplerine dönüştürebilir ve byte dizilerini URL dostu şekilde kodlayabilirsiniz. Aşağıda kullanım örnekleri bulunmaktadır:
-
-```csharp
-using HeroKit.Arrays;
-
-class Program
-{
-    static void Main()
-    {
-        int[] numbers = new int[] { 1, 2, 3, 4, 5 };
-        
-        List<string> stringNumbers = numbers.ToList(num => num.ToString()); // ["1", "2", "3", "4", "5"]
-        
-        byte[] byteArray = new byte[] { 65, 66, 67 };
-        string encoded = byteArray.UrlTokenEncode(); // "QkM="
-    }
-}
-```
-
-## `ArrayManipulationExtensions`
-
-Bu sınıf, dizi (array) türündeki verilere manipülasyon işlemleri yapmak için uzantı metotları içerir.
-
-### `InsertItems<T>(this T[] array, IEnumerable<T> items)`
-
-Bir numaralı indisten itibaren verilen bir enumerable koleksiyonu, diziye (array) öğe ekler.
-
-- `T`: Dizideki öğelerin türü.
-- `array`: Öğelerin ekleneceği dizi.
-- `items`: Eklenen öğelerin bulunduğu enumerable koleksiyonu.
-
-Dönüş değeri yok.
-
-## Kullanım
-
-Bu kütüphanedeki uzantı metotlarını kullanarak, dizilerde öğe ekleme işlemleri yapabilirsiniz. Aşağıda kullanım örnekleri bulunmaktadır:
-
-```csharp
-using HeroKit.Arrays;
-
-class Program
-{
-    static void Main()
-    {
-        int[] array = new int[5];
-        List<int> items = new List<int> { 1, 2, 3, 4, 5 };
-
-        array.InsertItems(items);
-        // Şimdi "array" içeriği: [1, 2, 3, 4, 5]
-    }
-}
-```
-
-## `AssemblyExtensions`
-
-Bu sınıf, Assembly (derleme) türündeki değerlere yönelik uzantı metotları içerir.
-
-### `GetAttribute<T>(this Assembly callingAssembly)`
-
-Çağrılan Assembly'den (derleme) belirtilen niteliği (attribute) almak için kullanılır.
-
-- `T`: Alınacak nitelik (attribute) türü.
-- `callingAssembly`: Niteliğin alınacağı Assembly.
-
-Dönen değer: Belirtilen nitelik (attribute) tipindeki öğe, bulunamazsa null.
-
-## Kullanım
-
-Bu kütüphanedeki uzantı metotlarını kullanarak, Assembly türündeki değerlere yönelik işlemler yapabilirsiniz. Aşağıda kullanım örnekleri bulunmaktadır:
-
-```csharp
-using System;
-using HeroKit.Assemblies;
-
-class Program
-{
-    static void Main()
-    {
-        var assembly = typeof(Program).Assembly;
-        
-        AssemblyTitleAttribute titleAttribute = assembly.GetAttribute<AssemblyTitleAttribute>();
-        if (titleAttribute != null)
-        {
-            string assemblyTitle = titleAttribute.Title; // Assembly başlığı
-        }
-    }
-}
-```
-
-## BooleanControlExtensions
-
-Bu sınıf, Boolean (bool) türündeki değerler için uzantı yöntemlerini içerir.
-
-### `IsTrue(this bool? value)`
-Bu uzantı yöntemi, bir boole (bool) değerinin boş olup olmadığını kontrol eder. Değer boş değilse ve true ise true döndürür; aksi takdirde false döndürür.
-
-### `IsFalse(this bool? value)`
-Bu uzantı yöntemi, bir boole (bool) değerinin boş olup olmadığını kontrol eder. Değerin boş olup olmadığını ve true olup olmadığını belirlemek için IsTrue yöntemini kullanır. Değer boş değilse ve false ise true döndürür; aksi takdirde false döndürür.
-
-### `AllTrue(this IEnumerable<bool> values)`
-Bu uzantı yöntemi, bir koleksiyondaki tüm boolean değerlerinin true olup olmadığını kontrol eder. Koleksiyondaki tüm değerlerin true olup olmadığını belirlemek için LINQ All yöntemini kullanır. Eğer öyleyse true döndürür; aksi takdirde false döndürür.
-
-### `AnyTrue(this IEnumerable<bool> values)`
-Bu uzantı yöntemi, bir koleksiyondaki herhangi bir boolean değerinin true olup olmadığını kontrol eder. Koleksiyondaki en az bir değerin true olup olmadığını belirlemek için LINQ Any yöntemini kullanır. Böyle bir değer varsa true döndürür; aksi takdirde false döndürür.
-
-### `AllFalse(this IEnumerable<bool> values)`
-Bu uzantı yöntemi, bir koleksiyondaki tüm boolean değerlerinin false olup olmadığını kontrol eder. LINQ All yöntemini ve negasyon (!) operatörünü kullanarak koleksiyondaki tüm değerlerin false olup olmadığını belirler. Eğer öyleyse true döndürür; aksi takdirde false döndürür.
-
-### `AnyFalse(this IEnumerable<bool> values)`
-Bu uzantı yöntemi, bir koleksiyondaki herhangi bir boolean değerinin false olup olmadığını kontrol eder. LINQ Any yöntemini ve negasyon (!) operatörünü kullanarak koleksiyondaki en az bir değerin false olup olmadığını belirler. Böyle bir değer varsa true döndürür; aksi takdirde false döndürür.
-
-## Kullanım
-
-Bu kütüphanedeki uzantı yöntemlerini kullanarak Boolean (bool) türündeki değerler üzerinde işlemler gerçekleştirebilirsiniz. Aşağıda kullanım örnekleri bulunmaktadır:
-
-using HeroKit.Booleans;
-```csharp
-
-using HeroKit.Booleans;
-
-class Program
-{
-    static void Main(string[] args)
-    {
-        bool? nullableValue = true;
-        bool isNullableValueTrue = nullableValue.IsTrue(); // true döndürür
-
-        List<bool> boolList = new List<bool> { true, false, true };
-        bool allValuesTrue = boolList.AllTrue(); // false döndürür
-        bool anyValueTrue = boolList.AnyTrue(); // true döndürür
-
-        List<bool> anotherBoolList = new List<bool> { false, false, false };
-        bool allValuesFalse = anotherBoolList.AllFalse(); // true döndürür
-        bool anyValueFalse = anotherBoolList.AnyFalse(); // true döndürür
-    }
-}
-
-```
-
-## `BooleanConversionExtensions`
-
-## ToYesNo(this bool value)
-
-Bu uzantı yöntemi, bir boolean değerini "Evet" veya "Hayır" dize temsiline dönüştürür. Eğer değer true ise "Evet" döner, aksi halde "Hayır" döner.
-
-## ToYesNo(this bool? value)
-
-Bu uzantı yöntemi, bir boole değerini "Evet" veya "Hayır" dize temsiline dönüştürür. Eğer değer null değilse ve true ise "Evet" döner, aksi halde "Hayır" döner.
-
-## ToInt(this bool value)
-
-Bu uzantı yöntemi, bir boolean değerini bir tamsayı temsiline dönüştürür. Değer true ise 1 döner, değer false ise 0 döner.
-
-## Kullanım
-
-Bu sınıf tarafından sağlanan uzantı yöntemlerini kullanarak boolean değerler üzerinde kolayca dönüşümler yapabilirsiniz. İşte bazı örnekler:
-
-```csharp
-using HeroKit.BooleanConversions;
-
-class Program
-{
-    static void Main(string[] args)
-    {
-        bool deger1 = true;
-        string deger1EvetHayir = deger1.ToYesNo(); // "Evet" döner
-        int deger1Tamsayi = deger1.ToInt(); // 1 döner
-        
-        bool? deger2 = false;
-        string deger2EvetHayir = deger2.ToYesNo(); // "Hayır" döner
-        
-        // Null olabilen boolean dönüşümü
-        bool? deger3 = null;
-        string deger3EvetHayir = deger3.ToYesNo(); // "Hayır" döner
-    }
-}
-```
-
-## `DateTimeFormattingExtensions`
-
-Bu sınıf, DateTime (tarih ve saat) türündeki değerlere yönelik uzantı metotları içerir.
-
-### `ToTrString(this DateTime datetime, string format = "dd MMM yyyy, dddd")`
-
-Eskidi: `ToCultureString(CultureInfo.GetCultureInfo("tr-TR"))` kullanın. 2.0.0'da kaldırılacak.
-
-- `datetime`: Biçimlendirilecek DateTime değeri.
-- `format`: Biçimlendirme şablonu. Varsayılan değer: "dd MMM yyyy, dddd".
-
-Dönen değer: Türk kültürüne göre biçimlendirilmiş string.
-
-### `ToCultureString(this DateTime datetime, CultureInfo formatProvider, string format = "dd MMM yyyy, dddd")`
-
-Verilen bir DateTime'i belirtilen kültüre ve biçimlendirme şablonuna göre döndürür.
-
-- `datetime`: Biçimlendirilecek DateTime değeri.
-- `formatProvider`: Kültürü belirten format sağlayıcı.
-- `format`: Biçimlendirme şablonu. Varsayılan değer: "dd MMM yyyy, dddd".
-
-Dönen değer: Biçimlendirilmiş string.
-
-### `AsDirectoryName(this DateTime datetime, string format = "yyyy-MM-dd")`
-
-Verilen bir DateTime'i dizin adı için uygun bir biçimde döndürür.
-
-- `datetime`: Biçimlendirilecek DateTime değeri.
-- `format`: Biçimlendirme şablonu. Varsayılan değer: "yyyy-MM-dd".
-
-Dönen değer: Biçimlendirilmiş string.
-
-### `AsFileName(this DateTime datetime, string baseFileName = "")`
-
-Verilen bir DateTime'i dosya adı için uygun bir biçimde döndürür.
-
-- `datetime`: Biçimlendirilecek DateTime değeri.
-- `baseFileName`: Kullanılacak temel dosya adı.
-
-Dönen değer: Biçimlendirilmiş dosya adı string'i.
-
-## Kullanım
-
-Bu kütüphanedeki uzantı metotlarını kullanarak, DateTime türündeki değerleri farklı formatlara ve kültürlere göre biçimlendirebilirsiniz. Aşağıda kullanım örnekleri bulunmaktadır:
-
-```csharp
-using System;
-using HeroKit.DateTimes;
-
-class Program
-{
-    static void Main()
-    {
-        DateTime now = DateTime.Now;
-        
-        string trFormatted = now.ToCultureString(CultureInfo.GetCultureInfo("tr-TR")); // "15 Ağu 2023, Pazartesi"
-        
-        string customFormatted = now.ToCultureString(new CultureInfo("en-US"), "MMMM dd, yyyy"); // "August 15, 2023"
-        
-        string directoryName = now.AsDirectoryName(); // "2023-08-15"
-        
-        string fileName = now.AsFileName("example"); // "example-2023-08-15-10-30-45"
-    }
-}
-```
-
-## `ObjectControlExtensions`
-
-Bu sınıf, Object (nesne) türündeki değerlere yönelik kontrol işlemleri yapmak için uzantı metotları içerir.
-
-### `IsNull(this object @object)`
-
-Verilen bir nesnenin (object) null olup olmadığını kontrol eder.
-
-- `object`: Kontrol edilecek nesne.
-
-Dönen değer: Nesne null ise true, aksi halde false.
-
-### `IsNotNull(this object @object)`
-
-Verilen bir nesnenin (object) null olmadığını kontrol eder.
-
-- `object`: Kontrol edilecek nesne.
-
-Dönen değer: Nesne null değilse true, aksi halde false.
-
-### `IsNumeric(this object value)`
-
-Verilen bir nesnenin (object) sayısal (numeric) olup olmadığını kontrol eder.
-
-- `value`: Kontrol edilecek nesne.
-
-Dönen değer: Nesne sayısal ise true, aksi halde false.
-
-## Kullanım
-
-Bu kütüphanedeki uzantı metotlarını kullanarak, Object türündeki değerleri kontrol edebilirsiniz. Aşağıda kullanım örnekleri bulunmaktadır:
-
-```csharp
-using HeroKit.Objects;
-
-class Program
-{
-    static void Main()
-    {
-        object obj = null;
-        bool isNull = obj.IsNull(); // true
-        
-        object notNullObj = new object();
-        bool isNotNull = notNullObj.IsNotNull(); // true
-        
-        object numericValue = 123;
-        bool isNumeric = numericValue.IsNumeric(); // true
-        
-        object nonNumericValue = "Hello";
-        bool isNonNumeric = nonNumericValue.IsNumeric(); // false
-    }
-}
-```
-
-## `ObjectConversionExtensions`
-
-Bu sınıf, Object (nesne) türündeki değerleri belirtilen türe çevirmek için uzantı metotları içerir.
-
-### `ConvertTo<T>(this object source, T defaultValue = default)`
-
-Verilen bir nesneyi (object) belirtilen türe çevirir, isteğe bağlı olarak varsayılan değeri kullanır.
-
-- `T`: Dönüşümün hedef türü.
-- `source`: Çevrilecek nesne.
-- `defaultValue`: Dönüşüm başarısız olursa kullanılacak varsayılan değer. Varsayılan değer: `default` (varsayılan tür değeri).
-
-Dönen değer: Nesnenin belirtilen türe çevrilmiş hali veya dönüşüm başarısız olursa varsayılan değer.
-
-## Kullanım
-
-Bu kütüphanedeki uzantı metotlarını kullanarak, Object türündeki değerleri belirtilen türlere çevirebilirsiniz. Aşağıda kullanım örnekleri bulunmaktadır:
-
-```csharp
-using HeroKit.Objects;
-
-class Program
-{
-    static void Main()
-    {
-        object intValue = 123;
-        int convertedInt = intValue.ConvertTo<int>(); // 123
-        
-        object stringValue = "456";
-        int convertedStringInt = stringValue.ConvertTo<int>(); // 456
-        
-        object nonConvertibleValue = "Hello";
-        int defaultValue = 0;
-        int nonConvertibleInt = nonConvertibleValue.ConvertTo(defaultValue); // 0
-    }
-}
-```
-
-## `StringControlExtensions`
-
-Bu sınıf, string (dize) türündeki değerlere yönelik kontrol ve manipülasyon işlemleri yapmak için uzantı metotları içerir.
-
-### `IsNullOrEmpty(this string value)`
-
-Verilen bir dizinin (string) boş veya null olup olmadığını kontrol eder.
-
-- `value`: Kontrol edilecek dize.
-
-Dönen değer: Dize boş veya null ise true, aksi halde false.
-
-### `IsNotNullOrEmpty(this string value)`
-
-Verilen bir dizinin (string) boş veya null olmadığını kontrol eder.
-
-- `value`: Kontrol edilecek dize.
-
-Dönen değer: Dize boş veya null değilse true, aksi halde false.
-
-### `IsNullOrEmpty(this string source, char splitValue)`
-
-Verilen bir dizinin (string) belirli bir ayırma değerinden oluşup oluşmadığını kontrol eder.
-
-- `source`: Kontrol edilecek dize.
-- `splitValue`: Ayırma değeri karakteri.
-
-Dönen değer: Dize boş, null veya sadece ayırma değerinden oluşuyorsa true, aksi halde false.
-
-### `IsNotNullOrEmpty(this string source, char splitValue)`
-
-Verilen bir dizinin (string) belirli bir ayırma değerinden oluşmadığını kontrol eder.
-
-- `source`: Kontrol edilecek dize.
-- `splitValue`: Ayırma değeri karakteri.
-
-Dönen değer: Dize boş, null veya sadece ayırma değerinden oluşmuyorsa true, aksi halde false.
-
-## Kullanım
-
-Bu kütüphanedeki uzantı metotlarını kullanarak, string türündeki değerleri kontrol edebilir ve manipüle edebilirsiniz. Aşağıda kullanım örnekleri bulunmaktadır:
+Her dönüşümün varsayılan değer döndüren esnek bir hâli ve bir `Try` hâli vardır. İkisi de hatalı girdide hata fırlatmaz. Bir kültür verilmezse çözümleme kültürden bağımsızdır.
 
 ```csharp
 using HeroKit.Strings;
 
-class Program
-{
-    static void Main()
-    {
-        string emptyString = "";
-        bool isEmpty = emptyString.IsNullOrEmpty(); // true
-        
-        string nonEmptyString = "Hello";
-        bool isNotEmpty = nonEmptyString.IsNotNullOrEmpty(); // true
-        
-        string splitString = ",";
-        bool isSplitEmpty = splitString.IsNullOrEmpty(','); // true
-        
-        string nonSplitString = "Hello,World";
-        bool isNonSplitEmpty = nonSplitString.IsNotNullOrEmpty(','); // false
-    }
-}
+"42".ToInt();                       // 42
+"abc".ToInt(-1);                    // -1
+"2026-03-07".To<DateOnly>();        // her IParsable<T>
+"42".TryTo(out int number);         // true
+"1.234,56".ToDecimal();             // 1234.56
+"Friday".ToEnum<DayOfWeek>();       // DayOfWeek.Friday
 ```
 
-## `StringConversionExtensions`
-
-Bu sınıf, string (dize) türündeki değerleri dönüştürmek için uzantı metotları içerir.
-
-### `ToDecimal(this string @this, string numberDecimalSeperator = ",", bool autoReplaceDotToSeperator = true)`
-
-Verilen bir dizeyi (string) ondalık sayıya dönüştürür.
-
-- `@this`: Ondalık sayıya dönüştürülecek dize.
-- `numberDecimalSeperator`: Ondalık ayırıcı karakteri. Varsayılan değer: `,`.
-- `autoReplaceDotToSeperator`: Otomatik olarak noktayı belirtilen ayıracıyla değiştirip değiştirmeyeceği.
-- Dönen değer: Dönüştürülen ondalık sayı.
-
-### `ToEnum<T>(this string value, T defaultValue = default)`
-
-Verilen bir diziyi (string) belirtilen enum türüne dönüştürür.
-
-- `T`: Enum türü.
-- `value`: Enuma dönüştürülecek dize.
-- `defaultValue`: Dönüşüm başarısız olursa kullanılacak varsayılan değer. Varsayılan değer: `default` (varsayılan tür değeri).
-
-Dönen değer: Dönüştürülen enum değeri veya dönüşüm başarısız olursa varsayılan değer.
-
-## Kullanım
-
-Bu kütüphanedeki uzantı metotlarını kullanarak, string türündeki değerleri dönüştürebilir ve manipüle edebilirsiniz. Aşağıda kullanım örnekleri bulunmaktadır:
-
-```csharp
-using HeroKit.Strings;
-
-class Program
-{
-    static void Main()
-    {
-        string decimalString = "123,45";
-        decimal convertedDecimal = decimalString.ToDecimal(); // 123.45
-        
-        string enumString = "2";
-        MyEnum enumValue = enumString.ToEnum(MyEnum.Default); // MyEnum.Value2
-    }
-}
-```
-
-## `StringManipulationExtensions`
-
-Bu sınıf, string (dize) türündeki değerleri manipüle etmek ve biçimlendirmek için uzantı metotları içerir.
-
-### `ToSlug(this string value)`
-
-Verilen bir diziyi (string) URL dostu bir "slug" haline dönüştürür.
-
-- `value`: Dönüştürülecek dize.
-
-Dönen değer: URL dostu "slug" dizesi.
-
-### `RemoveAccent(this string value)`
-
-Verilen bir diziden (string) aksanları (accent) kaldırır.
-
-- `value`: Aksanları kaldırılacak dize.
-
-Dönen değer: Aksanları kaldırılmış dize.
-
-### `ClearTurkishChars(this string value)`
-
-Verilen bir dizide (string) Türkçe karakterleri aksanlı (accented) halleriyle değiştirir.
-
-- `value`: Türkçe karakterlerin değiştirileceği dize.
-
-Dönen değer: Türkçe karakterleri değiştirilmiş dize.
-
-## Kullanım
-
-Bu kütüphanedeki uzantı metotlarını kullanarak, string türündeki değerleri manipüle edebilir, biçimlendirebilir ve dönüştürebilirsiniz. Aşağıda kullanım örnekleri bulunmaktadır:
-
-```csharp
-using HeroKit.Strings;
-
-class Program
-{
-    static void Main()
-    {
-        string originalText = "Merhaba Dünya!";
-        string slug = originalText.ToSlug(); // merhaba-dunya
-    }
-}
-```
-
-## `TypeControlExtensions`
-
-Bu sınıf, tür (type) değerleri üzerinde çeşitli kontrol işlemleri yapmak için uzantı metotları içerir.
-
-### `IsNullable(this Type type)`
-
-Verilen bir türün (type) Nullable tür (örneğin, int?) olup olmadığını kontrol eder.
-
-- `type`: Kontrol edilecek tür.
-
-Dönen değer: Tür Nullable tür ise true, aksi halde false.
-
-### `IsGenericAssignableFrom(this Type toType, Type fromType, out Type[] genericArguments)`
-
-Verilen bir generic türün (type) başka bir türden atanabilir olup olmadığını ve gerekirse generic argümanları sağlar.
-
-- `toType`: Hedef generic tür.
-- `fromType`: Kaynak tür.
-- `genericArguments`: Atama mümkün ise generic argümanlar, aksi halde null.
-- Dönen değer: Atama mümkün ise true, aksi halde false.
-
-### `GetUnderlyingType(this Type type)`
-
-Verilen bir türün (type) nullable tür ise altında yatan non-nullable türünü alır.
-
-- `type`: İncelemek için tür.
-
-Dönen değer: Eğer tür nullable tür ise altında yatan non-nullable türü, değilse aynı tür.
-
-### `IsDefaultValue<T>(this T value)`
-
-Verilen bir değerin, türünün varsayılan değeri olup olmadığını kontrol eder.
-
-- `value`: Varsayılan değeri kontrol edilecek değer.
-
-Dönen değer: Değer türünün varsayılan değeri ise true, aksi halde false.
-
-## Kullanım
-
-Bu kütüphanedeki uzantı metotlarını kullanarak, tür (type) değerleri üzerinde çeşitli kontrol işlemleri yapabilirsiniz. Aşağıda kullanım örnekleri bulunmaktadır:
-
-```csharp
-using HeroKit.Types;
-
-class Program
-{
-    static void Main()
-    {
-        Type nullableIntType = typeof(int?);
-        bool isNullable = nullableIntType.IsNullable(); // true
-        
-        Type genericListType = typeof(List<>);
-        Type genericArgument;
-        bool isGenericAssignable = genericListType.IsGenericAssignableFrom(typeof(List<string>), out genericArgument); // true, genericArgument: string
-        
-        int value = 0;
-        bool isDefault = value.IsDefaultValue(); // true
-    }
-}
-```
-
-## `TypesExtensions`
-
-Bu sınıf, tür (type) değerleri üzerinde çeşitli işlemler yapmak için uzantı metotları içerir.
-
-### `GetDefault(this Type type)`
-
-Verilen bir türün (type) varsayılan değerini alır.
-
-- `type`: Varsayılan değeri alınacak tür.
-- Dönen değer: Varsayılan değeri veya uygulanamıyorsa null.
-
-### `GetDefault<T>()`
-
-Verilen bir türün (type) varsayılan değerini alır.
-
-- Dönen değer: Varsayılan değeri.
-
-### `GetRealType(this Type type)`
-
-Verilen bir arayüzün veya soyut türün somut uygulama türünü alır.
-
-- `type`: İşlem yapılacak arayüz veya soyut tür.
-- Dönen değer: Somut uygulama türü veya bulunamazsa null.
-
-### `GetExtensionMethods(this Type type, Assembly extensionsAssembly, BindingFlags bindingFlags = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)`
-
-Verilen bir türün (type) uzantı metotlarını belirtilen derlemeden alır.
-
-- `type`: Uzantı metotları alınacak tür.
-- `extensionsAssembly`: Uzantı metotlarının bulunduğu derleme.
-- `bindingFlags`: Metot görünürlüğünü kontrol etmek için kullanılacak BindingFlag'ler.
-- Dönen değer: Belirtilen tür için uzantı metotlarının koleksiyonu.
-
-### `GetExtensionMethod(this Type type, Assembly extensionsAssembly, string name)`
-
-Verilen bir türün (type) belirtilen adlı uzantı metotunu belirtilen derlemeden alır.
-
-- `type`: Uzantı metodu alınacak tür.
-- `extensionsAssembly`: Uzantı metodu bulunan derleme.
-- `name`: Uzantı metodu adı.
-- Dönen değer: Belirtilen adlı uzantı metodu için MethodInfo veya bulunamazsa null.
-
-### `GetExtensionMethod(this Type type, IEnumerable<Assembly> assemblies, string name)`
-
-Verilen bir türün (type) belirtilen adlı uzantı metotunu belirtilen derleme koleksiyonundan alır.
-
-- `type`: Uzantı metodu alınacak tür.
-- `assemblies`: Uzantı metodu bulunan derleme koleksiyonu.
-- `name`: Uzantı metodu adı.
-- Dönen değer: Belirtilen adlı uzantı metodu için MethodInfo veya bulunamazsa null.
-
-### `GetExtensionMethod(this Type type, Assembly extensionsAssembly, string name, Type[] types)`
-
-Verilen bir türün (type) belirtilen ad ve parametre türlerine sahip uzantı metotunu belirtilen derlemeden alır.
-
-- `type`: Uzantı metodu alınacak tür.
-- `extensionsAssembly`: Uzantı metodu bulunan derleme.
-- `name`: Uzantı metodu adı.
-- `types`: Uzantı metodu parametre türleri dizisi.
-- Dönen değer: Belirtilen ad ve parametre türlerine sahip uzantı metodu için MethodInfo veya bulunamazsa null.
-
-## Kullanım
-
-Bu kütüphanedeki uzantı metotlarını kullanarak, tür (type) değerleri üzerinde çeşitli işlemler yapabilirsiniz. Aşağıda kullanım örnekleri bulunmaktadır:
-
-```csharp
-using HeroKit.Types;
-
-class Program
-{
-    static void Main()
-    {
-        Type intType = typeof(int);
-        object defaultInt = intType.GetDefault(); // 0
-
-        int defaultValue = TypesExtensions.GetDefault<int>(); // 0
-
-        Type interfaceType = typeof(IDisposable);
-        Type implementationType = interfaceType.GetRealType(); // System.IO.StreamReader
-
-        Assembly extensionsAssembly = Assembly.GetExecutingAssembly(); // Varsayılan derlemeyi kullanarak
-        MethodInfo extensionMethod = typeof(int).GetExtensionMethod(extensionsAssembly, "IsDefaultValue"); // MethodInfo
-
-    }
-}
-```
-
-
-
+## Diğerleri
+
+| Alan | Örnekler |
+|---|---|
+| Metin | `ToSlug`, `Truncate`, `Mask`, `Left`/`Right`, `RemoveWhitespace`, `ToTitleCase(culture)` |
+| Koleksiyon | `IsNullOrEmpty`, `WhereIf` ve `Page` (`IQueryable` dahil), `ToReadOnlyList` |
+| Tarih | `StartOfWeek`, `EndOfMonth`, `IsWeekend`, `IsBetween`, `Age` (DateTime ve DateOnly) |
+| Fiyat | `RoundToStep`, `ToPsychologicalPrice`, `IncludeVat`, `ExcludeVat` |
+| Kart | `IsValidCardNumber` (Luhn), `GetCardBrand` (Troy dahil) |
+| Enum | `GetDescription`, `ToEnum`, `ToUnderlying<T>` |
+
+Bütün metotlar [rehberlerde ve API referansında](https://herokit.emreakdemir.dev). 1.x'ten mi geçiyorsunuz? [Geçiş rehberine](https://herokit.emreakdemir.dev/articles/migrating-to-2.html) bakın.
 
 ## Sorular ve katkı
 
 - Sorular ve fikirler: [GitHub Discussions](https://github.com/emreakdemir/HeroKit/discussions)
 - Hata ve özellik talepleri: [Issues](https://github.com/emreakdemir/HeroKit/issues)
 - Katkı rehberi: [CONTRIBUTING.md](CONTRIBUTING.md)
+
+## Lisans
+
+MIT
