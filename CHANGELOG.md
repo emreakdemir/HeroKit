@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-15
+
+### Added
+- Turkish identity and tax number validation: `IsValidTckn`, `IsValidVkn`, `IsValidTaxIdTr` (#30).
+- IBAN validation and formatting: `IsValidIban`, `FormatIban`, `NormalizeIban` (#31).
+- Turkish phone numbers: `ToE164Tr`, `FormatPhoneTr`, `IsValidPhoneTr`, `IsValidMobileTr` (#32).
+- Numbers and amounts in Turkish words: `ToTurkishWords`, `ToTurkishCurrencyWords` (#33).
+- Turkish-aware text: `ToTitleCaseTr`, `EqualsTr` (#34).
+- Coverage badge published by CI without an external service; questions go to GitHub Discussions (#25).
+
 ## [1.1.0] - 2026-10-15
 
 ### Added
@@ -61,7 +71,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 First stable release. Targets .NET 8 and .NET 10.
 
-[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/1.1.0...HEAD
+[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/1.2.0...HEAD
+[1.2.0]: https://github.com/emreakdemir/HeroKit/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/emreakdemir/HeroKit/compare/1.0.2...1.1.0
 [1.0.2]: https://github.com/emreakdemir/HeroKit/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/emreakdemir/HeroKit/compare/1.0.0...1.0.1

@@ -10,6 +10,32 @@ Türkçe: [README.TR.md](README.TR.md)
 
 The HeroKit library, providing utility operations, offers a comprehensive set of extension methods for controlling, converting, and manipulating various data types. Designed for projects developed in C#, this extensive library enables performing diverse operations on different data types, ranging from arrays to date-time values, objects, and strings.
 
+## Turkish toolkit
+
+Validation, formatting and text helpers for Turkish data. No other .NET extension library covers these.
+
+```csharp
+using HeroKit.Banking;
+using HeroKit.Turkish;
+
+"10000000146".IsValidTckn();                  // true  (T.C. Kimlik No checksum)
+"4840847211".IsValidVkn();                    // true  (Vergi Kimlik No checksum)
+"tr33 0006 1005 1978 6457 8413 26".IsValidIban();  // true  (ISO 13616 mod-97, TR length)
+"TR330006100519786457841326".FormatIban();   // "TR33 0006 1005 1978 6457 8413 26"
+"0532 123 45 67".ToE164Tr();                  // "+905321234567"
+"+905321234567".FormatPhoneTr();              // "0532 123 45 67"
+123.50m.ToTurkishCurrencyWords();             // "yüz yirmi üç Türk lirası elli kuruş"
+"istanbul ılıca".ToTitleCaseTr();             // "İstanbul Ilıca"
+"IŞIK".EqualsTr("ışık");                      // true
+```
+
+## Why HeroKit
+
+- **Safe by default:** nullable annotations on every API, culture-invariant parsing, no exceptions from null input.
+- **Trimming and Native AOT ready:** verified in CI with a real AOT publish.
+- **Stable API:** public API tracked with analyzers; nothing is removed without an `[Obsolete]` release first.
+- **Small and fast:** no dependencies; hot paths benchmarked with BenchmarkDotNet.
+
 ## Installation & Usage
 
 Targets .NET 8 and .NET 10.
