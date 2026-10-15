@@ -21,7 +21,7 @@ public class ObjectControlExtensionsTests
     [InlineData("abc", false)]
     [InlineData(null, false)]
     [InlineData('c', false)]
-    public void IsNumeric_ShouldDetectNumericValues(object value, bool expected)
+    public void IsNumeric_ShouldDetectNumericValues(object? value, bool expected)
     {
         Assert.Equal(expected, value.IsNumeric());
     }

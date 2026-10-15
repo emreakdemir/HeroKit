@@ -10,7 +10,7 @@ public class NameEqualityComparerTests
     [InlineData("Hero", "Kit", false)]
     [InlineData(null, null, true)]
     [InlineData("Hero", null, false)]
-    public void Equals_IgnoresCase(string source, string control, bool expected)
+    public void Equals_IgnoresCase(string? source, string? control, bool expected)
     {
         Assert.Equal(expected, NameEqualityComparer.Default.Equals(source, control));
     }

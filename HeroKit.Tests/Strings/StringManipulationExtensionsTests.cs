@@ -7,7 +7,7 @@ public class StringManipulationExtensionsTests
     [InlineData("", "")]
     [InlineData("Héllo", "hello")]
     [InlineData("Türkiye İstanbul", "turkiye-istanbul")]
-    public void ToSlug_ShouldConvertStringToSlug(string input, string expectedOutput)
+    public void ToSlug_ShouldConvertStringToSlug(string? input, string expectedOutput)
     {
         // Arrange
 
@@ -41,7 +41,7 @@ public class StringManipulationExtensionsTests
     [InlineData(null, "")]
     [InlineData("", "")]
     [InlineData("ığüşöçİĞÜŞÖÇ", "igusocIGUSOC")]
-    public void ClearTurkishChars_ShouldReplaceTurkishCharsWithNonAccentedEquivalents(string input, string expectedOutput)
+    public void ClearTurkishChars_ShouldReplaceTurkishCharsWithNonAccentedEquivalents(string? input, string expectedOutput)
     {
         // Arrange
 
