@@ -28,15 +28,16 @@ public static class PropertyInfoExtensions
     public static bool IsNullable(this PropertyInfo property) => property.PropertyType.IsNullable();
 
     /// <summary>
-    /// Sets the value of a PropertyInfo on an instance of a class.
+    /// Converts a value to the property type and sets it on an instance.
     /// </summary>
     /// <typeparam name="T">The type of the instance.</typeparam>
-    /// <param name="property">The PropertyInfo to set.</param>
-    /// <param name="instance">The instance of the class.</param>
-    /// <param name="value">The value to be set.</param>
-    public static void SetValue<T>(this PropertyInfo property, T instance, object value)
+    /// <param name="property">The property to set.</param>
+    /// <param name="instance">The instance that owns the property.</param>
+    /// <param name="value">The value to convert and set.</param>
+    /// <returns>True if the value was converted and set; false if it could not be assigned.</returns>
+    public static bool TrySetConvertedValue<T>(this PropertyInfo property, T instance, object value)
     {
-        var constructedMethod = typeof(ObjectConversionExtensions).GetMethod("TryCast")!
+        var constructedMethod = typeof(ObjectConversionExtensions).GetMethod(nameof(ObjectConversionExtensions.TryCast))!
             .MakeGenericMethod(property.PropertyType);
 
         object valueSet = null;
@@ -46,7 +47,23 @@ public static class PropertyInfoExtensions
             valueSet = parameters[1];
 
         if (!property.CanAssignValue(valueSet))
-            return;
+            return false;
+
         property.SetValue(instance, valueSet, null);
+        return true;
     }
+
+    /// <summary>
+    /// Sets the value of a PropertyInfo on an instance of a class.
+    /// </summary>
+    /// <remarks>
+    /// In instance syntax the built-in <see cref="PropertyInfo.SetValue(object, object)"/> hides this method.
+    /// Use <see cref="TrySetConvertedValue{T}"/> instead.
+    /// </remarks>
+    /// <typeparam name="T">The type of the instance.</typeparam>
+    /// <param name="property">The PropertyInfo to set.</param>
+    /// <param name="instance">The instance of the class.</param>
+    /// <param name="value">The value to be set.</param>
+    [Obsolete("PropertyInfo.SetValue(object, object) hides this method in instance syntax. Use TrySetConvertedValue instead. This method will be removed in 2.0.0.")]
+    public static void SetValue<T>(this PropertyInfo property, T instance, object value) => property.TrySetConvertedValue(instance, value);
 }

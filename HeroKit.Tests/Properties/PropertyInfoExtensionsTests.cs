@@ -29,15 +29,35 @@ public class PropertyInfoExtensionsTests
     }
 
     [Fact]
-    public void SetValue_ShouldConvertAndAssign()
+    public void TrySetConvertedValue_ShouldConvertAndAssign()
     {
         var sample = new Sample();
 
-        // Called statically: PropertyInfo.SetValue(object, object) hides the extension in instance syntax.
-        PropertyInfoExtensions.SetValue(typeof(Sample).GetProperty(nameof(Sample.Number))!, sample, "42");
-        PropertyInfoExtensions.SetValue(typeof(Sample).GetProperty(nameof(Sample.Text))!, sample, "hello");
+        Assert.True(typeof(Sample).GetProperty(nameof(Sample.Number))!.TrySetConvertedValue(sample, "42"));
+        Assert.True(typeof(Sample).GetProperty(nameof(Sample.Text))!.TrySetConvertedValue(sample, "hello"));
 
         Assert.Equal(42, sample.Number);
         Assert.Equal("hello", sample.Text);
+    }
+
+    [Fact]
+    public void TrySetConvertedValue_ShouldReturnFalseWhenConversionFails()
+    {
+        var sample = new Sample { Number = 7 };
+
+        Assert.False(typeof(Sample).GetProperty(nameof(Sample.Number))!.TrySetConvertedValue(sample, "not a number"));
+        Assert.Equal(7, sample.Number);
+    }
+
+    [Fact]
+    public void SetValue_ShouldStillWorkWhenCalledStatically()
+    {
+        var sample = new Sample();
+
+#pragma warning disable CS0618
+        PropertyInfoExtensions.SetValue(typeof(Sample).GetProperty(nameof(Sample.Number))!, sample, "42");
+#pragma warning restore CS0618
+
+        Assert.Equal(42, sample.Number);
     }
 }
