@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Turkish public holidays and business days: `TurkishHolidays.GetHolidays(year)`, `IsPublicHolidayTr`, `IsHalfDayHolidayTr`, `GetPublicHolidayTr`, `IsBusinessDayTr`, `AddBusinessDaysTr`, `BusinessDaysUntilTr`. Religious holidays from the Diyanet calendar for 2022–2027 (#90).
+
 ## [2.1.0] - 2026-10-15
 
 ### Added

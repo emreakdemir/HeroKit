@@ -44,6 +44,10 @@ docfx docs/docfx.json --serve
 
 The `docs.yml` workflow publishes the site when a release is published.
 
+## Yearly maintenance: religious holidays
+
+Ramazan and Kurban Bayramı dates come from the Diyanet religious days calendar (https://vakithesaplama.diyanet.gov.tr/dinigunler.php?yil=YYYY). When Diyanet publishes a new year, add its first-day dates to `HeroKit/Turkish/TurkishHolidays.cs` and to the test table. The test `SupportedYears_ShouldCoverTheCurrentYear` fails when the current year is missing.
+
 ## Releases
 
 1. Bump `<Version>` in `Directory.Build.props`. HeroKit and HeroKit.FluentValidation share it.

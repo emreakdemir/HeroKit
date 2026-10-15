@@ -1,1 +1,32 @@
 #nullable enable
+HeroKit.Turkish.PublicHoliday
+HeroKit.Turkish.PublicHoliday.Date.get -> System.DateOnly
+HeroKit.Turkish.PublicHoliday.Date.init -> void
+HeroKit.Turkish.PublicHoliday.Deconstruct(out System.DateOnly Date, out string! Name, out bool IsHalfDay) -> void
+HeroKit.Turkish.PublicHoliday.Equals(HeroKit.Turkish.PublicHoliday other) -> bool
+HeroKit.Turkish.PublicHoliday.IsHalfDay.get -> bool
+HeroKit.Turkish.PublicHoliday.IsHalfDay.init -> void
+HeroKit.Turkish.PublicHoliday.Name.get -> string!
+HeroKit.Turkish.PublicHoliday.Name.init -> void
+HeroKit.Turkish.PublicHoliday.PublicHoliday() -> void
+HeroKit.Turkish.PublicHoliday.PublicHoliday(System.DateOnly Date, string! Name, bool IsHalfDay) -> void
+HeroKit.Turkish.TurkishBusinessDayExtensions
+HeroKit.Turkish.TurkishHolidays
+override HeroKit.Turkish.PublicHoliday.GetHashCode() -> int
+static HeroKit.Turkish.PublicHoliday.operator !=(HeroKit.Turkish.PublicHoliday left, HeroKit.Turkish.PublicHoliday right) -> bool
+static HeroKit.Turkish.PublicHoliday.operator ==(HeroKit.Turkish.PublicHoliday left, HeroKit.Turkish.PublicHoliday right) -> bool
+static HeroKit.Turkish.TurkishBusinessDayExtensions.AddBusinessDaysTr(this System.DateOnly value, int days) -> System.DateOnly
+static HeroKit.Turkish.TurkishBusinessDayExtensions.AddBusinessDaysTr(this System.DateTime value, int days) -> System.DateTime
+static HeroKit.Turkish.TurkishBusinessDayExtensions.BusinessDaysUntilTr(this System.DateOnly start, System.DateOnly end) -> int
+static HeroKit.Turkish.TurkishBusinessDayExtensions.GetPublicHolidayTr(this System.DateOnly value) -> HeroKit.Turkish.PublicHoliday?
+static HeroKit.Turkish.TurkishBusinessDayExtensions.IsBusinessDayTr(this System.DateOnly value) -> bool
+static HeroKit.Turkish.TurkishBusinessDayExtensions.IsBusinessDayTr(this System.DateTime value) -> bool
+static HeroKit.Turkish.TurkishBusinessDayExtensions.IsHalfDayHolidayTr(this System.DateOnly value) -> bool
+static HeroKit.Turkish.TurkishBusinessDayExtensions.IsPublicHolidayTr(this System.DateOnly value) -> bool
+static HeroKit.Turkish.TurkishBusinessDayExtensions.IsPublicHolidayTr(this System.DateTime value) -> bool
+static HeroKit.Turkish.TurkishHolidays.FirstSupportedYear.get -> int
+static HeroKit.Turkish.TurkishHolidays.GetHolidays(int year) -> System.Collections.Generic.IReadOnlyList<HeroKit.Turkish.PublicHoliday>!
+static HeroKit.Turkish.TurkishHolidays.IsSupported(int year) -> bool
+static HeroKit.Turkish.TurkishHolidays.LastSupportedYear.get -> int
+~override HeroKit.Turkish.PublicHoliday.Equals(object obj) -> bool
+~override HeroKit.Turkish.PublicHoliday.ToString() -> string
