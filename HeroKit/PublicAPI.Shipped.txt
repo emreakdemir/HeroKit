@@ -1,0 +1,101 @@
+#nullable enable
+HeroKit.Arrays.ArrayControlExtensions
+HeroKit.Arrays.ArrayConversionExtensions
+HeroKit.Arrays.ArrayManipulationExtensions
+HeroKit.Assemblies.AssemblyExtensions
+HeroKit.Booleans.BooleanControlExtensions
+HeroKit.Booleans.BooleanConversionExtensions
+HeroKit.Comparers.NameEqualityComparer
+HeroKit.Comparers.NameEqualityComparer.Equals(string? source, string? control) -> bool
+HeroKit.Comparers.NameEqualityComparer.GetHashCode(string? value) -> int
+HeroKit.Comparers.NameEqualityComparer.NameEqualityComparer() -> void
+HeroKit.DateTimes.DateTimeFormattingExtensions
+HeroKit.Enums.EnumExtensions
+HeroKit.Guids.GuidExtensions
+HeroKit.Integers.IntegerExtensions
+HeroKit.Objects.ObjectControlExtensions
+HeroKit.Objects.ObjectConversionExtensions
+HeroKit.Properties.PropertyInfoExtensions
+HeroKit.Strings.StringControlExtensions
+HeroKit.Strings.StringConversionExtensions
+HeroKit.Strings.StringManipulationExtensions
+HeroKit.Types.TypeControlExtensions
+HeroKit.Types.TypesExtensions
+static HeroKit.Arrays.ArrayControlExtensions.IsNotNullOrEmpty<T>(this T[]? array) -> bool
+static HeroKit.Arrays.ArrayControlExtensions.IsNullOrEmpty<T>(this T[]? array) -> bool
+static HeroKit.Arrays.ArrayConversionExtensions.ToList<T>(this T[]? items, System.Func<object?, T>? mapFunction) -> System.Collections.Generic.List<T>!
+static HeroKit.Arrays.ArrayConversionExtensions.UrlTokenEncode(this byte[]? array) -> string!
+static HeroKit.Arrays.ArrayManipulationExtensions.InsertItems<T>(this T[]! array, System.Collections.Generic.IEnumerable<T>! items) -> void
+static HeroKit.Assemblies.AssemblyExtensions.GetAttribute<T>(this System.Reflection.Assembly! callingAssembly) -> T?
+static HeroKit.Booleans.BooleanControlExtensions.AllFalse(this System.Collections.Generic.IEnumerable<bool>! values) -> bool
+static HeroKit.Booleans.BooleanControlExtensions.AllTrue(this System.Collections.Generic.IEnumerable<bool>! values) -> bool
+static HeroKit.Booleans.BooleanControlExtensions.AnyFalse(this System.Collections.Generic.IEnumerable<bool>! values) -> bool
+static HeroKit.Booleans.BooleanControlExtensions.AnyTrue(this System.Collections.Generic.IEnumerable<bool>! values) -> bool
+static HeroKit.Booleans.BooleanControlExtensions.IsFalse(this bool? value) -> bool
+static HeroKit.Booleans.BooleanControlExtensions.IsTrue(this bool? value) -> bool
+static HeroKit.Booleans.BooleanConversionExtensions.ToInt(this bool value) -> int
+static HeroKit.Booleans.BooleanConversionExtensions.ToString(this bool value, string! trueText, string! falseText) -> string!
+static HeroKit.Booleans.BooleanConversionExtensions.ToString(this bool? value, string! trueText, string! falseText, string! nullText = "-") -> string!
+static HeroKit.Booleans.BooleanConversionExtensions.ToYesNo(this bool value) -> string!
+static HeroKit.Booleans.BooleanConversionExtensions.ToYesNo(this bool? value) -> string!
+static HeroKit.Comparers.NameEqualityComparer.Default.get -> System.Collections.Generic.IEqualityComparer<string!>!
+static HeroKit.DateTimes.DateTimeFormattingExtensions.AsDirectoryName(this System.DateTime datetime, string! format = "yyyy-MM-dd") -> string!
+static HeroKit.DateTimes.DateTimeFormattingExtensions.AsFileName(this System.DateTime datetime, string! baseFileName = "") -> string!
+static HeroKit.DateTimes.DateTimeFormattingExtensions.ToCultureString(this System.DateTime datetime, System.Globalization.CultureInfo! formatProvider, string! format = "dd MMM yyyy, dddd") -> string!
+static HeroKit.DateTimes.DateTimeFormattingExtensions.ToTrString(this System.DateTime datetime, string! format = "dd MMM yyyy, dddd") -> string!
+static HeroKit.Enums.EnumExtensions.GetValue<T>(this System.Enum! value) -> string!
+static HeroKit.Enums.EnumExtensions.IsDefined<T>(this T value) -> bool
+static HeroKit.Enums.EnumExtensions.ToByte(this System.Enum! value) -> byte
+static HeroKit.Enums.EnumExtensions.ToList<TEnum>() -> System.Collections.Generic.List<TEnum>!
+static HeroKit.Guids.GuidExtensions.IsEmpty(this System.Guid target) -> bool
+static HeroKit.Guids.GuidExtensions.IsNotEmpty(this System.Guid target) -> bool
+static HeroKit.Guids.GuidExtensions.IsNotNullOrEmpty(this System.Guid? target) -> bool
+static HeroKit.Guids.GuidExtensions.IsNullOrEmpty(this System.Guid? target) -> bool
+static HeroKit.Integers.IntegerExtensions.Cube(this int source) -> int
+static HeroKit.Integers.IntegerExtensions.Half(this int source) -> int
+static HeroKit.Integers.IntegerExtensions.IsEvenNumber(this int number) -> bool
+static HeroKit.Integers.IntegerExtensions.IsOddNumber(this int number) -> bool
+static HeroKit.Integers.IntegerExtensions.Seconds(this int source) -> int
+static HeroKit.Integers.IntegerExtensions.Square(this int source) -> int
+static HeroKit.Integers.IntegerExtensions.ToMonthString(this int value, System.Globalization.CultureInfo? cultureInfo = null) -> string!
+static HeroKit.Integers.IntegerExtensions.ToPixel(this int point) -> decimal
+static HeroKit.Objects.ObjectControlExtensions.IsNotNull(this object? object) -> bool
+static HeroKit.Objects.ObjectControlExtensions.IsNull(this object? object) -> bool
+static HeroKit.Objects.ObjectControlExtensions.IsNumeric(this object? value) -> bool
+static HeroKit.Objects.ObjectConversionExtensions.ConvertTo<T>(this object? source, T? defaultValue = default(T?)) -> T?
+static HeroKit.Objects.ObjectConversionExtensions.TryCast<T>(this object? source, out T? result) -> bool
+static HeroKit.Properties.PropertyInfoExtensions.CanAssignValue(this System.Reflection.PropertyInfo! property, object? value) -> bool
+static HeroKit.Properties.PropertyInfoExtensions.IsNullable(this System.Reflection.PropertyInfo! property) -> bool
+static HeroKit.Properties.PropertyInfoExtensions.SetValue<T>(this System.Reflection.PropertyInfo! property, T instance, object? value) -> void
+static HeroKit.Properties.PropertyInfoExtensions.TrySetConvertedValue<T>(this System.Reflection.PropertyInfo! property, T instance, object? value) -> bool
+static HeroKit.Strings.StringControlExtensions.IsNotNullOrEmpty(this string? source, char splitValue) -> bool
+static HeroKit.Strings.StringControlExtensions.IsNotNullOrEmpty(this string? value) -> bool
+static HeroKit.Strings.StringControlExtensions.IsNullOrEmpty(this string? source, char splitValue) -> bool
+static HeroKit.Strings.StringControlExtensions.IsNullOrEmpty(this string? value) -> bool
+static HeroKit.Strings.StringConversionExtensions.ToBoolean(this string? value, string? trueCondition = "true", bool defaultvalue = false) -> bool
+static HeroKit.Strings.StringConversionExtensions.ToByteArray(this string! text) -> byte[]!
+static HeroKit.Strings.StringConversionExtensions.ToDateTime(this string? value, System.Globalization.CultureInfo? cultureInfo = null, System.DateTime defaultValue = default(System.DateTime)) -> System.DateTime
+static HeroKit.Strings.StringConversionExtensions.ToDecimal(this string! this, string! numberDecimalSeperator = ",", bool autoReplaceDotToSeperator = true) -> decimal
+static HeroKit.Strings.StringConversionExtensions.ToEnum<T>(this string? value, T defaultValue = default(T)) -> T
+static HeroKit.Strings.StringConversionExtensions.ToInt(this string? value) -> int
+static HeroKit.Strings.StringConversionExtensions.ToLong(this string? value) -> long
+static HeroKit.Strings.StringConversionExtensions.ToNullable<T>(this string? source) -> (bool status, T? result)
+static HeroKit.Strings.StringConversionExtensions.ToShort(this string? value) -> short
+static HeroKit.Strings.StringManipulationExtensions.ClearTurkishChars(this string! value) -> string!
+static HeroKit.Strings.StringManipulationExtensions.Format(this string! value, params object![]! args) -> string!
+static HeroKit.Strings.StringManipulationExtensions.RemoveAccent(this string! value) -> string!
+static HeroKit.Strings.StringManipulationExtensions.ToDashCase(this string! input) -> string!
+static HeroKit.Strings.StringManipulationExtensions.ToLowerTr(this string! input) -> string!
+static HeroKit.Strings.StringManipulationExtensions.ToSlug(this string? value) -> string!
+static HeroKit.Strings.StringManipulationExtensions.ToUpperTr(this string! input) -> string!
+static HeroKit.Types.TypeControlExtensions.GetUnderlyingType(this System.Type! type) -> System.Type!
+static HeroKit.Types.TypeControlExtensions.IsDefaultValue<T>(this T value) -> bool
+static HeroKit.Types.TypeControlExtensions.IsGenericAssignableFrom(this System.Type! toType, System.Type! fromType, out System.Type![]? genericArguments) -> bool
+static HeroKit.Types.TypeControlExtensions.IsNullable(this System.Type! type) -> bool
+static HeroKit.Types.TypesExtensions.GetDefault(this System.Type! type) -> object?
+static HeroKit.Types.TypesExtensions.GetDefault<T>() -> T?
+static HeroKit.Types.TypesExtensions.GetExtensionMethod(this System.Type! type, System.Collections.Generic.IEnumerable<System.Reflection.Assembly!>! assemblies, string! name) -> System.Reflection.MethodInfo?
+static HeroKit.Types.TypesExtensions.GetExtensionMethod(this System.Type! type, System.Reflection.Assembly! extensionsAssembly, string! name) -> System.Reflection.MethodInfo?
+static HeroKit.Types.TypesExtensions.GetExtensionMethod(this System.Type! type, System.Reflection.Assembly! extensionsAssembly, string! name, System.Type![]! types) -> System.Reflection.MethodInfo?
+static HeroKit.Types.TypesExtensions.GetExtensionMethods(this System.Type! type, System.Reflection.Assembly! extensionsAssembly, System.Reflection.BindingFlags bindingFlags = System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public) -> System.Collections.Generic.IEnumerable<System.Reflection.MethodInfo!>!
+static HeroKit.Types.TypesExtensions.GetRealType(this System.Type! type) -> System.Type?
