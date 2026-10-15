@@ -2,24 +2,60 @@
   "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
   "metadata": [
     {
-      "src": [{ "src": "../HeroKit", "files": ["HeroKit.csproj"] }],
+      "src": [
+        {
+          "src": "../HeroKit",
+          "files": [
+            "HeroKit.csproj"
+          ]
+        }
+      ],
       "dest": "api",
-      "properties": { "TargetFramework": "net10.0" }
+      "properties": {
+        "TargetFramework": "net10.0"
+      }
     }
   ],
   "build": {
     "content": [
-      { "files": ["**/*.{md,yml}"], "exclude": ["_site/**", "obj/**"] }
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**",
+          "obj/**"
+        ]
+      }
     ],
-    "resource": [{ "files": ["images/**", "CNAME"] }],
+    "resource": [
+      {
+        "files": [
+          "images/**",
+          "CNAME"
+        ]
+      }
+    ],
     "output": "_site",
-    "template": ["default", "modern"],
+    "template": [
+      "default",
+      "modern",
+      "template"
+    ],
     "globalMetadata": {
       "_appName": "HeroKit",
       "_appTitle": "HeroKit",
-      "_appFooter": "HeroKit · MIT License · <a href=\"https://github.com/emreakdemir/HeroKit\">GitHub</a>",
+      "_appFooter": "<span>HeroKit · MIT License · Built with care for .NET developers · <a href=\"https://github.com/emreakdemir/HeroKit\">GitHub</a> · <a href=\"https://www.nuget.org/packages/HeroKit\">NuGet</a></span>",
       "_enableSearch": true,
-      "_gitContribute": { "repo": "https://github.com/emreakdemir/HeroKit", "branch": "master" }
+      "_gitContribute": {
+        "repo": "https://github.com/emreakdemir/HeroKit",
+        "branch": "master"
+      },
+      "_appLogoPath": "images/logo.png",
+      "_appFaviconPath": "images/favicon.png",
+      "_enableNewTab": true,
+      "_disableContribution": false,
+      "_lang": "en"
     }
   }
 }
