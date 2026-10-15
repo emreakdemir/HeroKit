@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Nullable reference type annotations on the whole public API, with `[NotNullWhen]` on null-check helpers (#20)
+- Public API tracking with `Microsoft.CodeAnalysis.PublicApiAnalyzers` (#21)
+- Dependabot for NuGet and GitHub Actions (#27)
+- CHANGELOG, CONTRIBUTING, issue forms and pull request template (#28)
+
 ## [1.0.2] - 2026-10-15
 
 ### Fixed
