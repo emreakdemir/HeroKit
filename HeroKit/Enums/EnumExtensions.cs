@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace HeroKit.Enums;
 
 /// <summary>
@@ -21,7 +23,7 @@ public static class EnumExtensions
     /// <remarks>
     /// This method is an extension method that can be called on any enum value.
     /// </remarks>
-    public static byte ToByte(this Enum value) => Convert.ToByte(value);
+    public static byte ToByte(this Enum value) => Convert.ToByte(value, CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Gets the string representation of the specified enum value.
@@ -29,7 +31,7 @@ public static class EnumExtensions
     /// <typeparam name="T">The enum type.</typeparam>
     /// <param name="value">The enum value.</param>
     /// <returns>The string representation of the enum value.</returns>
-    public static string GetValue<T>(this Enum value) => Convert.ChangeType(value, typeof(T)).ToString();
+    public static string GetValue<T>(this Enum value) => Convert.ToString(Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture), CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Returns a list of all values defined in the given enumeration type.

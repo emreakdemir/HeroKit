@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace HeroKit.Objects;
 
 /// <summary>
@@ -30,11 +32,8 @@ public static class ObjectControlExtensions
         {
             null                                      => false,
             int or long or float or double or decimal => true,
-            string strValue => int.TryParse(strValue, out _)    ||
-                               long.TryParse(strValue, out _)   ||
-                               float.TryParse(strValue, out _)  ||
-                               double.TryParse(strValue, out _) ||
-                               decimal.TryParse(strValue, out _),
+            string strValue => decimal.TryParse(strValue, NumberStyles.Number, CultureInfo.InvariantCulture, out _) ||
+                               double.TryParse(strValue, NumberStyles.Float, CultureInfo.InvariantCulture, out _),
             _ => false,
         };
     }

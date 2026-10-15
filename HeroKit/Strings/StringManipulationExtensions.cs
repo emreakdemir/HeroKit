@@ -9,6 +9,8 @@ namespace HeroKit.Strings;
 /// </summary>
 public static class StringManipulationExtensions
 {
+    private static readonly CultureInfo TurkishCulture = CultureInfo.GetCultureInfo("tr-TR");
+
     /// <summary>
     /// Converts a string into a URL-friendly slug.
     /// </summary>
@@ -94,12 +96,12 @@ public static class StringManipulationExtensions
     /// </summary>
     /// <param name="input">The string to convert.</param>
     /// <returns>The uppercase representation of the input string.</returns>
-    public static string ToUpperTr(this string input) => input.ToUpper(new CultureInfo("tr-TR"));
+    public static string ToUpperTr(this string input) => input.ToUpper(TurkishCulture);
 
     /// <summary>
     /// Converts the input string to lowercase using the Turkish culture.
     /// </summary>
     /// <param name="input">The string to convert.</param>
     /// <returns>The converted lowercase string.</returns>
-    public static string ToLowerTr(this string input) => input.ToLower(new CultureInfo("tr-TR"));
+    public static string ToLowerTr(this string input) => input.ToLower(TurkishCulture);
 }
