@@ -23,7 +23,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>herokit.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>Breaking: country and language based API (Countries.Turkey, Languages.Turkish, Currencies.TurkishLira); new countries need no new methods. ICU-free text rules, e-invoice helpers, Turkish sorting. Upgrade guide: https://herokit.emreakdemir.dev/articles/upgrading.html</PackageReleaseNotes>
+        <PackageReleaseNotes>United States built in: Countries.UnitedStates (NANP phone numbers, ZIP codes, SSN, SSN/ITIN/EIN tax IDs, federal holidays, states), Languages.English (numbers in words, ICU-free casing and sorting) and Currencies.USDollar. Currency gains plural unit names; Region gains Abbreviation. Upgrading from 1.x or 2.x: https://herokit.emreakdemir.dev/articles/upgrading.html</PackageReleaseNotes>
         <Copyright>Copyright © 2023-2026 Emre Akdemir</Copyright>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>

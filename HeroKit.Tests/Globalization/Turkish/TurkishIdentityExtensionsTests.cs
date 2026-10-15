@@ -50,6 +50,18 @@ public class TurkeyIdentityExtensionsTests
         Assert.Equal(expected, value.IsValidTaxId(Countries.Turkey));
     }
 
+    [Theory]
+    [InlineData("10000000146", true)]
+    [InlineData("10000000147", false)]
+    [InlineData("4840847211", false)]
+    [InlineData("01000000146", false)]
+    [InlineData("", false)]
+    [InlineData(null, false)]
+    public void IsValidNationalId_ShouldValidateTckn(string? value, bool expected)
+    {
+        Assert.Equal(expected, value.IsValidNationalId(Countries.Turkey));
+    }
+
     [Fact]
     public void IsValidTckn_ShouldAcceptEveryNumberBuiltWithTheAlgorithm()
     {

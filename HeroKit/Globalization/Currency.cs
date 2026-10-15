@@ -30,6 +30,15 @@ public sealed class Currency(string isoCode, string symbol, Language language)
     /// <summary>Gets the name of the subunit (1/100) in <see cref="Language"/>, for example "kuruş".</summary>
     public string SubunitName { get; init; } = string.Empty;
 
+    /// <summary>Gets the plural of <see cref="UnitName"/>, for example "dollars". Null when the language does not inflect the unit after numbers.</summary>
+    public string? UnitNamePlural { get; init; }
+
+    /// <summary>Gets the plural of <see cref="SubunitName"/>, for example "cents". Null when the language does not inflect the subunit after numbers.</summary>
+    public string? SubunitNamePlural { get; init; }
+
+    /// <summary>Gets the word between the unit and the subunit in amounts in words, for example "and". Empty by default.</summary>
+    public string SubunitConjunction { get; init; } = string.Empty;
+
     /// <summary>Gets the decimal separator. Defaults to ".".</summary>
     public string DecimalSeparator { get; init; } = ".";
 

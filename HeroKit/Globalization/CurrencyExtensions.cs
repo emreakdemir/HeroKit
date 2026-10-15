@@ -55,6 +55,7 @@ public static class CurrencyExtensions
     /// <example>
     /// <code>
     /// 123.50m.ToCurrencyWords(Currencies.TurkishLira); // "yüz yirmi üç Türk lirası elli kuruş"
+    /// 123.50m.ToCurrencyWords(Currencies.USDollar);    // "one hundred twenty-three dollars and fifty cents"
     /// </code>
     /// </example>
     public static string ToCurrencyWords(this decimal amount, Currency currency)
@@ -74,22 +75,26 @@ public static class CurrencyExtensions
         if (whole > 0 || cents == 0)
         {
             Append(builder, speller.Spell(sign * whole));
-            Append(builder, currency.UnitName);
+            Append(builder, whole == 1 ? currency.UnitName : currency.UnitNamePlural ?? currency.UnitName);
 
             if (cents > 0)
             {
+                Append(builder, currency.SubunitConjunction);
                 Append(builder, speller.Spell(cents));
-                Append(builder, currency.SubunitName);
+                Append(builder, Subunit(currency, cents));
             }
         }
         else
         {
             Append(builder, speller.Spell(sign * cents));
-            Append(builder, currency.SubunitName);
+            Append(builder, Subunit(currency, cents));
         }
 
         return builder.ToString();
     }
+
+    private static string Subunit(Currency currency, long cents) =>
+        cents == 1 ? currency.SubunitName : currency.SubunitNamePlural ?? currency.SubunitName;
 
     private static void Append(StringBuilder builder, string word)
     {

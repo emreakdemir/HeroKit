@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.0] - 2026-10-15
+
+### Added
+- United States: `Countries.UnitedStates` with NANP phone numbers, ZIP and ZIP+4 codes, SSN (`IsValidNationalId`), SSN, ITIN or EIN (`IsValidTaxId`), the 11 federal holidays with observed days, and the 50 states plus DC (FIPS codes and USPS abbreviations). Vehicle plates differ by state and are not supported.
+- `Languages.English`: numbers in American English words and ICU-free casing and sorting.
+- `Currencies.USDollar`: "$1,234.50", "one hundred twenty-three dollars and fifty cents".
+- `Currency.UnitNamePlural`, `SubunitNamePlural` and `SubunitConjunction` for languages that inflect unit names. Turkish output is unchanged.
+- `Region.Abbreviation`; `Country.FindRegion` also matches it ("CA").
+- Attributes and FluentValidation rules resolve "US" without extra setup.
+
+### Quality
+- Tests for `IsValidNationalId` (TCKN) and for every United States rule, also under invariant globalization; Native AOT smoke test with 20 checks.
+
 ## [3.0.0] - 2026-10-15
 
 Breaking release. Country- and language-specific behavior is selected with objects instead of method names, so new countries and languages need no new methods. See the [upgrade guide](https://herokit.emreakdemir.dev/articles/upgrading.html).
@@ -59,5 +72,6 @@ Superseded by 3.0.0. Highlights:
 
 1.0.0-alpha to 1.0.0-alpha.6: the first array, boolean, string, type and conversion helpers (contributors: @emreakdemir, @jepozdemir).
 
-[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/3.0.0...HEAD
+[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/3.1.0...HEAD
+[3.1.0]: https://github.com/emreakdemir/HeroKit/compare/3.0.0...3.1.0
 [3.0.0]: https://github.com/emreakdemir/HeroKit/compare/2.2.0...3.0.0

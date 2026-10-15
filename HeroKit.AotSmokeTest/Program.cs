@@ -29,6 +29,9 @@ var checks = new (string Name, bool Passed)[]
     ("Lira", 1234.5m.ToCurrencyString(Currencies.TurkishLira) == "₺1.234,50"),
     ("Words", 123.50m.ToCurrencyWords(Currencies.TurkishLira) == "yüz yirmi üç Türk lirası elli kuruş"),
     ("Holidays", new DateOnly(2026, 3, 19).AddBusinessDays(1, Countries.Turkey) == new DateOnly(2026, 3, 23)),
+    ("United States", "(212) 555-0123".ToE164(Countries.UnitedStates) == "+12125550123"
+        && 1.01m.ToCurrencyWords(Currencies.USDollar) == "one dollar and one cent"
+        && new DateOnly(2026, 7, 2).AddBusinessDays(1, Countries.UnitedStates) == new DateOnly(2026, 7, 6)),
     ("Title case", "istanbul ılıca".ToTitleCase(Languages.Turkish) == "İstanbul Ilıca"),
     ("Country attribute", new PhoneNumberAttribute("TR").IsValid("0532 123 45 67") && !new PhoneNumberAttribute("TR") { MobileOnly = true }.IsValid("0212 555 12 34")),
     ("Attribute", new TcknAttribute().IsValid("10000000146") && !new IbanAttribute().IsValid("TR00")),

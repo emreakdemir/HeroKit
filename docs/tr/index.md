@@ -5,7 +5,7 @@ _disableToc: true
 
 <div class="hk-hero">
   <h1>HeroKit</h1>
-  <p class="hk-tagline">.NET için günlük uzantı metotları ve <strong>Türkiye verisi için birinci sınıf destek</strong>: TCKN, VKN, IBAN, telefon numaraları ve yazıyla tutar. Tek bir ülke ve dil modeli; yeni metot olmadan kendi ülkenizi ekleyin.</p>
+  <p class="hk-tagline">.NET için günlük uzantı metotları ve <strong>Türkiye verisi için birinci sınıf destek</strong>: TCKN, VKN, IBAN, telefon numaraları ve yazıyla tutar. Türkiye ve ABD'nin hazır geldiği tek bir ülke ve dil modeli; yeni metot olmadan kendi ülkenizi ekleyin.</p>
   <div class="hk-install">
     <code>dotnet add package HeroKit</code>
     <button type="button" data-copy="dotnet add package HeroKit">Kopyala</button>

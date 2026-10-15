@@ -1,1 +1,12 @@
 #nullable enable
+HeroKit.Globalization.Currency.SubunitConjunction.get -> string!
+HeroKit.Globalization.Currency.SubunitConjunction.init -> void
+HeroKit.Globalization.Currency.SubunitNamePlural.get -> string?
+HeroKit.Globalization.Currency.SubunitNamePlural.init -> void
+HeroKit.Globalization.Currency.UnitNamePlural.get -> string?
+HeroKit.Globalization.Currency.UnitNamePlural.init -> void
+HeroKit.Globalization.Region.Abbreviation.get -> string?
+HeroKit.Globalization.Region.Abbreviation.init -> void
+static HeroKit.Globalization.Countries.UnitedStates.get -> HeroKit.Globalization.Country!
+static HeroKit.Globalization.Currencies.USDollar.get -> HeroKit.Globalization.Currency!
+static HeroKit.Globalization.Languages.English.get -> HeroKit.Globalization.Language!

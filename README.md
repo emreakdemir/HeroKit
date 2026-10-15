@@ -37,7 +37,7 @@ new DateOnly(2026, 3, 19).AddBusinessDays(1, Countries.Turkey); // 2026-03-23 (s
 "ABC2026000000001".IsValidGibInvoiceNumber();                  // true  (e-Fatura / e-Arşiv)
 ```
 
-Every method takes a `Country`, `Language` or `Currency`. Türkiye is built in. To support another country, implement the rule interfaces and call `Countries.Register(new Country(...) { PhoneNumbers = ... })`: no new methods are needed. Turkish sorting also works without ICU: `names.OrderBy(n => n, Languages.Turkish.TextRules!.Comparer)`.
+Every method takes a `Country`, `Language` or `Currency`. Türkiye and the United States are built in (`Countries.UnitedStates`: NANP phone numbers, ZIP codes, SSN/EIN, federal holidays, states, `Currencies.USDollar`, `Languages.English`). To support another country, implement the rule interfaces and call `Countries.Register(new Country(...) { PhoneNumbers = ... })`: no new methods are needed. Turkish sorting also works without ICU: `names.OrderBy(n => n, Languages.Turkish.TextRules!.Comparer)`.
 
 ## Form validation
 

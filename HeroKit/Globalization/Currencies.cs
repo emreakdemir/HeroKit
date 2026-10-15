@@ -16,4 +16,16 @@ public static class Currencies
         DecimalSeparator = ",",
         GroupSeparator = ".",
     };
+
+    /// <summary>
+    /// Gets the US dollar (USD): "$1,234.50", "one hundred twenty-three dollars and fifty cents".
+    /// </summary>
+    public static Currency USDollar { get; } = new("USD", "$", Languages.English)
+    {
+        UnitName = "dollar",
+        UnitNamePlural = "dollars",
+        SubunitName = "cent",
+        SubunitNamePlural = "cents",
+        SubunitConjunction = "and",
+    };
 }

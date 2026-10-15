@@ -1,14 +1,14 @@
 # Ülkeler ve diller
 
-HeroKit 3.0 her ülke için ayrı bir metot kümesi eklemez. Ülke ya da dil alan tek bir metot kümesi vardır. Türkiye hazır gelir. Diğer ülkeler, tanımladığınız anda aynı metotları kullanır.
+HeroKit 3.0 her ülke için ayrı bir metot kümesi eklemez. Ülke ya da dil alan tek bir metot kümesi vardır. Türkiye ve ABD hazır gelir. Diğer ülkeler, tanımladığınız anda aynı metotları kullanır.
 
 ## Model
 
 | Tip | Ne tutar | Hazır olan |
 |---|---|---|
-| `Country` | ISO kodu, ad, dil, para birimi ve isteğe bağlı kurallar: telefon numaraları, araç plakaları, posta kodları, kimlik ve vergi numaraları, resmî tatiller, bölgeler, IBAN uzunlukları | `Countries.Turkey` |
-| `Language` | ISO kodu ve isteğe bağlı kurallar: harf büyüklüğü ve sıralama (`TextRules`), yazıyla sayı (`NumberSpeller`) | `Languages.Turkish` |
-| `Currency` | ISO kodu, simge, ayırıcılar, birim adları | `Currencies.TurkishLira` |
+| `Country` | ISO kodu, ad, dil, para birimi ve isteğe bağlı kurallar: telefon numaraları, araç plakaları, posta kodları, kimlik ve vergi numaraları, resmî tatiller, bölgeler, IBAN uzunlukları | `Countries.Turkey`, `Countries.UnitedStates` |
+| `Language` | ISO kodu ve isteğe bağlı kurallar: harf büyüklüğü ve sıralama (`TextRules`), yazıyla sayı (`NumberSpeller`) | `Languages.Turkish`, `Languages.English` |
+| `Currency` | ISO kodu, simge, ayırıcılar, birim adları | `Currencies.TurkishLira`, `Currencies.USDollar` |
 
 Bütün tipler `HeroKit.Globalization` namespace'indedir. Yalnızca Türkiye'ye ait kontroller (TCKN, VKN, e-fatura) `HeroKit.Globalization.Turkey` içindedir.
 
@@ -58,6 +58,35 @@ Diğer kural özellikleri: `VehiclePlates` (`IVehiclePlateRules`), `PostalCodes`
 `Countries.Register`, ülkeyi doğrulama özniteliklerine ISO koduyla da açar: ülke kaydedildikten sonra `[PhoneNumber("XT")]` çalışır. Kaydı `Countries.Get("XT")`, `Countries.TryGet` ve `Countries.All` okur.
 
 Yeni bir dil de aynı şekilde eklenir: kendi `ITextRules` ve `INumberSpeller` uygulamalarınızla `new Language("xx", "Ad") { TextRules = ..., NumberSpeller = ... }` oluşturun.
+
+## Amerika Birleşik Devletleri
+
+`Countries.UnitedStates`, `Languages.English` ve `Currencies.USDollar` aynı metotlarla çalışır:
+
+```csharp
+using HeroKit.Globalization;
+
+var us = Countries.UnitedStates;
+
+"(212) 555-0123".IsValidPhone(us);                  // true
+"+1 212 555 0123".FormatPhone(us);                  // "(212) 555-0123"
+"212.555.0123".ToE164(us);                          // "+12125550123"
+"10001-1234".IsValidPostalCode(us);                 // true (ZIP ya da ZIP+4)
+"123-45-6789".IsValidNationalId(us);                // true (SSN)
+"12-3456789".IsValidTaxId(us);                      // true (EIN; SSN ve ITIN de kabul edilir)
+us.FindRegion("ca")?.Name;                          // "California" (FIPS kodu 6)
+new DateOnly(2026, 7, 2).AddBusinessDays(1, us);    // 2026-07-06 (3 Temmuz, Bağımsızlık Günü'nün resmî tatil günü)
+1234.5m.ToCurrencyString(Currencies.USDollar);      // "$1,234.50"
+123.50m.ToCurrencyWords(Currencies.USDollar);       // "one hundred twenty-three dollars and fifty cents"
+2_500_340L.ToWords(Languages.English);              // "two million five hundred thousand three hundred forty"
+```
+
+- **Telefon numaraları** Kuzey Amerika Numaralandırma Planı'na uyar: alan kodu ve santral kodu 2–9 ile başlayan 10 haneli numara; isteğe bağlı `+1`, `1` ya da `001` öneki. ABD numaraları hattın mobil olup olmadığını göstermez; bu yüzden `IsValidMobilePhone` her geçerli numarayı kabul eder.
+- **SSN, ITIN ve EIN** kontrolleri yapısaldır. Hiç verilmeyen numaraları (ör. SSN alan kodu 000, 666 ya da 900–999) reddeder, ama numaranın gerçekten verildiğini kanıtlamaz.
+- **Resmî tatiller** 1986'dan itibaren 11 federal tatildir; Juneteenth 2021'den itibaren eklenir. Cumartesiye gelen tatil önceki cuma, pazara gelen tatil sonraki pazartesi kullanılır. Bu günler "… (observed)" adıyla ayrı kayıttır. Eyalet tatilleri dahil değildir.
+- **Bölgeler** 50 eyalet ve District of Columbia'dır. `FindRegion` FIPS kodunu, USPS kısaltmasını ya da adı kabul eder.
+- **Araç plakaları** eyalete göre değişir; bu yüzden `IsValidVehiclePlate(Countries.UnitedStates)` `NotSupportedException` fırlatır.
+- **İngilizce metin kuralları** değişmez (invariant) harf dönüşümü kullanır. `Languages.English.TextRules!.Comparer` büyük/küçük harfe bakmadan sıralar, eşitlikte küçük harfi öne koyar: `apple, Apple, banana`.
 
 ## Türkiye
 
