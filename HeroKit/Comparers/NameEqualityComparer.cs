@@ -19,7 +19,7 @@ public class NameEqualityComparer : IEqualityComparer<string>
     /// <returns>
     /// true if the two strings are equal; otherwise, false.
     /// </returns>
-    public bool Equals(string source, string control)
+    public bool Equals(string? source, string? control)
     {
         if (source == null && control == null)
             return true;
@@ -35,5 +35,5 @@ public class NameEqualityComparer : IEqualityComparer<string>
     /// </summary>
     /// <param name="value">The string for which to get the hash code.</param>
     /// <returns>The hash code value for the <paramref name="value"/> parameter.</returns>
-    public int GetHashCode(string value) => value is null ? 0 : StringComparer.OrdinalIgnoreCase.GetHashCode(value);
+    public int GetHashCode(string? value) => value is null ? 0 : StringComparer.OrdinalIgnoreCase.GetHashCode(value);
 }

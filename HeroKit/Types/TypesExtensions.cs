@@ -12,7 +12,7 @@ public static class TypesExtensions
     /// </summary>
     /// <param name="type">The type for which to retrieve the default value.</param>
     /// <returns>The default value of the specified type, or null if not applicable.</returns>
-    public static object GetDefault(this Type type)
+    public static object? GetDefault(this Type type)
     {
         if (type is not { IsValueType: true } || type == typeof(void))
             return null;
@@ -58,11 +58,11 @@ public static class TypesExtensions
     /// </summary>
     /// <typeparam name="T">The type for which to retrieve the default value.</typeparam>
     /// <returns>The default value of the specified type.</returns>
-    public static T GetDefault<T>()
+    public static T? GetDefault<T>()
     {
         Type type = typeof(T).GetUnderlyingType();
 
-        return type.IsValueType ? (T)Activator.CreateInstance(type) : default(T);
+        return type.IsValueType ? (T)Activator.CreateInstance(type)! : default;
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public static class TypesExtensions
     /// </summary>
     /// <param name="type">The interface or abstract type to get the implementation for.</param>
     /// <returns>The concrete implementation type, or null if not found.</returns>
-    public static Type GetRealType(this Type type)
+    public static Type? GetRealType(this Type type)
     {
         return Assembly.GetAssembly(type)?
                        .GetExportedTypes()
@@ -110,7 +110,7 @@ public static class TypesExtensions
     /// <param name="extensionsAssembly">The assembly containing extension methods.</param>
     /// <param name="name">The name of the extension method.</param>
     /// <returns>The MethodInfo of the specified extension method, or null if not found.</returns>
-    public static MethodInfo GetExtensionMethod(this Type type, Assembly extensionsAssembly, string name)
+    public static MethodInfo? GetExtensionMethod(this Type type, Assembly extensionsAssembly, string name)
     {
         return type.GetExtensionMethods(extensionsAssembly).FirstOrDefault(m => m.Name == name);
     }
@@ -122,7 +122,7 @@ public static class TypesExtensions
     /// <param name="assemblies">The collection of assemblies containing extension methods.</param>
     /// <param name="name">The name of the extension method.</param>
     /// <returns>The MethodInfo of the specified extension method, or null if not found.</returns>
-    public static MethodInfo GetExtensionMethod(this Type type, IEnumerable<Assembly> assemblies, string name)
+    public static MethodInfo? GetExtensionMethod(this Type type, IEnumerable<Assembly> assemblies, string name)
     {
         return assemblies.Select(assembly => type.GetExtensionMethods(assembly)
                                                  .FirstOrDefault(m => m.Name == name))
@@ -137,7 +137,7 @@ public static class TypesExtensions
     /// <param name="name">The name of the extension method.</param>
     /// <param name="types">An array of parameter types for the extension method.</param>
     /// <returns>The MethodInfo of the specified extension method, or null if not found.</returns>
-    public static MethodInfo GetExtensionMethod(this Type type, Assembly extensionsAssembly, string name, Type[] types)
+    public static MethodInfo? GetExtensionMethod(this Type type, Assembly extensionsAssembly, string name, Type[] types)
     {
         List<MethodInfo> methods = (type.GetExtensionMethods(extensionsAssembly)
                                         .Where(m => m.Name                   == name &&

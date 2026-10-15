@@ -40,7 +40,7 @@ public static class StringConversionExtensions
     /// <param name="value">The string to convert to enum.</param>
     /// <param name="defaultValue">The default value if conversion fails.</param>
     /// <returns>The enum value converted from the string.</returns>
-    public static T ToEnum<T>(this string value, T defaultValue = default)
+    public static T ToEnum<T>(this string? value, T defaultValue = default!)
     {
         if (string.IsNullOrWhiteSpace(value))
             return defaultValue;
@@ -50,7 +50,7 @@ public static class StringConversionExtensions
         if (!type.IsEnum)
             return defaultValue;
 
-        if (Enum.TryParse(type, value.Trim(), true, out object parsed) && Enum.IsDefined(type, parsed))
+        if (Enum.TryParse(type, value.Trim(), true, out object? parsed) && Enum.IsDefined(type, parsed))
             return (T)parsed;
 
         return defaultValue;
@@ -73,7 +73,7 @@ public static class StringConversionExtensions
     /// The status indicates whether the conversion was successful or not.
     /// The result value is the converted nullable value.
     /// </returns>
-    public static (bool status, T? result) ToNullable<T>(this string source)
+    public static (bool status, T? result) ToNullable<T>(this string? source)
             where T : struct
     {
         var result = new T?();
@@ -100,7 +100,7 @@ public static class StringConversionExtensions
     /// <param name="trueCondition">The condition that represents a true value. Default value is "true".</param>
     /// <param name="defaultvalue">The default value to be returned if the conversion fails. Default value is false.</param>
     /// <returns>A boolean value representing the conversion result.</returns>
-    public static bool ToBoolean(this string value, string trueCondition = "true", bool defaultvalue = false)
+    public static bool ToBoolean(this string? value, string? trueCondition = "true", bool defaultvalue = false)
     {
         if (value.IsNullOrEmpty())
             return defaultvalue;
@@ -119,7 +119,7 @@ public static class StringConversionExtensions
     /// </summary>
     /// <param name="value">A string containing a number to convert.</param>
     /// <returns>The short integer equivalent of the string, or zero if the conversion fails.</returns>
-    public static short ToShort(this string value)
+    public static short ToShort(this string? value)
     {
         short result = 0;
 
@@ -134,7 +134,7 @@ public static class StringConversionExtensions
     /// </summary>
     /// <param name="value">The string value to be converted.</param>
     /// <returns>The integer representation of the string. Returns 0 if the conversion fails.</returns>
-    public static int ToInt(this string value)
+    public static int ToInt(this string? value)
     {
         int result = 0;
 
@@ -151,7 +151,7 @@ public static class StringConversionExtensions
     /// <returns>
     /// A long integer that represents the converted numeric value, or zero if the conversion failed.
     /// </returns>
-    public static long ToLong(this string value)
+    public static long ToLong(this string? value)
     {
         long result = 0;
 
@@ -168,7 +168,7 @@ public static class StringConversionExtensions
     /// <param name="cultureInfo">Optional. The culture used to interpret the string. Defaults to <see cref="CultureInfo.InvariantCulture"/>.</param>
     /// <param name="defaultValue">Optional. The default value to return if the conversion fails.</param>
     /// <returns>The DateTime value converted from the string, or the default value if the conversion fails.</returns>
-    public static DateTime ToDateTime(this string value, CultureInfo cultureInfo = null, DateTime defaultValue = default)
+    public static DateTime ToDateTime(this string? value, CultureInfo? cultureInfo = null, DateTime defaultValue = default)
     {
         if (value.IsNullOrEmpty())
             return defaultValue;

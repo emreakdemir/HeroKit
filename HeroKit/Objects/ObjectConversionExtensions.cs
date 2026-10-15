@@ -16,7 +16,7 @@ public static class ObjectConversionExtensions
     /// <param name="source">The object to be converted.</param>
     /// <param name="defaultValue">The default value to return if conversion fails.</param>
     /// <returns>The converted value of type T or the default value if conversion fails.</returns>
-    public static T ConvertTo<T>(this object source, T defaultValue = default)
+    public static T? ConvertTo<T>(this object? source, T? defaultValue = default)
     {
         if (source.IsNull() || source == DBNull.Value || (source is string s && s.IsNullOrEmpty()))
             return defaultValue;
@@ -44,7 +44,7 @@ public static class ObjectConversionExtensions
     /// <param name="source">The object to be casted.</param>
     /// <param name="result">The result of the cast operation if successful, or the default value of type T if unsuccessful.</param>
     /// <returns>True if the cast operation is successful, false otherwise.</returns>
-    public static bool TryCast<T>(this object source, out T result)
+    public static bool TryCast<T>(this object? source, out T? result)
     {
         try
         {
@@ -53,7 +53,7 @@ public static class ObjectConversionExtensions
         }
         catch
         {
-            result = default(T);
+            result = default;
             return false;
         }
     }

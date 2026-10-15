@@ -18,7 +18,7 @@ public class ExtensionMethodLookupTests
     [InlineData(typeof(char))]
     public void GetExtensionMethod_ShouldMatchOverloadByParameterTypes(Type parameterType)
     {
-        MethodInfo method = typeof(string).GetExtensionMethod(TestAssembly, nameof(OverloadedSampleExtensions.Pad), [parameterType]);
+        MethodInfo? method = typeof(string).GetExtensionMethod(TestAssembly, nameof(OverloadedSampleExtensions.Pad), [parameterType]);
 
         Assert.NotNull(method);
         Assert.Equal(parameterType, method.GetParameters()[1].ParameterType);

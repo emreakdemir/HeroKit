@@ -31,7 +31,7 @@ public static class EnumExtensions
     /// <typeparam name="T">The enum type.</typeparam>
     /// <param name="value">The enum value.</param>
     /// <returns>The string representation of the enum value.</returns>
-    public static string GetValue<T>(this Enum value) => Convert.ToString(Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture), CultureInfo.InvariantCulture);
+    public static string GetValue<T>(this Enum value) => Convert.ToString(Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)!;
 
     /// <summary>
     /// Returns a list of all values defined in the given enumeration type.

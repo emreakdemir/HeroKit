@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace HeroKit.Arrays;
 
 /// <summary>
@@ -11,7 +13,7 @@ public static class ArrayControlExtensions
     /// <typeparam name="T">The type of items in the array.</typeparam>
     /// <param name="array">The array to check.</param>
     /// <returns>True if the array is null or empty, false otherwise.</returns>
-    public static bool IsNullOrEmpty<T>(this T[] array) => array is not { Length: > 0 };
+    public static bool IsNullOrEmpty<T>([NotNullWhen(false)] this T[]? array) => array is not { Length: > 0 };
 
     /// <summary>
     /// Checks if an array is not null and not empty.
@@ -19,5 +21,5 @@ public static class ArrayControlExtensions
     /// <typeparam name="T">The type of items in the array.</typeparam>
     /// <param name="array">The array to check.</param>
     /// <returns>True if the array is not null and not empty, false otherwise.</returns>
-    public static bool IsNotNullOrEmpty<T>(this T[] array) => !array.IsNullOrEmpty();
+    public static bool IsNotNullOrEmpty<T>([NotNullWhen(true)] this T[]? array) => !array.IsNullOrEmpty();
 }
