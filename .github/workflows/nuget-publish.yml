@@ -14,12 +14,12 @@ jobs:
   pack:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             8.0.x
@@ -31,7 +31,7 @@ jobs:
       - name: Pack
         run: dotnet pack HeroKit/HeroKit.csproj -c Release --output ${{ env.NuGetDirectory }}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: nuget
           if-no-files-found: error
@@ -48,13 +48,13 @@ jobs:
       id-token: write   # OIDC token for NuGet Trusted Publishing
       contents: read
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: nuget
           path: ${{ env.NuGetDirectory }}
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
 
