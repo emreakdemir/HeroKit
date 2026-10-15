@@ -50,6 +50,8 @@ public sealed class Customer
 
 Ayrıca: `[Vkn]`, `[TaxIdTr]`, `[PostalCodeTr]`, `[CardNumber]`. ASP.NET Core, Blazor ve `Validator` ile çalışır.
 
+FluentValidation mı kullanıyorsunuz? [HeroKit.FluentValidation](https://www.nuget.org/packages/HeroKit.FluentValidation) paketini ekleyin: `RuleFor(x => x.IdentityNumber).Tckn();`
+
 ## Dönüşümler
 
 Her dönüşümün varsayılan değer döndüren esnek bir hâli ve bir `Try` hâli vardır. İkisi de hatalı girdide hata fırlatmaz. Bir kültür verilmezse çözümleme kültürden bağımsızdır.

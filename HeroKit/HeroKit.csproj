@@ -14,7 +14,6 @@
     <PropertyGroup Label="Package">
         <PackageId>HeroKit</PackageId>
         <Title>HeroKit</Title>
-        <Version>2.0.0</Version>
         <Authors>Emre Akdemir</Authors>
         <Description>Extension methods for everyday .NET types: validation, conversion and manipulation helpers for arrays, booleans, strings, dates, enums, GUIDs, objects, types and more.</Description>
         <PackageTags>csharp;dotnet;extensions;extension-methods;utilities;helpers;turkish;turkiye;tckn;vkn;iban;validation;dataannotations;plate;troy</PackageTags>
@@ -24,7 +23,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>herokit.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>Breaking release: one error policy for conversions (lenient ToX, checked TryToX, To&lt;T&gt; for any IParsable), consistent names, obsolete helpers removed. New: validation attributes, provinces, plates, postal codes, card validation with Troy, Turkish lira formatting, enum descriptions. Migration guide: https://herokit.emreakdemir.dev/articles/migrating-to-2.html</PackageReleaseNotes>
+        <PackageReleaseNotes>No API changes. Released together with the new HeroKit.FluentValidation package. See CHANGELOG.md.</PackageReleaseNotes>
         <Copyright>Copyright © 2023-2026 Emre Akdemir</Copyright>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>

@@ -42,4 +42,32 @@ public sealed class Customer
 | `[PlateTr]` | Civilian plate format |
 | `[CardNumber]` | Length and Luhn |
 
+## FluentValidation
+
+The separate `HeroKit.FluentValidation` package adds the same checks as FluentValidation rules. The core package stays dependency-free.
+
+```bash
+dotnet add package HeroKit.FluentValidation
+```
+
+```csharp
+using FluentValidation;
+using HeroKit.FluentValidation;
+
+public sealed class CustomerValidator : AbstractValidator<Customer>
+{
+    public CustomerValidator()
+    {
+        RuleFor(x => x.IdentityNumber).NotEmpty().Tckn();
+        RuleFor(x => x.Iban).Iban();
+        RuleFor(x => x.Mobile).TurkishPhone(mobileOnly: true);
+        RuleFor(x => x.Plate).PlateTr();
+    }
+}
+```
+
+Rules: `Tckn`, `Vkn`, `TaxIdTr`, `Iban`, `TurkishPhone`, `PostalCodeTr`, `PlateTr`, `CardNumber`. Messages use `{PropertyName}`; replace them with `WithMessage`.
+
+## Notes
+
 Null and empty values are valid, so optional fields stay optional. Add `[Required]` to require a value. Default messages are English and include the field name; set `ErrorMessage` or resource properties to localize them.

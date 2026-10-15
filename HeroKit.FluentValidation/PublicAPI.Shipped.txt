@@ -1,0 +1,10 @@
+#nullable enable
+HeroKit.FluentValidation.HeroKitRuleBuilderExtensions
+static HeroKit.FluentValidation.HeroKitRuleBuilderExtensions.CardNumber<T>(this FluentValidation.IRuleBuilder<T, string?>! ruleBuilder) -> FluentValidation.IRuleBuilderOptions<T, string?>!
+static HeroKit.FluentValidation.HeroKitRuleBuilderExtensions.Iban<T>(this FluentValidation.IRuleBuilder<T, string?>! ruleBuilder) -> FluentValidation.IRuleBuilderOptions<T, string?>!
+static HeroKit.FluentValidation.HeroKitRuleBuilderExtensions.PlateTr<T>(this FluentValidation.IRuleBuilder<T, string?>! ruleBuilder) -> FluentValidation.IRuleBuilderOptions<T, string?>!
+static HeroKit.FluentValidation.HeroKitRuleBuilderExtensions.PostalCodeTr<T>(this FluentValidation.IRuleBuilder<T, string?>! ruleBuilder) -> FluentValidation.IRuleBuilderOptions<T, string?>!
+static HeroKit.FluentValidation.HeroKitRuleBuilderExtensions.TaxIdTr<T>(this FluentValidation.IRuleBuilder<T, string?>! ruleBuilder) -> FluentValidation.IRuleBuilderOptions<T, string?>!
+static HeroKit.FluentValidation.HeroKitRuleBuilderExtensions.Tckn<T>(this FluentValidation.IRuleBuilder<T, string?>! ruleBuilder) -> FluentValidation.IRuleBuilderOptions<T, string?>!
+static HeroKit.FluentValidation.HeroKitRuleBuilderExtensions.TurkishPhone<T>(this FluentValidation.IRuleBuilder<T, string?>! ruleBuilder, bool mobileOnly = false) -> FluentValidation.IRuleBuilderOptions<T, string?>!
+static HeroKit.FluentValidation.HeroKitRuleBuilderExtensions.Vkn<T>(this FluentValidation.IRuleBuilder<T, string?>! ruleBuilder) -> FluentValidation.IRuleBuilderOptions<T, string?>!

@@ -50,6 +50,8 @@ public sealed class Customer
 
 Also: `[Vkn]`, `[TaxIdTr]`, `[PostalCodeTr]`, `[CardNumber]`. They work with ASP.NET Core, Blazor and `Validator`.
 
+Using FluentValidation? Add [HeroKit.FluentValidation](https://www.nuget.org/packages/HeroKit.FluentValidation): `RuleFor(x => x.IdentityNumber).Tckn();`
+
 ## Conversions
 
 Every conversion has a lenient form that returns a default value and a `Try` form. Neither throws for bad input. Parsing is culture-invariant unless you pass a provider.

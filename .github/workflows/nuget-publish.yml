@@ -29,7 +29,9 @@ jobs:
         run: dotnet test -c Release
 
       - name: Pack
-        run: dotnet pack HeroKit/HeroKit.csproj -c Release --output ${{ env.NuGetDirectory }}
+        run: |
+          dotnet pack HeroKit/HeroKit.csproj -c Release --output ${{ env.NuGetDirectory }}
+          dotnet pack HeroKit.FluentValidation/HeroKit.FluentValidation.csproj -c Release --output ${{ env.NuGetDirectory }}
 
       - uses: actions/upload-artifact@v7
         with:
