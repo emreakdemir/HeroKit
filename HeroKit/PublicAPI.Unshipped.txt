@@ -8,4 +8,9 @@ static HeroKit.Enumerables.EnumerableExtensions.ToReadOnlyList<T>(this System.Co
 static HeroKit.Enumerables.EnumerableExtensions.WhereIf<T>(this System.Collections.Generic.IEnumerable<T>! source, bool condition, System.Func<T, bool>! predicate) -> System.Collections.Generic.IEnumerable<T>!
 static HeroKit.Enumerables.EnumerableExtensions.WhereIf<T>(this System.Linq.IQueryable<T>! source, bool condition, System.Linq.Expressions.Expression<System.Func<T, bool>!>! predicate) -> System.Linq.IQueryable<T>!
 static HeroKit.Strings.StringControlExtensions.EqualsIgnoreCase(this string? value, string? other, System.Globalization.CultureInfo! culture) -> bool
+static HeroKit.Strings.StringManipulationExtensions.Left(this string? value, int length) -> string?
+static HeroKit.Strings.StringManipulationExtensions.Mask(this string? value, int visibleCount = 4, char maskChar = '*') -> string?
+static HeroKit.Strings.StringManipulationExtensions.RemoveWhitespace(this string? value) -> string?
+static HeroKit.Strings.StringManipulationExtensions.Right(this string? value, int length) -> string?
 static HeroKit.Strings.StringManipulationExtensions.ToTitleCase(this string? value, System.Globalization.CultureInfo! culture) -> string!
+static HeroKit.Strings.StringManipulationExtensions.Truncate(this string? value, int maxLength, string! ellipsis = "…") -> string?
