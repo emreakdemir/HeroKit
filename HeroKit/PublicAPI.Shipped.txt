@@ -81,7 +81,7 @@ static HeroKit.Strings.StringConversionExtensions.ToInt(this string? value) -> i
 static HeroKit.Strings.StringConversionExtensions.ToLong(this string? value) -> long
 static HeroKit.Strings.StringConversionExtensions.ToNullable<T>(this string? source) -> (bool status, T? result)
 static HeroKit.Strings.StringConversionExtensions.ToShort(this string? value) -> short
-static HeroKit.Strings.StringManipulationExtensions.ClearTurkishChars(this string! value) -> string!
+static HeroKit.Strings.StringManipulationExtensions.ClearTurkishChars(this string? value) -> string!
 static HeroKit.Strings.StringManipulationExtensions.Format(this string! value, params object![]! args) -> string!
 static HeroKit.Strings.StringManipulationExtensions.RemoveAccent(this string! value) -> string!
 static HeroKit.Strings.StringManipulationExtensions.ToDashCase(this string! input) -> string!
