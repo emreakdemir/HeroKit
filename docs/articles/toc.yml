@@ -14,7 +14,5 @@
   href: prices.md
 - name: Nullable and AOT
   href: nullable-and-aot.md
-- name: Migrating to 2.0
-  href: migrating-to-2.md
-- name: Migrating to 3.0
-  href: migrating-to-3.md
+- name: "Upgrading to 3.0"
+  href: upgrading.md

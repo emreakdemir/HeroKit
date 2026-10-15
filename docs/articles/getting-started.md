@@ -38,4 +38,4 @@ The country and language helpers take a `Country` or `Language` argument, so a n
 
 - **Bad input does not throw.** Checks return `false`; conversions have a lenient `ToX` (default value) and a checked `TryToX` form; string helpers return `null` or an empty string as documented.
 - **Parsing is culture-invariant.** Pass a `CultureInfo` when a culture matters, for example `"07.03.2026".ToDateTime(provider: CultureInfo.GetCultureInfo("tr-TR"))`.
-- **Deprecated APIs** are marked `[Obsolete]` with the replacement in the message and are removed only in the next major version. Upgrading from 2.x? See [Migrating to 3.0](migrating-to-3.md).
+- **Deprecated APIs** are marked `[Obsolete]` with the replacement in the message and are removed only in the next major version. Upgrading from 1.x or 2.x? See [Upgrading to 3.0](upgrading.md).

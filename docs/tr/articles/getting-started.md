@@ -38,4 +38,4 @@ using HeroKit.Strings;
 
 - **Hatalı girdi istisna fırlatmaz.** Kontroller `false` döner; dönüşümlerin toleranslı `ToX` (varsayılan değer) ve denetimli `TryToX` biçimleri vardır; metin yardımcıları belgelendiği gibi `null` ya da boş metin döner.
 - **Ayrıştırma kültürden bağımsızdır.** Kültür önemliyse bir `CultureInfo` verin. Örneğin `"07.03.2026".ToDateTime(provider: CultureInfo.GetCultureInfo("tr-TR"))`.
-- **Kullanımdan kaldırılan API'ler** `[Obsolete]` ile işaretlenir, yerine geçeni mesajda yazar ve yalnızca bir sonraki ana sürümde kaldırılır. 2.x'ten mi geçiyorsunuz? Bkz. [3.0'a geçiş](migrating-to-3.md).
+- **Kullanımdan kaldırılan API'ler** `[Obsolete]` ile işaretlenir, yerine geçeni mesajda yazar ve yalnızca bir sonraki ana sürümde kaldırılır. 1.x ya da 2.x'ten mi geçiyorsunuz? Bkz. [3.0'a yükseltme](upgrading.md).
