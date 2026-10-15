@@ -7,11 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
-- `ToSlug` no longer returns leading or trailing dashes: `"  ---  "` becomes `""` and `"- Hello -"` becomes `"hello"`.
+## [3.0.0] - 2026-10-15
+
+Breaking release. Country- and language-specific behavior is selected with objects instead of method names, so new countries and languages need no new methods. See the [migration guide](https://herokit.emreakdemir.dev/articles/migrating-to-3.html).
+
+### Changed (breaking)
+- New model in `HeroKit.Globalization`: `Country` / `Countries`, `Language` / `Languages`, `Currency` / `Currencies` with rule interfaces `IPhoneNumberRules`, `IVehiclePlateRules`, `IIdentifierRules`, `IHolidayCalendar`, `INumberSpeller`, `ITextRules` (#104).
+- Türkiye is `Countries.Turkey`, `Languages.Turkish` and `Currencies.TurkishLira`. The `HeroKit.Turkish` namespace is removed.
+- Methods lose their `Tr` / `Turkish` names and take the country or language:
+  - `IsValidPhoneTr`, `IsValidMobileTr`, `ToE164Tr`, `FormatPhoneTr` → `IsValidPhone`, `IsValidMobilePhone`, `ToE164`, `FormatPhone` (`Countries.Turkey`).
+  - `IsValidPlateTr`, `FormatPlateTr`, `IsValidPostalCodeTr`, `IsValidTaxIdTr` → `IsValidVehiclePlate`, `FormatVehiclePlate`, `IsValidPostalCode`, `IsValidTaxId`; new `IsValidNationalId`.
+  - `ToProvinceName`, `ToProvinceCode`, `TurkishProvinces` → `Countries.Turkey.FindRegion(...)`, `Countries.Turkey.Regions`.
+  - `TurkishHolidays` and the `…Tr` business day methods → `Countries.Turkey.Holidays`, `IsPublicHoliday`, `IsHalfDayHoliday`, `GetPublicHoliday`, `IsBusinessDay`, `AddBusinessDays`, `BusinessDaysUntil` (`Countries.Turkey`).
+  - `ToTurkishWords`, `ToTurkishCurrencyWords`, `ToTurkishLira` → `ToWords(Languages.Turkish)`, `ToCurrencyWords(Currencies.TurkishLira)`, `ToCurrencyString(Currencies.TurkishLira, CurrencyStyle)`.
+  - `ToTitleCaseTr`, `EqualsTr` → `ToTitleCase(Languages.Turkish)`, `EqualsIgnoreCase(other, Languages.Turkish)`; new `ToUpper` / `ToLower(Languages.Turkish)`.
+- Attributes take an ISO country code: `[PhoneNumber("TR", MobileOnly = …)]`, `[VehiclePlate("TR")]`, `[PostalCode("TR")]`, `[TaxId("TR")]`, new `[NationalId("TR")]`. FluentValidation rules take a `Country`: `PhoneNumber(Countries.Turkey, mobileOnly)`, `VehiclePlate`, `PostalCode`, `TaxId`, `NationalId`.
+- `RemoveAccent` and `ClearTurkishChars` → `RemoveDiacritics`.
+- IBAN national rules come from the registered country (`Country.IbanRules`) instead of a hard-coded check.
 
 ### Added
-- e-Fatura / e-Arşiv helpers: `InvoiceNumberTr` (parse, create, next number, format), `IsValidInvoiceNumberTr`, `IsValidEttn`; `[InvoiceNumberTr]` and `[Ettn]` attributes; `InvoiceNumberTr()` and `Ettn()` FluentValidation rules (#96).
+- Countries can be added without changing HeroKit: implement the rule interfaces and call `Countries.Register`. Attributes resolve countries by ISO code.
+- e-Fatura / e-Arşiv: `GibInvoiceNumber` (parse, create, next number, format), `IsValidGibInvoiceNumber`, `IsValidEttn`, `[GibInvoiceNumber]`, `[Ettn]`, matching FluentValidation rules (#96).
+- Turkish alphabetical sorting without ICU: `Languages.Turkish.TextRules.Comparer` and `IgnoreCaseComparer` (#97).
+- `CurrencyStyle.IsoCode` ("1.234,50 TRY").
+- Turkish documentation site (#95).
+
+### Fixed
+- Text rules, sorting and `RemoveDiacritics` no longer depend on ICU, so they work with invariant globalization (containers).
+- `ToSlug` no longer returns leading or trailing dashes: `"  ---  "` becomes `""` and `"- Hello -"` becomes `"hello"`.
+- Test coverage raised to 98% lines and 96% branches (#98).
 
 ## [2.2.0] - 2026-10-15
 
@@ -128,7 +152,8 @@ Breaking release. See the [migration guide](https://herokit.emreakdemir.dev/arti
 
 First stable release. Targets .NET 8 and .NET 10.
 
-[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/2.2.0...HEAD
+[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/emreakdemir/HeroKit/compare/2.2.0...3.0.0
 [2.2.0]: https://github.com/emreakdemir/HeroKit/compare/2.1.0...2.2.0
 [2.1.0]: https://github.com/emreakdemir/HeroKit/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/emreakdemir/HeroKit/compare/1.3.0...2.0.0
