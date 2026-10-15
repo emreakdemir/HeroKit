@@ -35,7 +35,7 @@ using HeroKit.Turkish;
 "0532 123 45 67".ToE164Tr();                 // "+905321234567"
 123.50m.ToTurkishCurrencyWords();            // "yüz yirmi üç Türk lirası elli kuruş"
 "istanbul ılıca".ToTitleCaseTr();            // "İstanbul Ilıca"
-"5321234567".Mask();                         // "******4567"
+"34abc123".FormatPlateTr();                   // "34 ABC 123"
 ```
 
 <h2 class="hk-section-title">What's inside</h2>
@@ -44,7 +44,12 @@ using HeroKit.Turkish;
   <a class="hk-card hk-featured" href="articles/turkish-toolkit.md">
     <div class="hk-icon">🇹🇷</div>
     <h3>Turkish toolkit</h3>
-    <p>TCKN and VKN checksums, IBAN validation and formatting, Turkish phone numbers, amounts in words, İ/ı-aware casing.</p>
+    <p>TCKN and VKN, IBAN, phone numbers, provinces, plates, postal codes, lira formatting, amounts in words, İ/ı-aware casing.</p>
+  </a>
+  <a class="hk-card" href="articles/validation.md">
+    <div class="hk-icon">✅</div>
+    <h3>Form validation</h3>
+    <p>[Tckn], [Iban], [TurkishPhone], [PlateTr] and more for ASP.NET Core and Blazor models. One line per field.</p>
   </a>
   <a class="hk-card" href="articles/strings.md">
     <div class="hk-icon">🔤</div>
@@ -54,7 +59,7 @@ using HeroKit.Turkish;
   <a class="hk-card" href="articles/conversions.md">
     <div class="hk-icon">🔁</div>
     <h3>Conversions</h3>
-    <p>Culture-invariant parsing to numbers, enums, dates and booleans. Null input never throws.</p>
+    <p>To&lt;T&gt; for any IParsable type, lenient ToX and checked TryToX. Culture-invariant; bad input never throws.</p>
   </a>
   <a class="hk-card" href="articles/collections-and-dates.md">
     <div class="hk-icon">📅</div>
@@ -63,13 +68,8 @@ using HeroKit.Turkish;
   </a>
   <a class="hk-card" href="articles/prices.md">
     <div class="hk-icon">🧾</div>
-    <h3>Prices and VAT</h3>
-    <p>Round to a step, psychological prices, percentages, VAT in and out with invoice rounding.</p>
-  </a>
-  <a class="hk-card" href="articles/nullable-and-aot.md">
-    <div class="hk-icon">🛡️</div>
-    <h3>Nullable and AOT</h3>
-    <p>Annotated for null-state analysis. Trimming and Native AOT verified in CI on every pull request.</p>
+    <h3>Prices, VAT and cards</h3>
+    <p>Round to a step, psychological prices, VAT in and out. Card validation with Troy support.</p>
   </a>
 </div>
 

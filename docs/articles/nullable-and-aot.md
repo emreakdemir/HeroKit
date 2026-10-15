@@ -18,5 +18,5 @@ The package is marked `IsAotCompatible`. CI publishes a test app with Native AOT
 A few reflection-based helpers cannot be fully trimmed. They carry `[RequiresUnreferencedCode]` or `[RequiresDynamicCode]`, so you get a warning at the call site:
 
 - `TypesExtensions.GetExtensionMethods`, `GetExtensionMethod`, `GetRealType`
-- `PropertyInfoExtensions.TrySetConvertedValue`
-- `StringConversionExtensions.ToNullable`
+
+Conversions, enum helpers and `TrySetConvertedValue` are AOT-safe since 2.0: they use `IParsable<T>` and generic enum APIs instead of reflection.

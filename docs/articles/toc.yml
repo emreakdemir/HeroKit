@@ -2,13 +2,17 @@
   href: getting-started.md
 - name: Turkish toolkit
   href: turkish-toolkit.md
+- name: Form validation
+  href: validation.md
 - name: Strings
   href: strings.md
 - name: Conversions
   href: conversions.md
 - name: Collections and dates
   href: collections-and-dates.md
-- name: Prices and VAT
+- name: Prices, VAT and cards
   href: prices.md
 - name: Nullable and AOT
   href: nullable-and-aot.md
+- name: Migrating to 2.0
+  href: migrating-to-2.md

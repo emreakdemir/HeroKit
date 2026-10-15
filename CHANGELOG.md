@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-10-15
+
+Breaking release. See the [migration guide](https://herokit.emreakdemir.dev/articles/migrating-to-2.html).
+
+### Changed (breaking)
+- One error policy for conversions: lenient `ToX(defaultValue)` and checked `TryToX(out …)`; neither throws for bad input (#41).
+  - `ToDecimal(defaultValue, provider)`, `ToDateTime(defaultValue, provider)`, `ToBoolean(trueText, defaultValue)`.
+  - `ToEnum<T>` constrained to `struct, Enum`; `ToNullable<T>` returns `T?`; `ToByteArray` → `FromBase64`.
+  - `ConvertTo<T>` is lenient; `TryCast` → `TryConvertTo`; `TrySetConvertedValue` takes `object? instance`.
+- Renames: `IsEven`/`IsOdd`, `ToMonthName`, `ToText`, `ToUnderlying<T>`, `CopyFrom`, `ToBase64Url`; single-value parameters are named `value` (#40).
+
+### Removed (breaking)
+- `ToUpperTr`, `ToLowerTr`, `ToTrString`, `PropertyInfoExtensions.SetValue<T>`, `ToPixel`, `Seconds`, `NameEqualityComparer`, `ArrayConversionExtensions.ToList(mapFunction)`, `GetDefault<T>()` (#42).
+
+### Added
+- `To<T>` / `TryTo<T>` for any `IParsable<T>`, `TryToDecimal`, `TryToEnum<T>` (#41).
+- Validation attributes: `[Tckn]`, `[Vkn]`, `[TaxIdTr]`, `[Iban]`, `[TurkishPhone]`, `[PostalCodeTr]`, `[PlateTr]`, `[CardNumber]` (#77).
+- Turkish provinces (`TurkishProvinces`, `ToProvinceName`, `ToProvinceCode`), plates (`IsValidPlateTr`, `FormatPlateTr`) and postal codes (`IsValidPostalCodeTr`) (#78).
+- Card numbers: `IsValidCardNumber` (Luhn), `GetCardBrand` with Troy (#79).
+- `ToTurkishLira` (#80) and `GetDescription` for enums (#81).
+
+### Fixed
+- `TrySetConvertedValue` / `CanAssignValue` could not set null on reference-type properties.
+- Conversions, enum helpers and property setting no longer need reflection over generic methods; they are fully AOT-safe.
+
+
 ## [1.3.0] - 2026-10-15
 
 ### Added
@@ -84,7 +110,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 First stable release. Targets .NET 8 and .NET 10.
 
-[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/1.3.0...HEAD
+[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/emreakdemir/HeroKit/compare/1.3.0...2.0.0
 [1.3.0]: https://github.com/emreakdemir/HeroKit/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/emreakdemir/HeroKit/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/emreakdemir/HeroKit/compare/1.0.2...1.1.0
