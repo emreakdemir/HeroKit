@@ -30,7 +30,7 @@ public static class TypeControlExtensions
     /// <param name="fromType">The source type.</param>
     /// <param name="genericArguments">The generic arguments if assignment is possible, otherwise null.</param>
     /// <returns>True if assignment is possible, false otherwise.</returns>
-    public static bool IsGenericAssignableFrom(this Type toType, Type fromType, [NotNullWhen(true)] out Type[]? genericArguments)
+    public static bool IsGenericAssignableFrom(this Type toType, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type fromType, [NotNullWhen(true)] out Type[]? genericArguments)
     {
         if (toType.IsNull())
             throw new ArgumentNullException(nameof(toType), "is null");
@@ -63,7 +63,7 @@ public static class TypeControlExtensions
         return false;
     }
 
-    private static bool IsGenericAssignableFromControlForInterface(Type toType, Type fromType, ref Type[]? genericArguments)
+    private static bool IsGenericAssignableFromControlForInterface(Type toType, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type fromType, ref Type[]? genericArguments)
     {
         foreach (Type interfaceCandidate in fromType.GetInterfaces())
         {

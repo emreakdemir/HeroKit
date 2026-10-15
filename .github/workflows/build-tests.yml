@@ -48,3 +48,24 @@ jobs:
 
       - name: Pack (validation only)
         run: dotnet pack HeroKit/HeroKit.csproj --no-build -c Release --output ./nuget
+
+  aot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Publish with Native AOT
+        run: |
+          dotnet publish HeroKit.AotSmokeTest/HeroKit.AotSmokeTest.csproj -c Release -r linux-x64 -o ./aot 2>&1 | tee publish.log
+          if grep -E "warning IL[0-9]+" publish.log; then
+            echo "::error::Trimming or AOT warnings found"
+            exit 1
+          fi
+
+      - name: Run
+        run: ./aot/HeroKit.AotSmokeTest

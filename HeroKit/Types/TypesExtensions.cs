@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace HeroKit.Types;
@@ -12,6 +13,7 @@ public static class TypesExtensions
     /// </summary>
     /// <param name="type">The type for which to retrieve the default value.</param>
     /// <returns>The default value of the specified type, or null if not applicable.</returns>
+    [UnconditionalSuppressMessage("Trimming", "IL2067", Justification = "Only value types reach Activator.CreateInstance. Value types always have a default value and need no constructor.")]
     public static object? GetDefault(this Type type)
     {
         if (type is not { IsValueType: true } || type == typeof(void))
@@ -20,9 +22,8 @@ public static class TypesExtensions
         string message;
         if (type.ContainsGenericParameters)
         {
-            message = $"{{ {MethodBase.GetCurrentMethod()} }}" +
-                      "Error:"                                 +
-                      "\n\n"                                   +
+            message = $"{{ {nameof(GetDefault)} }} Error:" +
+                      "\n\n" +
                       $"The supplied value type <{type}> contains generic parameters, so the default value cannot be retrieved";
 
             throw new ArgumentException(message);
@@ -36,8 +37,8 @@ public static class TypesExtensions
             }
             catch (Exception e)
             {
-                message = $"{{ {MethodBase.GetCurrentMethod()} }} Error:"                                                                 +
-                          "\n\n"                                                                                                          +
+                message = $"{{ {nameof(GetDefault)} }} Error:" +
+                          "\n\n" +
                           $"The Activator.CreateInstance method could not create a default instance of the supplied value type <{type}> " +
                           $"(Inner Exception message: \"{e.Message}\")";
 
@@ -45,9 +46,8 @@ public static class TypesExtensions
             }
         }
 
-        message = $"{{ {MethodBase.GetCurrentMethod()} }} " +
-                  "Error:"                                  +
-                  "\n\n"                                    +
+        message = $"{{ {nameof(GetDefault)} }} Error:" +
+                  "\n\n" +
                   $"The supplied value type <{type}> is not a publicly-visible type, so the default value cannot be retrieved";
 
         throw new ArgumentException(message);
@@ -58,6 +58,7 @@ public static class TypesExtensions
     /// </summary>
     /// <typeparam name="T">The type for which to retrieve the default value.</typeparam>
     /// <returns>The default value of the specified type.</returns>
+    [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "Only value types reach Activator.CreateInstance. Value types always have a default value and need no constructor.")]
     public static T? GetDefault<T>()
     {
         Type type = typeof(T).GetUnderlyingType();
@@ -70,6 +71,7 @@ public static class TypesExtensions
     /// </summary>
     /// <param name="type">The interface or abstract type to get the implementation for.</param>
     /// <returns>The concrete implementation type, or null if not found.</returns>
+    [RequiresUnreferencedCode("Scans exported types with reflection. Types may be removed by trimming.")]
     public static Type? GetRealType(this Type type)
     {
         return Assembly.GetAssembly(type)?
@@ -86,6 +88,7 @@ public static class TypesExtensions
     /// <param name="extensionsAssembly">The assembly containing extension methods.</param>
     /// <param name="bindingFlags">Binding flags to control the method visibility.</param>
     /// <returns>An enumerable collection of extension methods for the specified type.</returns>
+    [RequiresUnreferencedCode("Scans assembly types with reflection. Types and methods may be removed by trimming.")]
     public static IEnumerable<MethodInfo> GetExtensionMethods(this Type type, Assembly extensionsAssembly, BindingFlags bindingFlags = BindingFlags.Static |
                                                                                                                                        BindingFlags.Public)
     {
@@ -110,6 +113,7 @@ public static class TypesExtensions
     /// <param name="extensionsAssembly">The assembly containing extension methods.</param>
     /// <param name="name">The name of the extension method.</param>
     /// <returns>The MethodInfo of the specified extension method, or null if not found.</returns>
+    [RequiresUnreferencedCode("Scans assembly types with reflection. Types and methods may be removed by trimming.")]
     public static MethodInfo? GetExtensionMethod(this Type type, Assembly extensionsAssembly, string name)
     {
         return type.GetExtensionMethods(extensionsAssembly).FirstOrDefault(m => m.Name == name);
@@ -122,6 +126,7 @@ public static class TypesExtensions
     /// <param name="assemblies">The collection of assemblies containing extension methods.</param>
     /// <param name="name">The name of the extension method.</param>
     /// <returns>The MethodInfo of the specified extension method, or null if not found.</returns>
+    [RequiresUnreferencedCode("Scans assembly types with reflection. Types and methods may be removed by trimming.")]
     public static MethodInfo? GetExtensionMethod(this Type type, IEnumerable<Assembly> assemblies, string name)
     {
         return assemblies.Select(assembly => type.GetExtensionMethods(assembly)
@@ -137,6 +142,7 @@ public static class TypesExtensions
     /// <param name="name">The name of the extension method.</param>
     /// <param name="types">An array of parameter types for the extension method.</param>
     /// <returns>The MethodInfo of the specified extension method, or null if not found.</returns>
+    [RequiresUnreferencedCode("Scans assembly types with reflection. Types and methods may be removed by trimming.")]
     public static MethodInfo? GetExtensionMethod(this Type type, Assembly extensionsAssembly, string name, Type[] types)
     {
         List<MethodInfo> methods = (type.GetExtensionMethods(extensionsAssembly)
