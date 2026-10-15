@@ -10,6 +10,15 @@
 *REMOVED*static HeroKit.Strings.StringConversionExtensions.ToLong(this string? value) -> long
 *REMOVED*static HeroKit.Strings.StringConversionExtensions.ToNullable<T>(this string? source) -> (bool status, T? result)
 *REMOVED*static HeroKit.Strings.StringConversionExtensions.ToShort(this string? value) -> short
+HeroKit.Banking.CardBrand
+HeroKit.Banking.CardBrand.AmericanExpress = 3 -> HeroKit.Banking.CardBrand
+HeroKit.Banking.CardBrand.Discover = 4 -> HeroKit.Banking.CardBrand
+HeroKit.Banking.CardBrand.Jcb = 5 -> HeroKit.Banking.CardBrand
+HeroKit.Banking.CardBrand.Mastercard = 2 -> HeroKit.Banking.CardBrand
+HeroKit.Banking.CardBrand.Troy = 6 -> HeroKit.Banking.CardBrand
+HeroKit.Banking.CardBrand.Unknown = 0 -> HeroKit.Banking.CardBrand
+HeroKit.Banking.CardBrand.Visa = 1 -> HeroKit.Banking.CardBrand
+HeroKit.Banking.CardNumberExtensions
 HeroKit.Turkish.Province
 HeroKit.Turkish.Province.Code.get -> int
 HeroKit.Turkish.Province.Code.init -> void
@@ -22,6 +31,8 @@ HeroKit.Turkish.Province.Province(int Code, string! Name) -> void
 HeroKit.Turkish.TurkishLocationExtensions
 HeroKit.Turkish.TurkishProvinces
 override HeroKit.Turkish.Province.GetHashCode() -> int
+static HeroKit.Banking.CardNumberExtensions.GetCardBrand(this string? value) -> HeroKit.Banking.CardBrand
+static HeroKit.Banking.CardNumberExtensions.IsValidCardNumber(this string? value) -> bool
 static HeroKit.Objects.ObjectConversionExtensions.ConvertTo<T>(this object? value, T? defaultValue = default(T?)) -> T?
 static HeroKit.Objects.ObjectConversionExtensions.TryConvertTo<T>(this object? value, out T? result) -> bool
 static HeroKit.Properties.PropertyInfoExtensions.TrySetConvertedValue(this System.Reflection.PropertyInfo! property, object? instance, object? value) -> bool
