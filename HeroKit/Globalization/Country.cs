@@ -67,7 +67,7 @@ public sealed class Country(string code, string name, Language language)
     }
 
     /// <summary>
-    /// Finds a region by its code ("34", "06") or by its name, ignoring case and diacritics ("istanbul", "Sanliurfa").
+    /// Finds a region by its code ("34", "06"), its abbreviation ("CA") or its name, ignoring case and diacritics ("istanbul", "Sanliurfa").
     /// </summary>
     /// <param name="codeOrName">The code or the name.</param>
     /// <returns>The region, or null.</returns>
@@ -75,6 +75,7 @@ public sealed class Country(string code, string name, Language language)
     /// <code>
     /// Countries.Turkey.FindRegion("34")?.Name;        // "İstanbul"
     /// Countries.Turkey.FindRegion("sanliurfa")?.Code; // 63
+    /// Countries.UnitedStates.FindRegion("ca")?.Name;   // "California"
     /// </code>
     /// </example>
     public Region? FindRegion(string? codeOrName)
@@ -86,6 +87,12 @@ public sealed class Country(string code, string name, Language language)
 
         if (int.TryParse(trimmed, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out int code))
             return FindRegion(code);
+
+        foreach (Region region in Regions)
+        {
+            if (region.Abbreviation is not null && string.Equals(region.Abbreviation, trimmed, StringComparison.OrdinalIgnoreCase))
+                return region;
+        }
 
         string key = TextFolding.Fold(trimmed, Language.TextRules);
 

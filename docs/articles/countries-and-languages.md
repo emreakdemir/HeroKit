@@ -1,14 +1,14 @@
 # Countries and languages
 
-HeroKit 3.0 does not add a new set of methods for every country. It has one set of methods that take a country or a language. Türkiye is built in. Other countries use the same methods once you describe them.
+HeroKit 3.0 does not add a new set of methods for every country. It has one set of methods that take a country or a language. Türkiye and the United States are built in. Other countries use the same methods once you describe them.
 
 ## The model
 
 | Type | What it holds | Built in |
 |---|---|---|
-| `Country` | ISO code, name, language, currency and optional rules: phone numbers, vehicle plates, postal codes, national and tax ids, public holidays, regions, IBAN lengths | `Countries.Turkey` |
-| `Language` | ISO code and optional rules: casing and sorting (`TextRules`), numbers in words (`NumberSpeller`) | `Languages.Turkish` |
-| `Currency` | ISO code, symbol, separators, unit names | `Currencies.TurkishLira` |
+| `Country` | ISO code, name, language, currency and optional rules: phone numbers, vehicle plates, postal codes, national and tax ids, public holidays, regions, IBAN lengths | `Countries.Turkey`, `Countries.UnitedStates` |
+| `Language` | ISO code and optional rules: casing and sorting (`TextRules`), numbers in words (`NumberSpeller`) | `Languages.Turkish`, `Languages.English` |
+| `Currency` | ISO code, symbol, separators, unit names | `Currencies.TurkishLira`, `Currencies.USDollar` |
 
 All types are in the `HeroKit.Globalization` namespace. Türkiye-only checks (TCKN, VKN, e-invoice) are in `HeroKit.Globalization.Turkey`.
 
@@ -58,6 +58,35 @@ The other rule properties are `VehiclePlates` (`IVehiclePlateRules`), `PostalCod
 `Countries.Register` also makes the country available to the validation attributes by its ISO code: `[PhoneNumber("XT")]` works after the country is registered. `Countries.Get("XT")`, `Countries.TryGet` and `Countries.All` read the registry.
 
 A new language works the same way: create `new Language("xx", "Name") { TextRules = ..., NumberSpeller = ... }` with your own `ITextRules` and `INumberSpeller`.
+
+## United States
+
+`Countries.UnitedStates`, `Languages.English` and `Currencies.USDollar` use the same methods:
+
+```csharp
+using HeroKit.Globalization;
+
+var us = Countries.UnitedStates;
+
+"(212) 555-0123".IsValidPhone(us);                  // true
+"+1 212 555 0123".FormatPhone(us);                  // "(212) 555-0123"
+"212.555.0123".ToE164(us);                          // "+12125550123"
+"10001-1234".IsValidPostalCode(us);                 // true (ZIP or ZIP+4)
+"123-45-6789".IsValidNationalId(us);                // true (SSN)
+"12-3456789".IsValidTaxId(us);                      // true (EIN; SSN and ITIN are also accepted)
+us.FindRegion("ca")?.Name;                          // "California" (FIPS code 6)
+new DateOnly(2026, 7, 2).AddBusinessDays(1, us);    // 2026-07-06 (July 3 is the observed Independence Day)
+1234.5m.ToCurrencyString(Currencies.USDollar);      // "$1,234.50"
+123.50m.ToCurrencyWords(Currencies.USDollar);       // "one hundred twenty-three dollars and fifty cents"
+2_500_340L.ToWords(Languages.English);              // "two million five hundred thousand three hundred forty"
+```
+
+- **Phone numbers** follow the North American Numbering Plan: a 10-digit number whose area code and exchange start with 2–9, with an optional `+1`, `1` or `001` prefix. US numbers do not show whether a line is mobile, so `IsValidMobilePhone` accepts every valid number.
+- **SSN, ITIN and EIN** checks are structural. They reject numbers that are never issued (for example SSN area 000, 666 or 900–999), but they cannot prove that a number was issued.
+- **Public holidays** are the 11 federal holidays from 1986 on, with Juneteenth from 2021. A holiday on a Saturday is observed on the Friday before, a holiday on a Sunday on the Monday after. Observed days are separate entries named "… (observed)". State holidays are not included.
+- **Regions** are the 50 states and the District of Columbia. `FindRegion` accepts the FIPS code, the USPS abbreviation or the name.
+- **Vehicle plates** differ by state, so `IsValidVehiclePlate(Countries.UnitedStates)` throws `NotSupportedException`.
+- **English text rules** use invariant casing. `Languages.English.TextRules!.Comparer` sorts case-insensitively and puts lower case first: `apple, Apple, banana`.
 
 ## Türkiye
 

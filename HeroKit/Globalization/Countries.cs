@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using HeroKit.Globalization.Turkey;
+using HeroKit.Globalization.UnitedStates;
 
 namespace HeroKit.Globalization;
 
@@ -10,12 +11,22 @@ public static class Countries
 {
     private static readonly ConcurrentDictionary<string, Country> Registry = new(StringComparer.OrdinalIgnoreCase);
 
-    static Countries() => Register(Turkey);
+    static Countries()
+    {
+        Register(Turkey);
+        Register(UnitedStates);
+    }
 
     /// <summary>
     /// Gets Türkiye (TR): phone numbers, plates, postal codes, TCKN, VKN, public holidays, provinces and the Turkish lira.
     /// </summary>
     public static Country Turkey { get; } = TurkeyCountry.Create();
+
+    /// <summary>
+    /// Gets the United States (US): phone numbers, ZIP codes, SSN, tax IDs (SSN, ITIN, EIN), federal holidays, states and the US dollar.
+    /// Vehicle plates differ by state and are not supported.
+    /// </summary>
+    public static Country UnitedStates { get; } = UnitedStatesCountry.Create();
 
     /// <summary>
     /// Gets all registered countries.
