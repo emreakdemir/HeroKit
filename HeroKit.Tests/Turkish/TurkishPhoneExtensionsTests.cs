@@ -18,8 +18,8 @@ public class TurkishPhoneExtensionsTests
     [InlineData("05321234", null)]
     [InlineData("53212345678", null)]
     [InlineData("0532123456789", null)]
-    [InlineData("1321234567", "+901321234567")] // structural only: ToE164Tr does not check the first digit
-    [InlineData("01321234567", "+901321234567")]
+    [InlineData("1321234567", null)] // national numbers start with 2-5
+    [InlineData("01321234567", null)]
     [InlineData("00532123456", null)]
     [InlineData("+9001321234567", null)]
     [InlineData("0532 abc 45 67", null)]

@@ -7,7 +7,7 @@ namespace HeroKit.Turkish;
 /// All checks are structural (format and leading digit), not an operator or area-code allow-list.
 /// Spaces, dashes, dots and parentheses are ignored. Accepted prefixes are "+90", "0090", "90"
 /// (only when exactly 10 digits follow), "0", or none. The national number must have exactly 10 digits
-/// and must not start with 0.
+/// and must start with 2, 3 or 4 (landline) or 5 (mobile). Every method applies the same rules.
 /// </remarks>
 public static class TurkishPhoneExtensions
 {
@@ -32,11 +32,7 @@ public static class TurkishPhoneExtensions
             return null;
         }
 
-        return string.Create(3 + NationalLength, new string(national), static (span, n) =>
-        {
-            "+90".AsSpan().CopyTo(span);
-            n.AsSpan().CopyTo(span[3..]);
-        });
+        return string.Concat("+90", national);
     }
 
     /// <summary>
@@ -87,7 +83,7 @@ public static class TurkishPhoneExtensions
     public static bool IsValidPhoneTr(this string? value)
     {
         Span<char> national = stackalloc char[NationalLength];
-        return TryGetNational(value, national) && national[0] is >= '2' and <= '5';
+        return TryGetNational(value, national);
     }
 
     /// <summary>
@@ -166,7 +162,8 @@ public static class TurkishPhoneExtensions
             start = d.Length > 0 && d[0] == '0' ? 1 : 0;
         }
 
-        if (d.Length - start != NationalLength || d[start] == '0')
+        // Landline area codes start with 2, 3 or 4; mobile numbers start with 5.
+        if (d.Length - start != NationalLength || d[start] is < '2' or > '5')
         {
             return false;
         }
