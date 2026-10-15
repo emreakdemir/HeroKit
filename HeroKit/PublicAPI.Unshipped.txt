@@ -1,3 +1,11 @@
 #nullable enable
+HeroKit.Enumerables.EnumerableExtensions
+static HeroKit.Enumerables.EnumerableExtensions.IsNotNullOrEmpty<T>(this System.Collections.Generic.IEnumerable<T>? source) -> bool
+static HeroKit.Enumerables.EnumerableExtensions.IsNullOrEmpty<T>(this System.Collections.Generic.IEnumerable<T>? source) -> bool
+static HeroKit.Enumerables.EnumerableExtensions.Page<T>(this System.Collections.Generic.IEnumerable<T>! source, int pageNumber, int pageSize) -> System.Collections.Generic.IEnumerable<T>!
+static HeroKit.Enumerables.EnumerableExtensions.Page<T>(this System.Linq.IQueryable<T>! source, int pageNumber, int pageSize) -> System.Linq.IQueryable<T>!
+static HeroKit.Enumerables.EnumerableExtensions.ToReadOnlyList<T>(this System.Collections.Generic.IEnumerable<T>! source) -> System.Collections.Generic.IReadOnlyList<T>!
+static HeroKit.Enumerables.EnumerableExtensions.WhereIf<T>(this System.Collections.Generic.IEnumerable<T>! source, bool condition, System.Func<T, bool>! predicate) -> System.Collections.Generic.IEnumerable<T>!
+static HeroKit.Enumerables.EnumerableExtensions.WhereIf<T>(this System.Linq.IQueryable<T>! source, bool condition, System.Linq.Expressions.Expression<System.Func<T, bool>!>! predicate) -> System.Linq.IQueryable<T>!
 static HeroKit.Strings.StringControlExtensions.EqualsIgnoreCase(this string? value, string? other, System.Globalization.CultureInfo! culture) -> bool
 static HeroKit.Strings.StringManipulationExtensions.ToTitleCase(this string? value, System.Globalization.CultureInfo! culture) -> string!
