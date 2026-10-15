@@ -24,6 +24,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\HeroKit\HeroKit.csproj" />
+        <ProjectReference Include="..\HeroKit.FluentValidation\HeroKit.FluentValidation.csproj" />
     </ItemGroup>
 
 </Project>

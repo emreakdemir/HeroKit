@@ -49,7 +49,9 @@ jobs:
           retention-days: 14
 
       - name: Pack (validation only)
-        run: dotnet pack HeroKit/HeroKit.csproj --no-build -c Release --output ./nuget
+        run: |
+          dotnet pack HeroKit/HeroKit.csproj --no-build -c Release --output ./nuget
+          dotnet pack HeroKit.FluentValidation/HeroKit.FluentValidation.csproj --no-build -c Release --output ./nuget
 
       # Keeps the README coverage badge current without an external service.
       # Runs last and works in a separate worktree, so the build workspace stays intact.

@@ -46,9 +46,9 @@ The `docs.yml` workflow publishes the site when a release is published.
 
 ## Releases
 
-1. Bump `<Version>` in `HeroKit/HeroKit.csproj`.
+1. Bump `<Version>` in `Directory.Build.props`. HeroKit and HeroKit.FluentValidation share it.
 2. Update `CHANGELOG.md`. Move the Unreleased entries under the new version.
-3. Move the `PublicAPI.Unshipped.txt` entries to `PublicAPI.Shipped.txt`.
+3. Move the `PublicAPI.Unshipped.txt` entries to `PublicAPI.Shipped.txt` in both `HeroKit/` and `HeroKit.FluentValidation/`.
 4. Merge the PR.
 5. Publish a GitHub release. Name it and tag it with the version, for example `1.0.3`.
 
