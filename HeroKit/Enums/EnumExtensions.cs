@@ -40,7 +40,7 @@ public static class EnumExtensions
     {
         var type = typeof(TEnum);
 
-        if (type.BaseType == typeof(Enum))
+        if (!type.IsEnum)
             throw new ArgumentException("T must be type of System.Enum");
 
         var values = Enum.GetValues(type);
