@@ -1,17 +1,29 @@
 # HeroKit
 
+[![NuGet](https://img.shields.io/nuget/v/HeroKit.svg)](https://www.nuget.org/packages/HeroKit)
+[![NuGet downloads](https://img.shields.io/nuget/dt/HeroKit.svg)](https://www.nuget.org/packages/HeroKit)
+[![Build & Test](https://github.com/emreakdemir/HeroKit/actions/workflows/build-tests.yml/badge.svg)](https://github.com/emreakdemir/HeroKit/actions/workflows/build-tests.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+Türkçe: [README.TR.md](README.TR.md)
+
 The HeroKit library, providing utility operations, offers a comprehensive set of extension methods for controlling, converting, and manipulating various data types. Designed for projects developed in C#, this extensive library enables performing diverse operations on different data types, ranging from arrays to date-time values, objects, and strings.
 
 ## Installation & Usage
 
-The HeroKit library contains extension methods to provide helpful functionalities in C# projects. Below, you can find examples of how to use this library:
+Targets .NET 8 and .NET 10.
 
-1. Add the HeroKit library to your project:
-    - Open NuGet Package Manager Console to add the library to your project via NuGet Package Manager.
-    - Enter the following command to add the HeroKit library to your project:
-      ```
-      Install-Package HeroKit
-      ```
+1. Add the package to your project:
+
+   ```
+   dotnet add package HeroKit
+   ```
+
+   or from the NuGet Package Manager Console:
+
+   ```
+   Install-Package HeroKit
+   ```
 
 2. Don't forget to include the relevant namespace statements before using extension methods:
     - For instance, if you're working with arrays, add the namespace of the relevant class at the beginning of your project (`using HeroKit.Arrays;`).
@@ -544,6 +556,34 @@ Converts a given string to the specified enum type.
 
 Returns: The converted enum value or the default value if conversion fails.
 
+### `ToByteArray(string text)`
+
+   This method converts a base64 encoded string (variable: `text`) to a byte array. This method returns a byte array.
+
+### `ToNullable<T>(string source)`
+
+   This function converts a string (variable: `source`) to a nullable value of the specified type `T`. It returns a tuple containing the conversion status (boolean) and the nullable result value (of type T).
+
+### `ToBoolean(string value, string trueCondition, bool defaultvalue)`
+
+   This method attempts to convert the `value` (a string representation of a logical value) to its `System.Boolean` equivalent. It takes a string `trueCondition` and a boolean `defaultvalue`. It returns a boolean value.
+
+### `ToShort(string value)`
+
+   This method converts the `value` (a string representation of a number) to its equivalent short integer. It returns a short integer.
+
+### `ToInt(string value)`
+
+   This method converts a string (variable: `value`) to an integer. This method returns an integer.
+
+### `ToLong(string value)`
+
+   Converts the `value` (a string representation of a number) to its equivalent `System.Int64` value. It returns a long integer.
+
+### `ToDateTime(string value, CultureInfo cultureInfo, DateTime defaultValue)`
+
+   This method converts a string representation of a date and time (`value`) to its `System.DateTime` equivalent by using the optional `cultureInfo` and `defaultValue`. It returns a DateTime object.
+
 ## Usage
 
 Using the extension methods in this library, you can convert and manipulate values of the String type. Below are usage examples:
@@ -591,6 +631,19 @@ Replaces Turkish characters in a given string with their non-accented counterpar
 - `value`: The string in which Turkish characters will be replaced.
 
 Returns: The string with replaced Turkish characters.
+
+### `Format(this string value, params object[] args)`:
+
+This static method extends the string class by replacing the format items in a specified string with the string representation of specified objects.
+
+Returns: Return Value: A copy of value in which the format items have been replaced by the string representations of the corresponding objects in args.
+
+### `ToDashCase(this string input)`:
+
+This static method extends the string class by converting the input string to dash case.
+
+Returns: The string converted to dash case.
+
 
 ## Usage
 
