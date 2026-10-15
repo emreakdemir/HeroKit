@@ -1,65 +1,62 @@
 name: Publish NuGet Package
+
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - 'master'
-  pull_request:
-    branches:
-      - '*'
   release:
-    types:
-      - published
+    types: [ published ]
+  workflow_dispatch:
 
 env:
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
-  NuGetDirectory: ${{ github.workspace}}/nuget
-
-defaults:
-  run:
-    shell: pwsh
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  NuGetDirectory: ${{ github.workspace }}/nuget
 
 jobs:
-  
-  create_nuget:
+  pack:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: |
+            8.0.x
+            10.0.x
 
-      - run: dotnet pack -c Release /p:Deterministic=true /p:ContinuousIntegrationBuild=true --include-symbols -v d --output ${{ env.NuGetDirectory }}
+      - name: Test
+        run: dotnet test -c Release
 
-      - uses: actions/upload-artifact@v3
+      - name: Pack
+        run: dotnet pack HeroKit/HeroKit.csproj -c Release --output ${{ env.NuGetDirectory }}
+
+      - uses: actions/upload-artifact@v4
         with:
           name: nuget
           if-no-files-found: error
           retention-days: 7
-          path: ${{ env.NuGetDirectory }}/*.nupkg
-  
-  deploy:
+          path: |
+            ${{ env.NuGetDirectory }}/*.nupkg
+            ${{ env.NuGetDirectory }}/*.snupkg
+
+  publish:
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
-    needs: [ create_nuget ]
+    needs: [ pack ]
     steps:
-      - uses: actions/download-artifact@v4.1.7
+      - uses: actions/download-artifact@v4
         with:
           name: nuget
           path: ${{ env.NuGetDirectory }}
 
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 10.0.x
 
-      - name: Publish NuGet package
+      - name: Push to NuGet
         run: |
-          foreach($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.nupkg)) {
-              dotnet nuget push $file --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
-          }
+          for f in ${{ env.NuGetDirectory }}/*.nupkg; do
+            dotnet nuget push "$f" --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          done

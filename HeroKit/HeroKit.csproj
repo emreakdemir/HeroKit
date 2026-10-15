@@ -1,42 +1,45 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <EnablePackageValidation>true</EnablePackageValidation>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
-        <LangVersion>latestmajor</LangVersion>
+        <LangVersion>latest</LangVersion>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <EnablePackageValidation>true</EnablePackageValidation>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Package">
+        <PackageId>HeroKit</PackageId>
         <Title>HeroKit</Title>
+        <Version>1.0.0</Version>
         <Authors>Emre Akdemir</Authors>
-        <PackageProjectUrl>https://github.com/emreakdemir/herokit</PackageProjectUrl>
-        <PackageIcon>herokit.png</PackageIcon>
-        <RepositoryUrl>git@github.com:emreakdemir/herokit.git</RepositoryUrl>
-        <PackageTags>csharp, dotnet7, extensions</PackageTags>
-        <AssemblyVersion>1.0.0</AssemblyVersion>
-        <Version>1.0.0-alpha.6</Version>
-        <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <Description>The HeroKit library, providing utility operations, offers a comprehensive set of extension methods for controlling, converting, and manipulating various data types. Designed for projects developed in C#, this extensive library enables performing diverse operations on different data types, ranging from arrays to date-time values, objects, and strings etc.</Description>
-        <Copyright>Copyright © 2024 Emre Akdemir</Copyright>
+        <Description>Extension methods for everyday .NET types: validation, conversion and manipulation helpers for arrays, booleans, strings, dates, enums, GUIDs, objects, types and more.</Description>
+        <PackageTags>csharp;dotnet;extensions;extension-methods;utilities;helpers</PackageTags>
+        <PackageProjectUrl>https://github.com/emreakdemir/HeroKit</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/emreakdemir/HeroKit</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <EmbedAllSources>true</EmbedAllSources>
-        <PackageReleaseNotes>added new extensions and tests</PackageReleaseNotes>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageIcon>herokit.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageReleaseNotes>First stable release. Targets .NET 8 and .NET 10.</PackageReleaseNotes>
+        <Copyright>Copyright © 2023-2026 Emre Akdemir</Copyright>
         <NeutralLanguage>en</NeutralLanguage>
+    </PropertyGroup>
+
+    <PropertyGroup Label="SourceLink">
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-        <Deterministic>false</Deterministic>
-        <Optimize>true</Optimize>
-        <PackRelease>true</PackRelease>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <Deterministic>true</Deterministic>
+        <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="README.md" Pack="true" PackagePath=""/>
-        <None Include="herokit.png" Pack="true" PackagePath=""/>
+        <None Include="../README.md" Pack="true" PackagePath="/" />
+        <None Include="herokit.png" Pack="true" PackagePath="/" />
     </ItemGroup>
-
-
-
 
 </Project>

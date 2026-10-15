@@ -6,9 +6,9 @@ namespace HeroKit.Comparers;
 public class NameEqualityComparer : IEqualityComparer<string>
 {
     /// <summary>
-    /// Gets the default instance of <see cref="IEqualityComparer{string}"/> that uses the <see cref="NameEqualityComparer"/> implementation.
+    /// Gets the default instance of <see cref="IEqualityComparer{T}"/> that uses the <see cref="NameEqualityComparer"/> implementation.
     /// </summary>
-    /// <returns>The default instance of <see cref="IEqualityComparer{string}"/>.</returns>
+    /// <returns>The default instance of <see cref="IEqualityComparer{T}"/>.</returns>
     public static IEqualityComparer<string> Default => new NameEqualityComparer();
 
     /// <summary>
@@ -31,9 +31,9 @@ public class NameEqualityComparer : IEqualityComparer<string>
     }
 
     /// <summary>
-    /// Returns the hash code for the specified string object.
+    /// Returns a case-insensitive hash code for the specified string, consistent with <see cref="Equals(string, string)"/>.
     /// </summary>
-    /// <param name="@object">The string object for which to get the hash code.</param>
-    /// <returns>The hash code value for the <paramref name="@object"/> parameter.</returns>
-    public int GetHashCode(string @object) => @object.GetHashCode();
+    /// <param name="value">The string for which to get the hash code.</param>
+    /// <returns>The hash code value for the <paramref name="value"/> parameter.</returns>
+    public int GetHashCode(string value) => value is null ? 0 : StringComparer.OrdinalIgnoreCase.GetHashCode(value);
 }

@@ -1,17 +1,24 @@
 # HeroKit
 
+English: [README.md](README.md)
+
 Yardımcı işlemler sağlayan HeroKit kütüphanesi, farklı veri türlerini kontrol etmek, dönüştürmek ve manipüle etmek için kullanılan geniş bir dizi uzantı metodu sunmaktadır. Bu kapsamlı kütüphane, C# dilinde geliştirilen projelerde, dizilerden tarih-saat değerlerine, nesnelerden metinlere kadar birçok farklı veri tipi üzerinde çeşitli işlemler yapmak için tasarlanmıştır.
 
 ## Kurulum & Kullanım
 
 Aşağıda, bu kütüphanenin nasıl kullanılacağına dair örnekler bulabilirsiniz:
 
-1. Projeye HeroKit kütüphanesini ekleyin:
-    - Projeye NuGet Paket Yöneticisi üzerinden eklemek için NuGet Package Manager Console'ı açın.
-    - Aşağıdaki komutu girerek HeroKit kütüphanesini projenize ekleyin:
-      ```
-      Install-Package HeroKit
-      ```
+1. Paketi projeye ekleyin (.NET 8 ve .NET 10 desteklenir):
+
+   ```
+   dotnet add package HeroKit
+   ```
+
+   ya da NuGet Paket Yöneticisi Konsolu'ndan:
+
+   ```
+   Install-Package HeroKit
+   ```
 
 2. Projede ilgili namespace ifadelerini eklemeyi unutmayın:
     - Örneğin, dizilerle ilgili işlemler yapacaksanız, ilgili sınıfın namespace ifadesini projenizin başına ekleyin (`using HeroKit.Arrays;`).
