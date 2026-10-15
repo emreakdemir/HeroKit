@@ -23,7 +23,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>herokit.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>Breaking: country and language based API (Countries.Turkey, Languages.Turkish, Currencies.TurkishLira); new countries need no new methods. ICU-free text rules, e-invoice helpers, Turkish sorting. Migration guide: https://herokit.emreakdemir.dev/articles/migrating-to-3.html</PackageReleaseNotes>
+        <PackageReleaseNotes>Breaking: country and language based API (Countries.Turkey, Languages.Turkish, Currencies.TurkishLira); new countries need no new methods. ICU-free text rules, e-invoice helpers, Turkish sorting. Upgrade guide: https://herokit.emreakdemir.dev/articles/upgrading.html</PackageReleaseNotes>
         <Copyright>Copyright © 2023-2026 Emre Akdemir</Copyright>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>
