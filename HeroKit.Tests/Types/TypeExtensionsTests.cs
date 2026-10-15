@@ -9,7 +9,7 @@ public class TypeExtensionsTests
         Type valueType = typeof(int);
 
         // Act
-        object defaultValue = valueType.GetDefault();
+        object? defaultValue = valueType.GetDefault();
 
         // Assert
         Assert.Equal(0, defaultValue);
@@ -22,7 +22,7 @@ public class TypeExtensionsTests
         Type referenceType = typeof(string);
 
         // Act
-        object defaultValue = referenceType.GetDefault();
+        object? defaultValue = referenceType.GetDefault();
 
         // Assert
         Assert.Null(defaultValue);
@@ -32,7 +32,7 @@ public class TypeExtensionsTests
     public void GetDefault_Generic_ShouldReturnDefault_ForValueType()
     {
         // Act
-        object defaultValue = typeof(int).GetDefault();
+        object? defaultValue = typeof(int).GetDefault();
 
         // Assert
         Assert.Equal(0, defaultValue);
@@ -42,7 +42,7 @@ public class TypeExtensionsTests
     public void GetDefault_Generic_ShouldReturnDefault_ForReferenceType()
     {
         // Act
-        object defaultValue = typeof(string).GetDefault();
+        object? defaultValue = typeof(string).GetDefault();
 
         // Assert
         Assert.Null(defaultValue);
@@ -55,7 +55,7 @@ public class TypeExtensionsTests
         Type interfaceType = typeof(IEnumerable<int>);
 
         // Act
-        Type implementationType = interfaceType.GetRealType();
+        Type? implementationType = interfaceType.GetRealType();
 
         // Assert
         Assert.Null(implementationType);

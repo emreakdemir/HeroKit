@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using HeroKit.Objects;
 
 namespace HeroKit.Types;
@@ -19,7 +20,7 @@ public static class TypeControlExtensions
 
         return type.IsGenericType                                    &&
                type.GetGenericTypeDefinition() == typeof(Nullable<>) &&
-               Nullable.GetUnderlyingType(type).IsNotNull();
+               Nullable.GetUnderlyingType(type) != null;
     }
 
     /// <summary>
@@ -29,7 +30,7 @@ public static class TypeControlExtensions
     /// <param name="fromType">The source type.</param>
     /// <param name="genericArguments">The generic arguments if assignment is possible, otherwise null.</param>
     /// <returns>True if assignment is possible, false otherwise.</returns>
-    public static bool IsGenericAssignableFrom(this Type toType, Type fromType, out Type[] genericArguments)
+    public static bool IsGenericAssignableFrom(this Type toType, Type fromType, [NotNullWhen(true)] out Type[]? genericArguments)
     {
         if (toType.IsNull())
             throw new ArgumentNullException(nameof(toType), "is null");
@@ -49,21 +50,20 @@ public static class TypeControlExtensions
             return IsGenericAssignableFromControlForInterface(toType, fromType, ref genericArguments);
         }
 
-        while (fromType != null)
+        for (Type? current = fromType; current != null; current = current.BaseType)
         {
-            if (fromType.IsGenericType && fromType.GetGenericTypeDefinition() == toType)
+            if (current.IsGenericType && current.GetGenericTypeDefinition() == toType)
             {
-                genericArguments = fromType.GetGenericArguments();
+                genericArguments = current.GetGenericArguments();
 
                 return true;
             }
-            fromType = fromType.BaseType;
         }
 
         return false;
     }
 
-    private static bool IsGenericAssignableFromControlForInterface(Type toType, Type fromType, ref Type[] genericArguments)
+    private static bool IsGenericAssignableFromControlForInterface(Type toType, Type fromType, ref Type[]? genericArguments)
     {
         foreach (Type interfaceCandidate in fromType.GetInterfaces())
         {

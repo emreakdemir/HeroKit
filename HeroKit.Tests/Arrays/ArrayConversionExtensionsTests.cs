@@ -7,7 +7,7 @@ using HeroKit.Arrays;
 
 public class ArrayConversionExtensionsTests
 {
-    private static int MapFunction(object value) => (int)value * 10;
+    private static int MapFunction(object? value) => (int)value! * 10;
 
     [Fact]
     public void ToListShouldTurnArrayToListByApplyingMapFunction()

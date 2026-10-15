@@ -16,7 +16,7 @@ public static class StringManipulationExtensions
     /// </summary>
     /// <param name="value">The string to convert.</param>
     /// <returns>The URL-friendly slug.</returns>
-    public static string ToSlug(this string value)
+    public static string ToSlug(this string? value)
     {
         if (string.IsNullOrWhiteSpace(value))
             return string.Empty;

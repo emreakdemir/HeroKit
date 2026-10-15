@@ -7,7 +7,7 @@ public class ObjectControlExtensionsTests
     [Fact]
     public void IsNull_ShouldDetectNull()
     {
-        object nullObject = null;
+        object? nullObject = null;
 
         Assert.True(nullObject.IsNull());
         Assert.True(new object().IsNotNull());

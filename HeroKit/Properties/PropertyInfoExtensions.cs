@@ -15,7 +15,7 @@ public static class PropertyInfoExtensions
     /// <param name="property">The PropertyInfo to check.</param>
     /// <param name="value">The value to be assigned.</param>
     /// <returns>True if the value can be assigned, false otherwise.</returns>
-    public static bool CanAssignValue(this PropertyInfo property, object value)
+    public static bool CanAssignValue(this PropertyInfo property, object? value)
     {
         return value.IsNull() ? property.IsNullable() : property.PropertyType.IsInstanceOfType(value);
     }
@@ -35,13 +35,13 @@ public static class PropertyInfoExtensions
     /// <param name="instance">The instance that owns the property.</param>
     /// <param name="value">The value to convert and set.</param>
     /// <returns>True if the value was converted and set; false if it could not be assigned.</returns>
-    public static bool TrySetConvertedValue<T>(this PropertyInfo property, T instance, object value)
+    public static bool TrySetConvertedValue<T>(this PropertyInfo property, T instance, object? value)
     {
         var constructedMethod = typeof(ObjectConversionExtensions).GetMethod(nameof(ObjectConversionExtensions.TryCast))!
             .MakeGenericMethod(property.PropertyType);
 
-        object valueSet = null;
-        var parameters = new[] { value, null };
+        object? valueSet = null;
+        var parameters = new object?[] { value, null };
 
         if (Convert.ToBoolean(constructedMethod.Invoke(null, parameters)))
             valueSet = parameters[1];
@@ -65,5 +65,5 @@ public static class PropertyInfoExtensions
     /// <param name="instance">The instance of the class.</param>
     /// <param name="value">The value to be set.</param>
     [Obsolete("PropertyInfo.SetValue(object, object) hides this method in instance syntax. Use TrySetConvertedValue instead. This method will be removed in 2.0.0.")]
-    public static void SetValue<T>(this PropertyInfo property, T instance, object value) => property.TrySetConvertedValue(instance, value);
+    public static void SetValue<T>(this PropertyInfo property, T instance, object? value) => property.TrySetConvertedValue(instance, value);
 }

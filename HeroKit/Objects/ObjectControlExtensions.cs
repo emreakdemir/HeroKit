@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace HeroKit.Objects;
@@ -12,21 +13,21 @@ public static class ObjectControlExtensions
     /// </summary>
     /// <param name="object">The object to check.</param>
     /// <returns>True if the object is null, false otherwise.</returns>
-    public static bool IsNull(this object @object) => @object == null;
+    public static bool IsNull([NotNullWhen(false)] this object? @object) => @object == null;
 
     /// <summary>
     /// Checks if an object is not null.
     /// </summary>
     /// <param name="object">The object to check.</param>
     /// <returns>True if the object is not null, false otherwise.</returns>
-    public static bool IsNotNull(this object @object) => !@object.IsNull();
+    public static bool IsNotNull([NotNullWhen(true)] this object? @object) => !@object.IsNull();
 
     /// <summary>
     /// Checks if an object is numeric.
     /// </summary>
     /// <param name="value">The object to check.</param>
     /// <returns>True if the object is numeric, false otherwise.</returns>
-    public static bool IsNumeric(this object value)
+    public static bool IsNumeric([NotNullWhen(true)] this object? value)
     {
         return value switch
         {

@@ -8,7 +8,7 @@ public class PropertyInfoExtensionsTests
     {
         public int Number { get; set; }
         public int? OptionalNumber { get; set; }
-        public string Text { get; set; }
+        public string? Text { get; set; }
     }
 
     [Fact]

@@ -20,7 +20,7 @@ public class NameEqualityComparerTests
     {
         var comparer = NameEqualityComparer.Default;
         Assert.Equal(comparer.GetHashCode("Hero"), comparer.GetHashCode("HERO"));
-        Assert.Equal(0, comparer.GetHashCode(null));
+        Assert.Equal(0, comparer.GetHashCode(null!));
     }
 
     [Fact]
