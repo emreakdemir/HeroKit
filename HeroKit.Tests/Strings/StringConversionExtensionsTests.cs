@@ -24,7 +24,7 @@ public class StringConversionExtensionsTests
     [InlineData("3", TestValues.ThirdValue)]
     [InlineData("NonExistentValue", TestValues.FirstValue)]
     [InlineData(null, TestValues.FirstValue)]
-    public void ToEnum_ShouldConvertStringToEnumValue(string input, TestValues expectedResult)
+    public void ToEnum_ShouldConvertStringToEnumValue(string? input, TestValues expectedResult)
     {
         // Arrange
 
@@ -51,7 +51,7 @@ public class StringConversionExtensionsTests
     [InlineData("True", false, true)]
     [InlineData("TRUE", false, true)]
     [InlineData("false", true, false)]
-    public void ToBoolean_ShouldReturnDefaultForMissingInput(string input, bool defaultValue, bool expected)
+    public void ToBoolean_ShouldReturnDefaultForMissingInput(string? input, bool defaultValue, bool expected)
     {
         Assert.Equal(expected, input.ToBoolean(defaultvalue: defaultValue));
     }

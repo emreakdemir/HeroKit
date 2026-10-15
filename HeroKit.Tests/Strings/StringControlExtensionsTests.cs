@@ -5,7 +5,7 @@ public class StringControlExtensionsTests
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    public void IsNullOrEmpty_ShouldReturnTrue_ForNullOrEmptyStrings(string value)
+    public void IsNullOrEmpty_ShouldReturnTrue_ForNullOrEmptyStrings(string? value)
     {
         // Arrange
 
@@ -21,7 +21,7 @@ public class StringControlExtensionsTests
     [InlineData("   Hello")]
     [InlineData("Hello   ")]
     [InlineData("   Hello   ")]
-    public void IsNullOrEmpty_ShouldReturnFalse_ForNonNullOrEmptyStrings(string value)
+    public void IsNullOrEmpty_ShouldReturnFalse_ForNonNullOrEmptyStrings(string? value)
     {
         // Arrange
 
@@ -35,7 +35,7 @@ public class StringControlExtensionsTests
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    public void IsNotNullOrEmpty_ShouldReturnFalse_ForNullOrEmptyStrings(string value)
+    public void IsNotNullOrEmpty_ShouldReturnFalse_ForNullOrEmptyStrings(string? value)
     {
         // Arrange
 
@@ -51,7 +51,7 @@ public class StringControlExtensionsTests
     [InlineData("   Hello")]
     [InlineData("Hello   ")]
     [InlineData("   Hello   ")]
-    public void IsNotNullOrEmpty_ShouldReturnTrue_ForNonNullOrEmptyStrings(string value)
+    public void IsNotNullOrEmpty_ShouldReturnTrue_ForNonNullOrEmptyStrings(string? value)
     {
         // Arrange
 
@@ -70,7 +70,7 @@ public class StringControlExtensionsTests
     [InlineData("a,,", ',', false)]
     [InlineData("Hello World", ' ', false)]
     [InlineData("SomeValue", ' ', false)]
-    public void IsNullOrEmpty_ShouldCheckIfStringIsNullOrEmptyOrSplitValue(string input, char splitValue, bool expectedResult)
+    public void IsNullOrEmpty_ShouldCheckIfStringIsNullOrEmptyOrSplitValue(string? input, char splitValue, bool expectedResult)
     {
         // Arrange
 
@@ -88,7 +88,7 @@ public class StringControlExtensionsTests
     [InlineData(",,,", ',', false)]
     [InlineData("Hello World", ' ', true)]
     [InlineData("SomeValue", ' ', true)]
-    public void IsNotNullOrEmpty_ShouldCheckIfStringIsNotNullOrEmptyOrSplitValue(string input, char splitValue, bool expectedResult)
+    public void IsNotNullOrEmpty_ShouldCheckIfStringIsNotNullOrEmptyOrSplitValue(string? input, char splitValue, bool expectedResult)
     {
         // Arrange
 

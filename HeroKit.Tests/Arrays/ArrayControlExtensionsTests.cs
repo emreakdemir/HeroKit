@@ -14,7 +14,7 @@ public class ArrayControlExtensionsTests
     [InlineData(new object?[] { null, null }, false)]
     [InlineData(new object?[] { null, "Test" }, false)]
     [InlineData(new string[] { "Test", "Test2" }, false)]
-    public void IsNullOrEmptyTests<T>(T[] array, bool expected)
+    public void IsNullOrEmptyTests<T>(T[]? array, bool expected)
     {
         Assert.Equal(expected, array.IsNullOrEmpty());
     }
@@ -27,7 +27,7 @@ public class ArrayControlExtensionsTests
     [InlineData(new object?[] { null, null }, true)]
     [InlineData(new object?[] { null, "Test" }, true)]
     [InlineData(new string[] { "Test", "Test2" }, true)]
-    public void IsNotNullOrEmptyTestsForInt<T>(T[] array, bool expected)
+    public void IsNotNullOrEmptyTestsForInt<T>(T[]? array, bool expected)
     {
         Assert.Equal(expected, array.IsNotNullOrEmpty());
     }
