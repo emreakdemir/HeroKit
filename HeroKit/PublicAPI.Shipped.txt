@@ -3,6 +3,7 @@ HeroKit.Arrays.ArrayControlExtensions
 HeroKit.Arrays.ArrayConversionExtensions
 HeroKit.Arrays.ArrayManipulationExtensions
 HeroKit.Assemblies.AssemblyExtensions
+HeroKit.Banking.IbanExtensions
 HeroKit.Booleans.BooleanControlExtensions
 HeroKit.Booleans.BooleanConversionExtensions
 HeroKit.Comparers.NameEqualityComparer
@@ -19,6 +20,10 @@ HeroKit.Properties.PropertyInfoExtensions
 HeroKit.Strings.StringControlExtensions
 HeroKit.Strings.StringConversionExtensions
 HeroKit.Strings.StringManipulationExtensions
+HeroKit.Turkish.TurkishIdentityExtensions
+HeroKit.Turkish.TurkishNumberWordsExtensions
+HeroKit.Turkish.TurkishPhoneExtensions
+HeroKit.Turkish.TurkishTextExtensions
 HeroKit.Types.TypeControlExtensions
 HeroKit.Types.TypesExtensions
 static HeroKit.Arrays.ArrayControlExtensions.IsNotNullOrEmpty<T>(this T[]? array) -> bool
@@ -27,6 +32,9 @@ static HeroKit.Arrays.ArrayConversionExtensions.ToList<T>(this T[]? items, Syste
 static HeroKit.Arrays.ArrayConversionExtensions.UrlTokenEncode(this byte[]? array) -> string!
 static HeroKit.Arrays.ArrayManipulationExtensions.InsertItems<T>(this T[]! array, System.Collections.Generic.IEnumerable<T>! items) -> void
 static HeroKit.Assemblies.AssemblyExtensions.GetAttribute<T>(this System.Reflection.Assembly! callingAssembly) -> T?
+static HeroKit.Banking.IbanExtensions.FormatIban(this string? value) -> string?
+static HeroKit.Banking.IbanExtensions.IsValidIban(this string? value) -> bool
+static HeroKit.Banking.IbanExtensions.NormalizeIban(this string? value) -> string?
 static HeroKit.Booleans.BooleanControlExtensions.AllFalse(this System.Collections.Generic.IEnumerable<bool>! values) -> bool
 static HeroKit.Booleans.BooleanControlExtensions.AllTrue(this System.Collections.Generic.IEnumerable<bool>! values) -> bool
 static HeroKit.Booleans.BooleanControlExtensions.AnyFalse(this System.Collections.Generic.IEnumerable<bool>! values) -> bool
@@ -88,6 +96,18 @@ static HeroKit.Strings.StringManipulationExtensions.ToDashCase(this string! inpu
 static HeroKit.Strings.StringManipulationExtensions.ToLowerTr(this string! input) -> string!
 static HeroKit.Strings.StringManipulationExtensions.ToSlug(this string? value) -> string!
 static HeroKit.Strings.StringManipulationExtensions.ToUpperTr(this string! input) -> string!
+static HeroKit.Turkish.TurkishIdentityExtensions.IsValidTaxIdTr(this string? value) -> bool
+static HeroKit.Turkish.TurkishIdentityExtensions.IsValidTckn(this string? value) -> bool
+static HeroKit.Turkish.TurkishIdentityExtensions.IsValidVkn(this string? value) -> bool
+static HeroKit.Turkish.TurkishNumberWordsExtensions.ToTurkishCurrencyWords(this decimal amount, string! unit = "Türk lirası", string! subunit = "kuruş") -> string!
+static HeroKit.Turkish.TurkishNumberWordsExtensions.ToTurkishWords(this int value) -> string!
+static HeroKit.Turkish.TurkishNumberWordsExtensions.ToTurkishWords(this long value) -> string!
+static HeroKit.Turkish.TurkishPhoneExtensions.FormatPhoneTr(this string? value) -> string?
+static HeroKit.Turkish.TurkishPhoneExtensions.IsValidMobileTr(this string? value) -> bool
+static HeroKit.Turkish.TurkishPhoneExtensions.IsValidPhoneTr(this string? value) -> bool
+static HeroKit.Turkish.TurkishPhoneExtensions.ToE164Tr(this string? value) -> string?
+static HeroKit.Turkish.TurkishTextExtensions.EqualsTr(this string? value, string? other) -> bool
+static HeroKit.Turkish.TurkishTextExtensions.ToTitleCaseTr(this string? value) -> string!
 static HeroKit.Types.TypeControlExtensions.GetUnderlyingType(this System.Type! type) -> System.Type!
 static HeroKit.Types.TypeControlExtensions.IsDefaultValue<T>(this T value) -> bool
 static HeroKit.Types.TypeControlExtensions.IsGenericAssignableFrom(this System.Type! toType, System.Type! fromType, out System.Type![]? genericArguments) -> bool

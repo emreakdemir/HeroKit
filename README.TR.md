@@ -7,6 +7,32 @@ English: [README.md](README.md)
 
 Yardımcı işlemler sağlayan HeroKit kütüphanesi, farklı veri türlerini kontrol etmek, dönüştürmek ve manipüle etmek için kullanılan geniş bir dizi uzantı metodu sunmaktadır. Bu kapsamlı kütüphane, C# dilinde geliştirilen projelerde, dizilerden tarih-saat değerlerine, nesnelerden metinlere kadar birçok farklı veri tipi üzerinde çeşitli işlemler yapmak için tasarlanmıştır.
 
+## Türkçe veri araçları
+
+Türkçe veriler için doğrulama, biçimlendirme ve metin yardımcıları. Başka hiçbir .NET uzantı kütüphanesi bunları sunmuyor.
+
+```csharp
+using HeroKit.Banking;
+using HeroKit.Turkish;
+
+"10000000146".IsValidTckn();                  // true  (T.C. Kimlik No kontrolü)
+"4840847211".IsValidVkn();                    // true  (Vergi Kimlik No kontrolü)
+"tr33 0006 1005 1978 6457 8413 26".IsValidIban();  // true  (ISO 13616 mod-97, TR uzunluğu)
+"TR330006100519786457841326".FormatIban();   // "TR33 0006 1005 1978 6457 8413 26"
+"0532 123 45 67".ToE164Tr();                  // "+905321234567"
+"+905321234567".FormatPhoneTr();              // "0532 123 45 67"
+123.50m.ToTurkishCurrencyWords();             // "yüz yirmi üç Türk lirası elli kuruş"
+"istanbul ılıca".ToTitleCaseTr();             // "İstanbul Ilıca"
+"IŞIK".EqualsTr("ışık");                      // true
+```
+
+## Neden HeroKit
+
+- **Varsayılan olarak güvenli:** Bütün API'lerde null işaretleri, kültürden bağımsız çevirme, null girdide hata fırlatmama.
+- **Trim ve Native AOT uyumlu:** CI'da gerçek bir AOT derlemesiyle doğrulanıyor.
+- **Kararlı API:** Public API analizörle takip ediliyor; hiçbir metot önce `[Obsolete]` sürümü çıkmadan kaldırılmıyor.
+- **Küçük ve hızlı:** Bağımlılık yok; sık kullanılan yollar BenchmarkDotNet ile ölçülüyor.
+
 ## Kurulum & Kullanım
 
 Aşağıda, bu kütüphanenin nasıl kullanılacağına dair örnekler bulabilirsiniz:
