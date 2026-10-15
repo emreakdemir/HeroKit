@@ -1,1 +1,3 @@
 #nullable enable
+static HeroKit.FluentValidation.HeroKitRuleBuilderExtensions.Ettn<T>(this FluentValidation.IRuleBuilder<T, string?>! ruleBuilder) -> FluentValidation.IRuleBuilderOptions<T, string?>!
+static HeroKit.FluentValidation.HeroKitRuleBuilderExtensions.InvoiceNumberTr<T>(this FluentValidation.IRuleBuilder<T, string?>! ruleBuilder) -> FluentValidation.IRuleBuilderOptions<T, string?>!
