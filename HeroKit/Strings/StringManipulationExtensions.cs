@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -7,9 +8,26 @@ namespace HeroKit.Strings;
 /// <summary>
 /// Provides extension methods for string manipulations.
 /// </summary>
-public static class StringManipulationExtensions
+public static partial class StringManipulationExtensions
 {
     private static readonly CultureInfo TurkishCulture = CultureInfo.GetCultureInfo("tr-TR");
+
+    private static readonly SearchValues<char> TurkishChars = SearchValues.Create("ığüşöçİĞÜŞÖÇ");
+
+    [GeneratedRegex(@"[^a-z0-9\s-]")]
+    private static partial Regex InvalidSlugCharsRegex();
+
+    [GeneratedRegex(@"\s+")]
+    private static partial Regex WhitespaceRunRegex();
+
+    [GeneratedRegex(@"\s")]
+    private static partial Regex WhitespaceRegex();
+
+    [GeneratedRegex("-+")]
+    private static partial Regex DashRunRegex();
+
+    [GeneratedRegex("[A-Z]")]
+    private static partial Regex UpperCaseLetterRegex();
 
     /// <summary>
     /// Converts a string into a URL-friendly slug.
@@ -22,11 +40,11 @@ public static class StringManipulationExtensions
             return string.Empty;
 
         string normalizedValue = value.RemoveAccent().ClearTurkishChars().ToLowerInvariant();
-        normalizedValue = Regex.Replace(normalizedValue, @"[^a-z0-9\s-]", "");
-        normalizedValue = Regex.Replace(normalizedValue, @"\s+", " ").Trim();
-        normalizedValue = normalizedValue[..(normalizedValue.Length <= 200 ? normalizedValue.Length : 200)].Trim();
-        normalizedValue = Regex.Replace(normalizedValue, @"\s", "-");
-        normalizedValue = Regex.Replace(normalizedValue, "-+", "-");
+        normalizedValue = InvalidSlugCharsRegex().Replace(normalizedValue, "");
+        normalizedValue = WhitespaceRunRegex().Replace(normalizedValue, " ").Trim();
+        normalizedValue = normalizedValue[..Math.Min(normalizedValue.Length, 200)].Trim();
+        normalizedValue = WhitespaceRegex().Replace(normalizedValue, "-");
+        normalizedValue = DashRunRegex().Replace(normalizedValue, "-");
 
         return normalizedValue;
     }
@@ -39,10 +57,13 @@ public static class StringManipulationExtensions
     public static string RemoveAccent(this string value)
     {
         string normalizedString = value.Normalize(NormalizationForm.FormD);
-        var stringBuilder = new StringBuilder();
+        var stringBuilder = new StringBuilder(normalizedString.Length);
 
-        IEnumerable<char> nonSpacingMarks = normalizedString.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark);
-        stringBuilder.Append(nonSpacingMarks.ToArray());
+        foreach (char c in normalizedString)
+        {
+            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                stringBuilder.Append(c);
+        }
 
         return stringBuilder.ToString();
     }
@@ -52,23 +73,36 @@ public static class StringManipulationExtensions
     /// </summary>
     /// <param name="value">The string to replace Turkish characters in.</param>
     /// <returns>The string with Turkish characters replaced.</returns>
-    public static string ClearTurkishChars(this string value)
+    public static string ClearTurkishChars(this string? value)
     {
-        var sb = new StringBuilder(value);
-        sb = sb.Replace("ı", "i")
-               .Replace("ğ", "g")
-               .Replace("ü", "u")
-               .Replace("ş", "s")
-               .Replace("ö", "o")
-               .Replace("ç", "c")
-               .Replace("İ", "I")
-               .Replace("Ğ", "G")
-               .Replace("Ü", "U")
-               .Replace("Ş", "S")
-               .Replace("Ö", "O")
-               .Replace("Ç", "C");
+        if (value is null)
+            return string.Empty;
 
-        return sb.ToString();
+        if (value.AsSpan().IndexOfAny(TurkishChars) < 0)
+            return value;
+
+        return string.Create(value.Length, value, static (destination, source) =>
+        {
+            for (int i = 0; i < source.Length; i++)
+            {
+                destination[i] = source[i] switch
+                {
+                    'ı' => 'i',
+                    'ğ' => 'g',
+                    'ü' => 'u',
+                    'ş' => 's',
+                    'ö' => 'o',
+                    'ç' => 'c',
+                    'İ' => 'I',
+                    'Ğ' => 'G',
+                    'Ü' => 'U',
+                    'Ş' => 'S',
+                    'Ö' => 'O',
+                    'Ç' => 'C',
+                    var c => c,
+                };
+            }
+        });
     }
 
     /// <summary>
@@ -86,9 +120,7 @@ public static class StringManipulationExtensions
     /// <returns>The string converted to dash case.</returns>
     public static string ToDashCase(this string input)
     {
-        const string pattern = "[A-Z]";
-        const string dash = "-";
-        return Regex.Replace(input, pattern, m => ((m.Index == 0) ? string.Empty : dash) + m.Value.ToLowerInvariant());
+        return UpperCaseLetterRegex().Replace(input, m => (m.Index == 0 ? string.Empty : "-") + m.Value.ToLowerInvariant());
     }
     
     /// <summary>
