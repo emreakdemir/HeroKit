@@ -13,22 +13,22 @@ public class ValidationAttributeTests
         [Vkn]
         public string? TaxNumber { get; set; }
 
-        [TaxIdTr]
+        [TaxId("TR")]
         public string? TaxId { get; set; }
 
         [Iban]
         public string? Iban { get; set; }
 
-        [TurkishPhone]
+        [PhoneNumber("TR")]
         public string? Phone { get; set; }
 
-        [TurkishPhone(MobileOnly = true, ErrorMessage = "Cep telefonu geçersiz.")]
+        [PhoneNumber("TR", MobileOnly = true, ErrorMessage = "Cep telefonu geçersiz.")]
         public string? Mobile { get; set; }
 
-        [PostalCodeTr]
+        [PostalCode("TR")]
         public string? PostalCode { get; set; }
 
-        [PlateTr]
+        [VehiclePlate("TR")]
         public string? Plate { get; set; }
 
         [CardNumber]

@@ -44,9 +44,13 @@ docfx docs/docfx.json --serve
 
 The `docs.yml` workflow publishes the site when a release is published.
 
+## Adding a country or a language
+
+Country-specific rules live behind interfaces in `HeroKit/Globalization` (`IPhoneNumberRules`, `IVehiclePlateRules`, `IIdentifierRules`, `IHolidayCalendar`, `INumberSpeller`, `ITextRules`). To add a country, implement the rules in `HeroKit/Globalization/<Country>/`, expose a `Country` instance in `Countries` and register it in the static constructor. No existing method changes. Applications can also create and register their own `Country` at startup.
+
 ## Yearly maintenance: religious holidays
 
-Ramazan and Kurban Bayramı dates come from the Diyanet religious days calendar (https://vakithesaplama.diyanet.gov.tr/dinigunler.php?yil=YYYY). When Diyanet publishes a new year, add its first-day dates to `HeroKit/Turkish/TurkishHolidays.cs` and to the test table. The test `SupportedYears_ShouldCoverTheCurrentYear` fails when the current year is missing.
+Ramazan and Kurban Bayramı dates come from the Diyanet religious days calendar (https://vakithesaplama.diyanet.gov.tr/dinigunler.php?yil=YYYY). When Diyanet publishes a new year, add its first-day dates to `HeroKit/Globalization/Turkey/TurkeyHolidayCalendar.cs` and to the test table. The test `SupportedYears_ShouldCoverTheCurrentYear` fails when the current year is missing.
 
 ## Releases
 

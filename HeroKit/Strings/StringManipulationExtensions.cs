@@ -1,4 +1,3 @@
-using System.Buffers;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -11,8 +10,6 @@ namespace HeroKit.Strings;
 public static partial class StringManipulationExtensions
 {
     private static readonly CultureInfo TurkishCulture = CultureInfo.GetCultureInfo("tr-TR");
-
-    private static readonly SearchValues<char> TurkishChars = SearchValues.Create("ığüşöçİĞÜŞÖÇ");
 
     [GeneratedRegex(@"[^a-z0-9\s-]")]
     private static partial Regex InvalidSlugCharsRegex();
@@ -39,7 +36,7 @@ public static partial class StringManipulationExtensions
         if (string.IsNullOrWhiteSpace(value))
             return string.Empty;
 
-        string normalizedValue = value.RemoveAccent().ClearTurkishChars().ToLowerInvariant();
+        string normalizedValue = value.RemoveDiacritics().ToLowerInvariant();
         normalizedValue = InvalidSlugCharsRegex().Replace(normalizedValue, "");
         normalizedValue = WhitespaceRunRegex().Replace(normalizedValue, " ").Trim();
         normalizedValue = normalizedValue[..Math.Min(normalizedValue.Length, 200)].Trim();
@@ -50,60 +47,15 @@ public static partial class StringManipulationExtensions
     }
 
     /// <summary>
-    /// Removes accents from a string.
+    /// Removes diacritics from Latin letters: "Çağdaş Şehir" becomes "Cagdas Sehir", "Ilıca" becomes "Ilica", "Łódź" becomes "Lodz".
     /// </summary>
-    /// <param name="value">The string to remove accents from.</param>
-    /// <returns>The string without accents.</returns>
-    public static string RemoveAccent(this string value)
-    {
-        string normalizedString = value.Normalize(NormalizationForm.FormD);
-        var stringBuilder = new StringBuilder(normalizedString.Length);
-
-        foreach (char c in normalizedString)
-        {
-            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-                stringBuilder.Append(c);
-        }
-
-        return stringBuilder.ToString();
-    }
-
-    /// <summary>
-    /// Replaces Turkish characters with their non-accented equivalents in a string.
-    /// </summary>
-    /// <param name="value">The string to replace Turkish characters in.</param>
-    /// <returns>The string with Turkish characters replaced.</returns>
-    public static string ClearTurkishChars(this string? value)
-    {
-        if (value is null)
-            return string.Empty;
-
-        if (value.AsSpan().IndexOfAny(TurkishChars) < 0)
-            return value;
-
-        return string.Create(value.Length, value, static (destination, source) =>
-        {
-            for (int i = 0; i < source.Length; i++)
-            {
-                destination[i] = source[i] switch
-                {
-                    'ı' => 'i',
-                    'ğ' => 'g',
-                    'ü' => 'u',
-                    'ş' => 's',
-                    'ö' => 'o',
-                    'ç' => 'c',
-                    'İ' => 'I',
-                    'Ğ' => 'G',
-                    'Ü' => 'U',
-                    'Ş' => 'S',
-                    'Ö' => 'O',
-                    'Ç' => 'C',
-                    var c => c,
-                };
-            }
-        });
-    }
+    /// <remarks>
+    /// Uses a fixed character table instead of Unicode normalization, so the result does not depend on ICU and is the same
+    /// with invariant globalization. Covers Turkish, Latin-1 and common Central European letters; other characters are kept.
+    /// </remarks>
+    /// <param name="value">The string.</param>
+    /// <returns>The string without diacritics, or an empty string if <paramref name="value"/> is null.</returns>
+    public static string RemoveDiacritics(this string? value) => value is null ? string.Empty : Diacritics.Remove(value);
 
     /// <summary>
     /// Replaces the format items in a specified string with the string representation of specified objects.

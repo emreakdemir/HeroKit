@@ -1,0 +1,17 @@
+namespace HeroKit.Globalization.Turkey;
+
+internal static class TurkeyCountry
+{
+    public static Country Create() => new("TR", "Türkiye", Languages.Turkish)
+    {
+        Currency = Currencies.TurkishLira,
+        PhoneNumbers = TurkeyPhoneNumberRules.Instance,
+        VehiclePlates = TurkeyVehiclePlateRules.Instance,
+        PostalCodes = TurkeyPostalCodeRules.Instance,
+        NationalIds = TurkeyNationalIdRules.Instance,
+        TaxIds = TurkeyTaxIdRules.Instance,
+        Holidays = TurkeyHolidayCalendar.Instance,
+        IbanRules = TurkeyIbanRules.Instance,
+        Regions = TurkeyProvinces.All,
+    };
+}

@@ -31,7 +31,7 @@ public class StringManipulationExtensionsTests
         // Arrange
 
         // Act
-        string result = input.RemoveAccent();
+        string result = input.RemoveDiacritics();
 
         // Assert
         Assert.Equal(expectedOutput, result);
@@ -46,7 +46,7 @@ public class StringManipulationExtensionsTests
         // Arrange
 
         // Act
-        string result = input.ClearTurkishChars();
+        string result = input.RemoveDiacritics();
 
         // Assert
         Assert.Equal(expectedOutput, result);

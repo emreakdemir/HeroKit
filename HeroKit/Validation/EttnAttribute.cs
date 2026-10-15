@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
-using HeroKit.Turkish;
+using HeroKit.Globalization.Turkey;
 
 namespace HeroKit.Validation;
 
 /// <summary>
-/// Validates an e-invoice ETTN (UUID) with <see cref="Turkish.EInvoiceExtensions.IsValidEttn"/>.
+/// Validates an e-invoice ETTN (UUID) with <see cref="Globalization.Turkey.EInvoiceExtensions.IsValidEttn"/>.
 /// </summary>
 /// <remarks>
 /// Null and empty values are valid; combine with <see cref="RequiredAttribute"/> to require a value. Non-string values are invalid.

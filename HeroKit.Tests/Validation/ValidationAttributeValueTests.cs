@@ -9,12 +9,12 @@ public class ValidationAttributeValueTests
     {
         { new TcknAttribute(), "10000000146" },
         { new VknAttribute(), "4840847211" },
-        { new TaxIdTrAttribute(), "10000000146" },
+        { new TaxIdAttribute("TR"), "10000000146" },
         { new IbanAttribute(), "TR33 0006 1005 1978 6457 8413 26" },
-        { new TurkishPhoneAttribute(), "0212 555 12 34" },
-        { new TurkishPhoneAttribute { MobileOnly = true }, "0532 123 45 67" },
-        { new PostalCodeTrAttribute(), "34710" },
-        { new PlateTrAttribute(), "34 ABC 123" },
+        { new PhoneNumberAttribute("TR"), "0212 555 12 34" },
+        { new PhoneNumberAttribute("TR") { MobileOnly = true }, "0532 123 45 67" },
+        { new PostalCodeAttribute("TR"), "34710" },
+        { new VehiclePlateAttribute("TR"), "34 ABC 123" },
         { new CardNumberAttribute(), "4111 1111 1111 1111" },
     };
 
@@ -22,12 +22,12 @@ public class ValidationAttributeValueTests
     {
         { new TcknAttribute(), "10000000147" },
         { new VknAttribute(), "4840847212" },
-        { new TaxIdTrAttribute(), "123" },
+        { new TaxIdAttribute("TR"), "123" },
         { new IbanAttribute(), "TR330006100519786457841327" },
-        { new TurkishPhoneAttribute(), "0112 555 12 34" },
-        { new TurkishPhoneAttribute { MobileOnly = true }, "0212 555 12 34" },
-        { new PostalCodeTrAttribute(), "82000" },
-        { new PlateTrAttribute(), "34 Q 1234" },
+        { new PhoneNumberAttribute("TR"), "0112 555 12 34" },
+        { new PhoneNumberAttribute("TR") { MobileOnly = true }, "0212 555 12 34" },
+        { new PostalCodeAttribute("TR"), "82000" },
+        { new VehiclePlateAttribute("TR"), "34 Q 1234" },
         { new CardNumberAttribute(), "4111 1111 1111 1112" },
     };
 
@@ -35,12 +35,12 @@ public class ValidationAttributeValueTests
     {
         new TcknAttribute(),
         new VknAttribute(),
-        new TaxIdTrAttribute(),
+        new TaxIdAttribute("TR"),
         new IbanAttribute(),
-        new TurkishPhoneAttribute(),
-        new TurkishPhoneAttribute { MobileOnly = true },
-        new PostalCodeTrAttribute(),
-        new PlateTrAttribute(),
+        new PhoneNumberAttribute("TR"),
+        new PhoneNumberAttribute("TR") { MobileOnly = true },
+        new PostalCodeAttribute("TR"),
+        new VehiclePlateAttribute("TR"),
         new CardNumberAttribute(),
     };
 
@@ -82,12 +82,12 @@ public class ValidationAttributeValueTests
     [Fact]
     public void TurkishPhone_ShouldAcceptLandline_WhenMobileOnlyIsFalse()
     {
-        Assert.True(new TurkishPhoneAttribute { MobileOnly = false }.IsValid("0212 555 12 34"));
+        Assert.True(new PhoneNumberAttribute("TR") { MobileOnly = false }.IsValid("0212 555 12 34"));
     }
 
     [Fact]
     public void TurkishPhone_ShouldRejectLandline_WhenMobileOnlyIsTrue()
     {
-        Assert.False(new TurkishPhoneAttribute { MobileOnly = true }.IsValid("0212 555 12 34"));
+        Assert.False(new PhoneNumberAttribute("TR") { MobileOnly = true }.IsValid("0212 555 12 34"));
     }
 }

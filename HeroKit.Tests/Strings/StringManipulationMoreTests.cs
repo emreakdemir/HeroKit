@@ -10,7 +10,7 @@ public class StringManipulationMoreTests
     [InlineData(null, "")]
     public void ClearTurkishChars_ShouldReplaceTurkishLetters(string? input, string expected)
     {
-        Assert.Equal(expected, input.ClearTurkishChars());
+        Assert.Equal(expected, input.RemoveDiacritics());
     }
 
     [Fact]

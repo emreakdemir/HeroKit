@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
-using HeroKit.Turkish;
+using HeroKit.Globalization.Turkey;
 
 namespace HeroKit.Validation;
 
 /// <summary>
-/// Validates a Turkish tax number (Vergi Kimlik No) with <see cref="Turkish.TurkishIdentityExtensions.IsValidVkn"/>.
+/// Validates a Turkish tax number (Vergi Kimlik No) with <see cref="Globalization.Turkey.TurkeyIdentityExtensions.IsValidVkn"/>.
 /// </summary>
 /// <remarks>
 /// Null and empty values are valid; combine with <see cref="RequiredAttribute"/> to require a value. Non-string values are invalid.

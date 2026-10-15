@@ -1,3 +1,5 @@
+using HeroKit.Globalization;
+
 namespace HeroKit.Banking;
 
 /// <summary>
@@ -7,7 +9,6 @@ public static class IbanExtensions
 {
     private const int MinLength = 15;
     private const int MaxLength = 34;
-    private const int TurkishLength = 26;
 
     /// <summary>
     /// Determines whether a string is a valid IBAN (ISO 13616).
@@ -126,7 +127,8 @@ public static class IbanExtensions
             }
         }
 
-        if (iban[0] == 'T' && iban[1] == 'R' && (iban.Length != TurkishLength || iban[4] != '0'))
+        // National rules (length, fixed positions) come from the registered country, so new countries need no change here.
+        if (Countries.TryGet(new string(iban[..2]), out Country? country) && country.IbanRules is { } rules && !rules.IsValid(new string(iban)))
         {
             return false;
         }
