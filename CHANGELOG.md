@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.2.0] - 2026-10-15
+
+### Added
+- Bank from IBAN: `GetBank()` and `Countries.Turkey.Banks` (30 banks by EFT code). New `Bank` type and `IBankDirectory` rule, so other countries can add their banks.
+- `GibInvoiceQrCode.TryParse` reads the QR code (karekod) of e-Fatura and e-Arşiv invoices: tax ids, number, ETTN, date, totals and VAT per rate.
+- `IsValidMersis()`, `[Mersis]` and the `Mersis()` FluentValidation rule.
+- `IsValidGtin()` (EAN-8, UPC-A, EAN-13, GTIN-14), `[Gtin]` and the `Gtin()` FluentValidation rule.
+- `TryToAmount` / `ToAmount` read amounts with the separators of a currency ("₺1.234,56", "1.234,56 TL", "$1,234.56") and reject wrong digit grouping.
+- Masking for personal data (KVKK, GDPR): `MaskMiddle`, `MaskEmail`, `MaskName`.
+
+### Quality
+- Tests for every new helper, also under invariant globalization; Native AOT smoke test with 21 checks.
+
 ## [3.1.0] - 2026-10-15
 
 ### Added
@@ -72,6 +85,7 @@ Superseded by 3.0.0. Highlights:
 
 1.0.0-alpha to 1.0.0-alpha.6: the first array, boolean, string, type and conversion helpers (contributors: @emreakdemir, @jepozdemir).
 
-[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/3.1.0...HEAD
+[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/3.2.0...HEAD
+[3.2.0]: https://github.com/emreakdemir/HeroKit/compare/3.1.0...3.2.0
 [3.1.0]: https://github.com/emreakdemir/HeroKit/compare/3.0.0...3.1.0
 [3.0.0]: https://github.com/emreakdemir/HeroKit/compare/2.2.0...3.0.0

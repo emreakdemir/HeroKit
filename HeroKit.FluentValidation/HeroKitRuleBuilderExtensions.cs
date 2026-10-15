@@ -1,5 +1,6 @@
 using FluentValidation;
 using HeroKit.Banking;
+using HeroKit.Barcodes;
 using HeroKit.Globalization;
 using HeroKit.Globalization.Turkey;
 
@@ -74,6 +75,26 @@ public static class HeroKitRuleBuilderExtensions
     public static IRuleBuilderOptions<T, string?> Ettn<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
         ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidEttn())
                    .WithMessage("'{PropertyName}' must be a valid ETTN (UUID).");
+
+    /// <summary>
+    /// Validates that the value is a valid MERSİS number.
+    /// </summary>
+    /// <typeparam name="T">The validated object type.</typeparam>
+    /// <param name="ruleBuilder">The rule builder.</param>
+    /// <returns>The rule builder options, for chaining.</returns>
+    public static IRuleBuilderOptions<T, string?> Mersis<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
+        ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidMersis())
+                   .WithMessage("'{PropertyName}' must be a valid MERSİS number.");
+
+    /// <summary>
+    /// Validates that the value is a valid GTIN barcode number (EAN-8, UPC-A, EAN-13, GTIN-14).
+    /// </summary>
+    /// <typeparam name="T">The validated object type.</typeparam>
+    /// <param name="ruleBuilder">The rule builder.</param>
+    /// <returns>The rule builder options, for chaining.</returns>
+    public static IRuleBuilderOptions<T, string?> Gtin<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
+        ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidGtin())
+                   .WithMessage("'{PropertyName}' must be a valid barcode number (GTIN).");
 
     /// <summary>
     /// Validates that the value is a valid vehicle plate of a country.

@@ -1,12 +1,67 @@
 #nullable enable
+HeroKit.Banking.Bank
+HeroKit.Banking.Bank.<Clone>$() -> HeroKit.Banking.Bank!
+HeroKit.Banking.Bank.Bank(string! Code, string! Name) -> void
+HeroKit.Banking.Bank.Code.get -> string!
+HeroKit.Banking.Bank.Code.init -> void
+HeroKit.Banking.Bank.Deconstruct(out string! Code, out string! Name) -> void
+HeroKit.Banking.Bank.Equals(HeroKit.Banking.Bank? other) -> bool
+HeroKit.Banking.Bank.Name.get -> string!
+HeroKit.Banking.Bank.Name.init -> void
+HeroKit.Barcodes.BarcodeExtensions
+HeroKit.Globalization.Country.Banks.get -> HeroKit.Globalization.IBankDirectory?
+HeroKit.Globalization.Country.Banks.init -> void
 HeroKit.Globalization.Currency.SubunitConjunction.get -> string!
 HeroKit.Globalization.Currency.SubunitConjunction.init -> void
 HeroKit.Globalization.Currency.SubunitNamePlural.get -> string?
 HeroKit.Globalization.Currency.SubunitNamePlural.init -> void
 HeroKit.Globalization.Currency.UnitNamePlural.get -> string?
 HeroKit.Globalization.Currency.UnitNamePlural.init -> void
+HeroKit.Globalization.IBankDirectory
+HeroKit.Globalization.IBankDirectory.All.get -> System.Collections.Generic.IReadOnlyList<HeroKit.Banking.Bank!>!
+HeroKit.Globalization.IBankDirectory.FindByIban(string! iban) -> HeroKit.Banking.Bank?
 HeroKit.Globalization.Region.Abbreviation.get -> string?
 HeroKit.Globalization.Region.Abbreviation.init -> void
+HeroKit.Globalization.Turkey.GibInvoiceQrCode
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.BuyerTaxId.get -> string!
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.BuyerTaxId.init -> void
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.CurrencyCode.get -> string?
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.Date.get -> System.DateOnly
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.Date.init -> void
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.Ettn.get -> System.Guid
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.Ettn.init -> void
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.Fields.get -> System.Collections.Generic.IReadOnlyDictionary<string!, string!>!
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.InvoiceType.get -> string?
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.LineTotal.get -> decimal?
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.Number.get -> HeroKit.Globalization.Turkey.GibInvoiceNumber
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.Number.init -> void
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.PayableAmount.get -> decimal?
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.Scenario.get -> string?
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.SellerTaxId.get -> string!
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.SellerTaxId.init -> void
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.TaxInclusiveTotal.get -> decimal?
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.VatAmounts.get -> System.Collections.Generic.IReadOnlyDictionary<decimal, decimal>!
+HeroKit.Globalization.Turkey.GibInvoiceQrCode.VatBases.get -> System.Collections.Generic.IReadOnlyDictionary<decimal, decimal>!
+HeroKit.Validation.GtinAttribute
+HeroKit.Validation.GtinAttribute.GtinAttribute() -> void
+HeroKit.Validation.MersisAttribute
+HeroKit.Validation.MersisAttribute.MersisAttribute() -> void
+override HeroKit.Banking.Bank.Equals(object? obj) -> bool
+override HeroKit.Banking.Bank.GetHashCode() -> int
+override HeroKit.Banking.Bank.ToString() -> string!
+override HeroKit.Validation.GtinAttribute.IsValid(object? value) -> bool
+override HeroKit.Validation.MersisAttribute.IsValid(object? value) -> bool
+static HeroKit.Banking.Bank.operator !=(HeroKit.Banking.Bank? left, HeroKit.Banking.Bank? right) -> bool
+static HeroKit.Banking.Bank.operator ==(HeroKit.Banking.Bank? left, HeroKit.Banking.Bank? right) -> bool
+static HeroKit.Banking.IbanExtensions.GetBank(this string? value) -> HeroKit.Banking.Bank?
+static HeroKit.Barcodes.BarcodeExtensions.IsValidGtin(this string? value) -> bool
 static HeroKit.Globalization.Countries.UnitedStates.get -> HeroKit.Globalization.Country!
 static HeroKit.Globalization.Currencies.USDollar.get -> HeroKit.Globalization.Currency!
+static HeroKit.Globalization.CurrencyExtensions.ToAmount(this string? value, HeroKit.Globalization.Currency! currency, decimal defaultValue = 0) -> decimal
+static HeroKit.Globalization.CurrencyExtensions.TryToAmount(this string? value, HeroKit.Globalization.Currency! currency, out decimal result) -> bool
 static HeroKit.Globalization.Languages.English.get -> HeroKit.Globalization.Language!
+static HeroKit.Globalization.Turkey.GibInvoiceQrCode.TryParse(string? json, out HeroKit.Globalization.Turkey.GibInvoiceQrCode? result) -> bool
+static HeroKit.Globalization.Turkey.TurkeyIdentityExtensions.IsValidMersis(this string? value) -> bool
+static HeroKit.Strings.StringManipulationExtensions.MaskEmail(this string? value, char maskChar = '*') -> string?
+static HeroKit.Strings.StringManipulationExtensions.MaskMiddle(this string? value, int visibleStart, int visibleEnd, char maskChar = '*') -> string?
+static HeroKit.Strings.StringManipulationExtensions.MaskName(this string? value, char maskChar = '*') -> string?

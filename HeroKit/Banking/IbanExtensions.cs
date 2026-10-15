@@ -85,6 +85,29 @@ public static class IbanExtensions
         return TryNormalize(value, buffer, out var length) ? new string(buffer[..length]) : null;
     }
 
+    /// <summary>
+    /// Returns the bank of a valid IBAN from the bank directory of its country (<see cref="Country.Banks"/>).
+    /// </summary>
+    /// <param name="value">The IBAN, with or without spaces.</param>
+    /// <returns>The bank, or null if the IBAN is invalid, its country has no bank directory or the bank code is unknown.</returns>
+    /// <example>
+    /// <code>
+    /// "TR33 0006 1005 1978 6457 8413 26".GetBank()?.Name; // null: bank code 00061 is not assigned
+    /// "TR78 0006 2000 0000 0006 2950 05".GetBank()?.Name; // "Türkiye Garanti Bankası A.Ş."
+    /// </code>
+    /// </example>
+    public static Bank? GetBank(this string? value)
+    {
+        Span<char> buffer = stackalloc char[MaxLength];
+        if (!TryNormalize(value, buffer, out var length))
+        {
+            return null;
+        }
+
+        var iban = new string(buffer[..length]);
+        return Countries.TryGet(iban[..2], out Country? country) ? country.Banks?.FindByIban(iban) : null;
+    }
+
     private static bool TryNormalize(string? value, Span<char> buffer, out int length)
     {
         length = 0;

@@ -12,6 +12,7 @@ internal static class TurkeyCountry
         TaxIds = TurkeyTaxIdRules.Instance,
         Holidays = TurkeyHolidayCalendar.Instance,
         IbanRules = TurkeyIbanRules.Instance,
+        Banks = TurkeyBanks.Instance,
         Regions = TurkeyProvinces.All,
     };
 }

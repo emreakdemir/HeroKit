@@ -23,7 +23,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>herokit.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>United States built in: Countries.UnitedStates (NANP phone numbers, ZIP codes, SSN, SSN/ITIN/EIN tax IDs, federal holidays, states), Languages.English (numbers in words, ICU-free casing and sorting) and Currencies.USDollar. Currency gains plural unit names; Region gains Abbreviation. Upgrading from 1.x or 2.x: https://herokit.emreakdemir.dev/articles/upgrading.html</PackageReleaseNotes>
+        <PackageReleaseNotes>Turkish business data: bank from IBAN (GetBank, Countries.Turkey.Banks), MERSİS validation, e-Fatura/e-Arşiv QR code reader (GibInvoiceQrCode), amount parsing with currency separators (TryToAmount, ToAmount), masking for personal data (MaskMiddle, MaskEmail, MaskName), GTIN barcode validation, [Mersis] and [Gtin] attributes. Upgrading from 1.x or 2.x: https://herokit.emreakdemir.dev/articles/upgrading.html</PackageReleaseNotes>
         <Copyright>Copyright © 2023-2026 Emre Akdemir</Copyright>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>

@@ -100,9 +100,10 @@ using HeroKit.Globalization.Turkey;
 "4840847211".IsValidVkn();                          // true (VKN)
 "10000000146".IsValidNationalId(Countries.Turkey);  // true (TCKN)
 "4840847211".IsValidTaxId(Countries.Turkey);        // true: VKN veya TCKN
+"0879001756600379".IsValidMersis();                 // true: "0", VKN, 5 haneli sıra no
 ```
 
-Bunlar sağlama toplamı kontrolleridir. Bir numaranın biçiminin doğru olduğunu gösterir; numaranın verilmiş olduğunu göstermez. Girdi yalnızca rakam içermelidir.
+Bunlar sağlama toplamı kontrolleridir; `IsValidMersis` MERSİS numarasının içindeki VKN'yi kontrol eder. Bir numaranın biçiminin doğru olduğunu gösterir; numaranın verilmiş olduğunu göstermez. Girdi yalnızca rakam içermelidir.
 
 ### IBAN
 
@@ -114,9 +115,14 @@ var iban = "tr33 0006 1005 1978 6457 8413 26";
 iban.IsValidIban();   // true
 iban.NormalizeIban(); // "TR330006100519786457841326"
 iban.FormatIban();    // "TR33 0006 1005 1978 6457 8413 26"
+
+"TR78 0006 2000 0000 0006 2950 05".GetBank()?.Name; // "Türkiye Garanti Bankası A.Ş."
+Countries.Turkey.Banks!.All;                        // 5 haneli EFT kodlarıyla 30 banka
 ```
 
 IBAN doğrulama her ülke için ISO 13616 mod-97 kontrolüyle çalışır. Kayıtlı bir ülkenin `IbanRules` kuralı varsa uzunluğu ve sabit konumları da kontrol edilir: Türkiye IBAN'ları 26 karakter olmalıdır.
+
+`GetBank` geçerli bir IBAN'ın banka kodunu okur (Türkiye'de 5–9. karakterler) ve ülkenin banka listesinde (`Country.Banks`) arar. Bilinmeyen kod için null döner. Liste Türkiye Bankalar Birliği EFT kodlarını izler; eksik banka için issue açın.
 
 ### Bölgeler, plakalar ve posta kodları
 
@@ -240,3 +246,18 @@ invoice.Next().ToString(); // "ABC2026000000042"
 GİB fatura numarası 16 karakterdir: 3 büyük harf ya da rakamdan (A–Z, 0–9) oluşan seri, 4 haneli yıl (2000–2099) ve 1'den başlayan 9 haneli sıra numarası. `Create` geçersiz bir parça için `ArgumentException`, `Next` sıra numarası 999.999.999'a ulaştığında `InvalidOperationException` fırlatır. ETTN, 8-4-4-4-12 biçiminde boş olmayan bir UUID'dir.
 
 `[GibInvoiceNumber]` ve `[Ettn]` öznitelikleri ile `GibInvoiceNumber()` ve `Ettn()` FluentValidation kuralları [Form doğrulama](validation.md) sayfasında anlatılır.
+
+#### Karekod
+
+```csharp
+if (GibInvoiceQrCode.TryParse(scannedText, out GibInvoiceQrCode? qr))
+{
+    qr.SellerTaxId;       // "4840847211"
+    qr.Number.ToString(); // "ABC2026000000001"
+    qr.Date;              // 2026-10-15
+    qr.PayableAmount;     // 120.00
+    qr.VatAmounts[20m];   // 20.00 (orana göre KDV)
+}
+```
+
+`TryParse`, e-Fatura ya da e-Arşiv faturasının karekodundaki JSON metnini okur. Geçerli satıcı ve alıcı VKN/TCKN'si (VKN'si olmayan e-Arşiv alıcıları için "11111111111" kabul edilir), fatura numarası, ETTN ve tarih ister. Tutarlar isteğe bağlıdır; bütün alanlar `Fields` içinde de bulunur. Yalnızca metni okur; faturanın GİB'de var olup olmadığını sormaz.
