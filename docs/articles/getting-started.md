@@ -15,7 +15,7 @@ Every helper is an extension method. Import the namespace of the area you need:
 | Namespace | What it covers |
 |---|---|
 | `HeroKit.Strings` | Checks, conversions, slugs, casing, truncating and masking |
-| `HeroKit.Turkish` | TCKN/VKN, phone numbers, provinces, plates, postal codes, lira, amounts in words, Turkish casing |
+| `HeroKit.Turkish` | TCKN/VKN, phone numbers, provinces, plates, postal codes, lira, amounts in words, public holidays and business days, Turkish casing |
 | `HeroKit.Banking` | IBAN and card number validation |
 | `HeroKit.Validation` | Form validation attributes: `[Tckn]`, `[Iban]`, `[TurkishPhone]`, ... |
 | `HeroKit.Enumerables` | Null-safe checks, conditional filters, paging |
