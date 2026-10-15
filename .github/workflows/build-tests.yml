@@ -27,7 +27,24 @@ jobs:
         run: dotnet build --no-restore -c Release
 
       - name: Test
-        run: dotnet test --no-build -c Release --verbosity normal
+        run: dotnet test --no-build -c Release --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+
+      - name: Coverage report
+        uses: danielpalme/ReportGenerator-GitHub-Action@5
+        with:
+          reports: coverage/**/coverage.cobertura.xml
+          targetdir: coverage/report
+          reporttypes: MarkdownSummaryGithub;Cobertura
+
+      - name: Coverage summary
+        run: cat coverage/report/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/report
+          retention-days: 14
 
       - name: Pack (validation only)
         run: dotnet pack HeroKit/HeroKit.csproj --no-build -c Release --output ./nuget
