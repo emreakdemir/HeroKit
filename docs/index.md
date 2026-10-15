@@ -44,7 +44,7 @@ using HeroKit.Turkish;
   <a class="hk-card hk-featured" href="articles/turkish-toolkit.md">
     <div class="hk-icon">🇹🇷</div>
     <h3>Turkish toolkit</h3>
-    <p>TCKN and VKN, IBAN, phone numbers, provinces, plates, postal codes, lira formatting, amounts in words, İ/ı-aware casing.</p>
+    <p>TCKN and VKN, IBAN, phone numbers, provinces, plates, postal codes, lira formatting, amounts in words, public holidays and business days, İ/ı-aware casing.</p>
   </a>
   <a class="hk-card" href="articles/validation.md">
     <div class="hk-icon">✅</div>

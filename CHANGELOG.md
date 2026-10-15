@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-10-15
+
 ### Added
 - Turkish public holidays and business days: `TurkishHolidays.GetHolidays(year)`, `IsPublicHolidayTr`, `IsHalfDayHolidayTr`, `GetPublicHolidayTr`, `IsBusinessDayTr`, `AddBusinessDaysTr`, `BusinessDaysUntilTr`. Religious holidays from the Diyanet calendar for 2022–2027 (#90).
+- `HeroKit.FluentValidation` is published to NuGet for the first time with this release (it was built for 2.1.0 but not pushed).
+- The Native AOT smoke test covers conversions, validators, holidays, attributes and property setting (17 checks).
 
 ## [2.1.0] - 2026-10-15
 
@@ -118,7 +122,8 @@ Breaking release. See the [migration guide](https://herokit.emreakdemir.dev/arti
 
 First stable release. Targets .NET 8 and .NET 10.
 
-[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/2.1.0...HEAD
+[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/2.2.0...HEAD
+[2.2.0]: https://github.com/emreakdemir/HeroKit/compare/2.1.0...2.2.0
 [2.1.0]: https://github.com/emreakdemir/HeroKit/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/emreakdemir/HeroKit/compare/1.3.0...2.0.0
 [1.3.0]: https://github.com/emreakdemir/HeroKit/compare/1.2.0...1.3.0

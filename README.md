@@ -8,7 +8,7 @@
 
 Türkçe: [README.TR.md](README.TR.md) · **Documentation: [herokit.emreakdemir.dev](https://herokit.emreakdemir.dev)**
 
-Everyday extension methods for .NET, with first-class support for Turkish data: TCKN, VKN, IBAN, phone numbers, plates, provinces and amounts in words.
+Everyday extension methods for .NET, with first-class support for Turkish data: TCKN, VKN, IBAN, phone numbers, plates, provinces, public holidays and amounts in words.
 
 ```bash
 dotnet add package HeroKit
@@ -32,6 +32,7 @@ using HeroKit.Turkish;
 123.50m.ToTurkishCurrencyWords();             // "yüz yirmi üç Türk lirası elli kuruş"
 1234.5m.ToTurkishLira();                      // "₺1.234,50"
 "istanbul ılıca".ToTitleCaseTr();             // "İstanbul Ilıca"
+new DateOnly(2026, 3, 19).AddBusinessDaysTr(1); // 2026-03-23 (skips the bayram and the weekend)
 ```
 
 ## Form validation

@@ -8,7 +8,7 @@
 
 English: [README.md](README.md) · **Dokümantasyon: [herokit.emreakdemir.dev](https://herokit.emreakdemir.dev)**
 
-.NET için günlük işlerde kullanılan uzantı metotları; Türkçe veriler için birinci sınıf destekle: TCKN, VKN, IBAN, telefon, plaka, il ve yazıyla tutar.
+.NET için günlük işlerde kullanılan uzantı metotları; Türkçe veriler için birinci sınıf destekle: TCKN, VKN, IBAN, telefon, plaka, il, resmî tatiller ve yazıyla tutar.
 
 ```bash
 dotnet add package HeroKit
@@ -32,6 +32,7 @@ using HeroKit.Turkish;
 123.50m.ToTurkishCurrencyWords();             // "yüz yirmi üç Türk lirası elli kuruş"
 1234.5m.ToTurkishLira();                      // "₺1.234,50"
 "istanbul ılıca".ToTitleCaseTr();             // "İstanbul Ilıca"
+new DateOnly(2026, 3, 19).AddBusinessDaysTr(1); // 2026-03-23 (bayram ve hafta sonu atlanır)
 ```
 
 ## Form doğrulama

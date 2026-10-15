@@ -38,7 +38,20 @@ HeroKit.Turkish.Province.Name.get -> string!
 HeroKit.Turkish.Province.Name.init -> void
 HeroKit.Turkish.Province.Province() -> void
 HeroKit.Turkish.Province.Province(int Code, string! Name) -> void
+HeroKit.Turkish.PublicHoliday
+HeroKit.Turkish.PublicHoliday.Date.get -> System.DateOnly
+HeroKit.Turkish.PublicHoliday.Date.init -> void
+HeroKit.Turkish.PublicHoliday.Deconstruct(out System.DateOnly Date, out string! Name, out bool IsHalfDay) -> void
+HeroKit.Turkish.PublicHoliday.Equals(HeroKit.Turkish.PublicHoliday other) -> bool
+HeroKit.Turkish.PublicHoliday.IsHalfDay.get -> bool
+HeroKit.Turkish.PublicHoliday.IsHalfDay.init -> void
+HeroKit.Turkish.PublicHoliday.Name.get -> string!
+HeroKit.Turkish.PublicHoliday.Name.init -> void
+HeroKit.Turkish.PublicHoliday.PublicHoliday() -> void
+HeroKit.Turkish.PublicHoliday.PublicHoliday(System.DateOnly Date, string! Name, bool IsHalfDay) -> void
+HeroKit.Turkish.TurkishBusinessDayExtensions
 HeroKit.Turkish.TurkishCurrencyExtensions
+HeroKit.Turkish.TurkishHolidays
 HeroKit.Turkish.TurkishIdentityExtensions
 HeroKit.Turkish.TurkishLiraFormat
 HeroKit.Turkish.TurkishLiraFormat.Code = 1 -> HeroKit.Turkish.TurkishLiraFormat
@@ -69,6 +82,7 @@ HeroKit.Validation.TurkishPhoneAttribute.TurkishPhoneAttribute() -> void
 HeroKit.Validation.VknAttribute
 HeroKit.Validation.VknAttribute.VknAttribute() -> void
 override HeroKit.Turkish.Province.GetHashCode() -> int
+override HeroKit.Turkish.PublicHoliday.GetHashCode() -> int
 override HeroKit.Validation.CardNumberAttribute.IsValid(object? value) -> bool
 override HeroKit.Validation.IbanAttribute.IsValid(object? value) -> bool
 override HeroKit.Validation.PlateTrAttribute.IsValid(object? value) -> bool
@@ -191,7 +205,22 @@ static HeroKit.Strings.StringManipulationExtensions.ToTitleCase(this string? val
 static HeroKit.Strings.StringManipulationExtensions.Truncate(this string? value, int maxLength, string! ellipsis = "…") -> string?
 static HeroKit.Turkish.Province.operator !=(HeroKit.Turkish.Province left, HeroKit.Turkish.Province right) -> bool
 static HeroKit.Turkish.Province.operator ==(HeroKit.Turkish.Province left, HeroKit.Turkish.Province right) -> bool
+static HeroKit.Turkish.PublicHoliday.operator !=(HeroKit.Turkish.PublicHoliday left, HeroKit.Turkish.PublicHoliday right) -> bool
+static HeroKit.Turkish.PublicHoliday.operator ==(HeroKit.Turkish.PublicHoliday left, HeroKit.Turkish.PublicHoliday right) -> bool
+static HeroKit.Turkish.TurkishBusinessDayExtensions.AddBusinessDaysTr(this System.DateOnly value, int days) -> System.DateOnly
+static HeroKit.Turkish.TurkishBusinessDayExtensions.AddBusinessDaysTr(this System.DateTime value, int days) -> System.DateTime
+static HeroKit.Turkish.TurkishBusinessDayExtensions.BusinessDaysUntilTr(this System.DateOnly start, System.DateOnly end) -> int
+static HeroKit.Turkish.TurkishBusinessDayExtensions.GetPublicHolidayTr(this System.DateOnly value) -> HeroKit.Turkish.PublicHoliday?
+static HeroKit.Turkish.TurkishBusinessDayExtensions.IsBusinessDayTr(this System.DateOnly value) -> bool
+static HeroKit.Turkish.TurkishBusinessDayExtensions.IsBusinessDayTr(this System.DateTime value) -> bool
+static HeroKit.Turkish.TurkishBusinessDayExtensions.IsHalfDayHolidayTr(this System.DateOnly value) -> bool
+static HeroKit.Turkish.TurkishBusinessDayExtensions.IsPublicHolidayTr(this System.DateOnly value) -> bool
+static HeroKit.Turkish.TurkishBusinessDayExtensions.IsPublicHolidayTr(this System.DateTime value) -> bool
 static HeroKit.Turkish.TurkishCurrencyExtensions.ToTurkishLira(this decimal value, HeroKit.Turkish.TurkishLiraFormat format = HeroKit.Turkish.TurkishLiraFormat.Symbol) -> string!
+static HeroKit.Turkish.TurkishHolidays.FirstSupportedYear.get -> int
+static HeroKit.Turkish.TurkishHolidays.GetHolidays(int year) -> System.Collections.Generic.IReadOnlyList<HeroKit.Turkish.PublicHoliday>!
+static HeroKit.Turkish.TurkishHolidays.IsSupported(int year) -> bool
+static HeroKit.Turkish.TurkishHolidays.LastSupportedYear.get -> int
 static HeroKit.Turkish.TurkishIdentityExtensions.IsValidTaxIdTr(this string? value) -> bool
 static HeroKit.Turkish.TurkishIdentityExtensions.IsValidTckn(this string? value) -> bool
 static HeroKit.Turkish.TurkishIdentityExtensions.IsValidVkn(this string? value) -> bool
@@ -223,3 +252,5 @@ static HeroKit.Types.TypesExtensions.GetExtensionMethods(this System.Type! type,
 static HeroKit.Types.TypesExtensions.GetRealType(this System.Type! type) -> System.Type?
 ~override HeroKit.Turkish.Province.Equals(object obj) -> bool
 ~override HeroKit.Turkish.Province.ToString() -> string
+~override HeroKit.Turkish.PublicHoliday.Equals(object obj) -> bool
+~override HeroKit.Turkish.PublicHoliday.ToString() -> string

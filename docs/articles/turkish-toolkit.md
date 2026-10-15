@@ -73,6 +73,24 @@ Accepted prefixes: `+90`, `0090`, `90`, `0` or none. The check is structural, no
 1234.5m.ToTurkishLira(TurkishLiraFormat.Code); // "1.234,50 TL"
 ```
 
+## Public holidays and business days
+
+```csharp
+new DateOnly(2026, 10, 29).IsPublicHolidayTr();   // true  (Cumhuriyet Bayramı)
+new DateOnly(2026, 10, 28).IsHalfDayHolidayTr();  // true  (afternoon off)
+new DateOnly(2026, 3, 20).GetPublicHolidayTr()?.Name; // "Ramazan Bayramı 1. Gün"
+
+new DateOnly(2026, 3, 19).AddBusinessDaysTr(1);   // 2026-03-23, skips the bayram and the weekend
+new DateOnly(2026, 10, 26).BusinessDaysUntilTr(new DateOnly(2026, 10, 30)); // 3
+
+foreach (PublicHoliday holiday in TurkishHolidays.GetHolidays(2026))
+    Console.WriteLine($"{holiday.Date:dd.MM.yyyy} {holiday.Name}{(holiday.IsHalfDay ? " (yarım gün)" : "")}");
+```
+
+- Fixed holidays follow Law No. 2429. Ramazan and Kurban Bayramı dates come from the Diyanet calendar and are available for `TurkishHolidays.FirstSupportedYear`–`LastSupportedYear` (2022–2027). Other years throw instead of returning incomplete data.
+- Business days are Monday to Friday without full-day holidays. Half days (arife and 28 October) count as business days.
+- Administrative bridge days (idari izin) are announced case by case and are not included.
+
 ## Casing and comparison
 
 ```csharp
