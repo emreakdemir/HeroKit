@@ -1,4 +1,5 @@
 using System.Globalization;
+using HeroKit.Strings;
 
 namespace HeroKit.Turkish;
 
@@ -13,8 +14,7 @@ public static class TurkishTextExtensions
     /// Converts a string to title case with Turkish casing rules.
     /// </summary>
     /// <remarks>
-    /// Words start after whitespace or a hyphen. The first letter of each word is upper-cased and the rest is lower-cased.
-    /// Letters after an apostrophe stay lower case, so suffixes such as "'da" are kept: "istanbul'da" becomes "İstanbul'da".
+    /// Shortcut for <see cref="StringManipulationExtensions.ToTitleCase(string, CultureInfo)"/> with tr-TR.
     /// </remarks>
     /// <param name="value">The string to convert.</param>
     /// <returns>The title-cased string, or an empty string if <paramref name="value"/> is null.</returns>
@@ -24,23 +24,7 @@ public static class TurkishTextExtensions
     /// "IŞIK ÇİÇEK".ToTitleCaseTr();      // "Işık Çiçek"
     /// </code>
     /// </example>
-    public static string ToTitleCaseTr(this string? value)
-    {
-        if (string.IsNullOrEmpty(value))
-            return string.Empty;
-
-        return string.Create(value.Length, value, static (destination, source) =>
-        {
-            bool startOfWord = true;
-
-            for (int i = 0; i < source.Length; i++)
-            {
-                char c = source[i];
-                destination[i] = startOfWord ? char.ToUpper(c, TurkishCulture) : char.ToLower(c, TurkishCulture);
-                startOfWord = char.IsWhiteSpace(c) || c == '-';
-            }
-        });
-    }
+    public static string ToTitleCaseTr(this string? value) => value.ToTitleCase(TurkishCulture);
 
     /// <summary>
     /// Compares two strings for equality, ignoring case with Turkish rules: "I" matches "ı" and "İ" matches "i".
@@ -54,6 +38,5 @@ public static class TurkishTextExtensions
     /// "ISIK".EqualsTr("isik");   // false: I is the capital of ı, not i
     /// </code>
     /// </example>
-    public static bool EqualsTr(this string? value, string? other) =>
-        string.Compare(value, other, TurkishCulture, CompareOptions.IgnoreCase) == 0;
+    public static bool EqualsTr(this string? value, string? other) => value.EqualsIgnoreCase(other, TurkishCulture);
 }

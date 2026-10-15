@@ -14,6 +14,7 @@ public static class DateTimeFormattingExtensions
     /// <param name="datetime">The DateTime to format.</param>
     /// <param name="format">The format string.</param>
     /// <returns>The Turkish culture formatted string.</returns>
+    [Obsolete("Use ToCultureString(CultureInfo.GetCultureInfo(\"tr-TR\"), format) instead. This method will be removed in 2.0.0.")]
     public static string ToTrString(this DateTime datetime, string format = "dd MMM yyyy, dddd") => datetime.ToCultureString(CultureInfo.GetCultureInfo("tr-TR"), format);
 
     /// <summary>
