@@ -45,12 +45,13 @@ public static class EnumExtensions
         if (!type.IsEnum)
             throw new ArgumentException("T must be type of System.Enum");
 
-        var values = Enum.GetValues(type);
+        // GetValuesAsUnderlyingType avoids creating a TEnum[] at runtime, which Native AOT cannot always do.
+        Array values = Enum.GetValuesAsUnderlyingType(type);
+        var result = new List<TEnum>(values.Length);
 
-        return values.Length switch
-        {
-            > 0 => values.Cast<TEnum>().ToList(),
-            _ => []
-        };
+        foreach (object value in values)
+            result.Add((TEnum)Enum.ToObject(type, value));
+
+        return result;
     }
 }

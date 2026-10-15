@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel;
 using System.Globalization;
 using HeroKit.Objects;
@@ -73,6 +74,7 @@ public static class StringConversionExtensions
     /// The status indicates whether the conversion was successful or not.
     /// The result value is the converted nullable value.
     /// </returns>
+    [RequiresUnreferencedCode("Uses TypeDescriptor to find a converter for T. The converter may be removed by trimming.")]
     public static (bool status, T? result) ToNullable<T>(this string? source)
             where T : struct
     {

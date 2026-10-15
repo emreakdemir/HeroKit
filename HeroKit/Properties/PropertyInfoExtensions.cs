@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using HeroKit.Objects;
 using HeroKit.Types;
@@ -35,6 +36,8 @@ public static class PropertyInfoExtensions
     /// <param name="instance">The instance that owns the property.</param>
     /// <param name="value">The value to convert and set.</param>
     /// <returns>True if the value was converted and set; false if it could not be assigned.</returns>
+    [RequiresUnreferencedCode("Converts the value with reflection over the property type.")]
+    [RequiresDynamicCode("Creates a generic method for the property type at runtime.")]
     public static bool TrySetConvertedValue<T>(this PropertyInfo property, T instance, object? value)
     {
         var constructedMethod = typeof(ObjectConversionExtensions).GetMethod(nameof(ObjectConversionExtensions.TryCast))!
@@ -65,5 +68,7 @@ public static class PropertyInfoExtensions
     /// <param name="instance">The instance of the class.</param>
     /// <param name="value">The value to be set.</param>
     [Obsolete("PropertyInfo.SetValue(object, object) hides this method in instance syntax. Use TrySetConvertedValue instead. This method will be removed in 2.0.0.")]
+    [RequiresUnreferencedCode("Converts the value with reflection over the property type.")]
+    [RequiresDynamicCode("Creates a generic method for the property type at runtime.")]
     public static void SetValue<T>(this PropertyInfo property, T instance, object? value) => property.TrySetConvertedValue(instance, value);
 }
