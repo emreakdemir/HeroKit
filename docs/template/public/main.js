@@ -1,3 +1,11 @@
+// Turkish pages live under tr/ and use the Turkish navbar (tr/toc.yml).
+// docfx reads this meta tag after the template module loads.
+const isTurkish = /\/tr(\/|$)/.test(location.pathname);
+if (isTurkish) {
+  const rel = document.querySelector('meta[name="docfx:rel"]')?.content ?? '';
+  document.querySelector('meta[name="docfx:navrel"]')?.setAttribute('content', `${rel}tr/toc.html`);
+}
+
 export default {
   defaultTheme: 'auto',
   iconLinks: [
@@ -10,7 +18,7 @@ export default {
       button.addEventListener('click', async () => {
         await navigator.clipboard.writeText(button.dataset.copy);
         const label = button.textContent;
-        button.textContent = 'Copied';
+        button.textContent = isTurkish ? 'Kopyalandı' : 'Copied';
         setTimeout(() => (button.textContent = label), 1500);
       });
     });
