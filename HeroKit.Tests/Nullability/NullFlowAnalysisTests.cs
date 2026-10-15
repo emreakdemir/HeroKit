@@ -42,12 +42,14 @@ public class NullFlowAnalysisTests
     }
 
     [Fact]
-    public void TryCast_ShouldReturnNullableResult()
+    public void TryConvertTo_ShouldMarkResultAsNotNullWhenTrue()
     {
-        object? value = null;
+        object? value = "hero";
 
-        // A null source converts successfully to the default value, so the result stays nullable.
-        Assert.True(value.TryCast(out string? result));
-        Assert.Null(result);
+        if (value.TryConvertTo(out string? result))
+            Assert.Equal(4, result.Length);
+
+        object? missing = null;
+        Assert.False(missing.TryConvertTo(out string? _));
     }
 }

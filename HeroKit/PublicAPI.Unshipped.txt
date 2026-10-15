@@ -1,1 +1,27 @@
 #nullable enable
+*REMOVED*static HeroKit.Objects.ObjectConversionExtensions.ConvertTo<T>(this object? source, T? defaultValue = default(T?)) -> T?
+static HeroKit.Objects.ObjectConversionExtensions.ConvertTo<T>(this object? value, T? defaultValue = default(T?)) -> T?
+*REMOVED*static HeroKit.Objects.ObjectConversionExtensions.TryCast<T>(this object? source, out T? result) -> bool
+static HeroKit.Objects.ObjectConversionExtensions.TryConvertTo<T>(this object? value, out T? result) -> bool
+static HeroKit.Properties.PropertyInfoExtensions.TrySetConvertedValue(this System.Reflection.PropertyInfo! property, object? instance, object? value) -> bool
+*REMOVED*static HeroKit.Properties.PropertyInfoExtensions.TrySetConvertedValue<T>(this System.Reflection.PropertyInfo! property, T instance, object? value) -> bool
+static HeroKit.Strings.StringConversionExtensions.FromBase64(this string? value) -> byte[]?
+static HeroKit.Strings.StringConversionExtensions.To<T>(this string? value, T defaultValue = default(T), System.IFormatProvider? provider = null) -> T
+*REMOVED*static HeroKit.Strings.StringConversionExtensions.ToBoolean(this string? value, string? trueCondition = "true", bool defaultvalue = false) -> bool
+static HeroKit.Strings.StringConversionExtensions.ToBoolean(this string? value, string? trueText = null, bool defaultValue = false) -> bool
+*REMOVED*static HeroKit.Strings.StringConversionExtensions.ToByteArray(this string! text) -> byte[]!
+static HeroKit.Strings.StringConversionExtensions.ToDateTime(this string? value, System.DateTime defaultValue = default(System.DateTime), System.IFormatProvider? provider = null) -> System.DateTime
+*REMOVED*static HeroKit.Strings.StringConversionExtensions.ToDateTime(this string? value, System.Globalization.CultureInfo? cultureInfo = null, System.DateTime defaultValue = default(System.DateTime)) -> System.DateTime
+*REMOVED*static HeroKit.Strings.StringConversionExtensions.ToDecimal(this string! this, string! numberDecimalSeperator = ",", bool autoReplaceDotToSeperator = true) -> decimal
+static HeroKit.Strings.StringConversionExtensions.ToDecimal(this string? value, decimal defaultValue = 0, System.IFormatProvider? provider = null) -> decimal
+*REMOVED*static HeroKit.Strings.StringConversionExtensions.ToInt(this string? value) -> int
+static HeroKit.Strings.StringConversionExtensions.ToInt(this string? value, int defaultValue = 0) -> int
+*REMOVED*static HeroKit.Strings.StringConversionExtensions.ToLong(this string? value) -> long
+static HeroKit.Strings.StringConversionExtensions.ToLong(this string? value, long defaultValue = 0) -> long
+*REMOVED*static HeroKit.Strings.StringConversionExtensions.ToNullable<T>(this string? source) -> (bool status, T? result)
+static HeroKit.Strings.StringConversionExtensions.ToNullable<T>(this string? value, System.IFormatProvider? provider = null) -> T?
+*REMOVED*static HeroKit.Strings.StringConversionExtensions.ToShort(this string? value) -> short
+static HeroKit.Strings.StringConversionExtensions.ToShort(this string? value, short defaultValue = 0) -> short
+static HeroKit.Strings.StringConversionExtensions.TryTo<T>(this string? value, out T result, System.IFormatProvider? provider = null) -> bool
+static HeroKit.Strings.StringConversionExtensions.TryToDecimal(this string? value, out decimal result, System.IFormatProvider? provider = null) -> bool
+static HeroKit.Strings.StringConversionExtensions.TryToEnum<T>(this string? value, out T result) -> bool

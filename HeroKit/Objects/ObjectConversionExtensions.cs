@@ -1,59 +1,98 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using HeroKit.Strings;
 using HeroKit.Types;
 
 namespace HeroKit.Objects;
 
 /// <summary>
-/// Provides extension methods for Object values.
+/// Converts objects to other types.
 /// </summary>
+/// <remarks>
+/// <see cref="ConvertTo{T}"/> is lenient and returns a default value; <see cref="TryConvertTo{T}"/> reports success. Neither throws for invalid input.
+/// </remarks>
 public static class ObjectConversionExtensions
 {
     /// <summary>
-    /// Converts an object to the specified type, with an optional default value.
+    /// Converts an object to the specified type, or returns a default value when it cannot.
     /// </summary>
-    /// <typeparam name="T">The target type for conversion.</typeparam>
-    /// <param name="source">The object to be converted.</param>
-    /// <param name="defaultValue">The default value to return if conversion fails.</param>
-    /// <returns>The converted value of type T or the default value if conversion fails.</returns>
-    public static T? ConvertTo<T>(this object? source, T? defaultValue = default)
-    {
-        if (source.IsNull() || source == DBNull.Value || (source is string s && s.IsNullOrEmpty()))
-            return defaultValue;
-
-        Type type = typeof(T).GetUnderlyingType();
-
-        if (type.IsEnum)
-            return source.ToString().ToEnum(defaultValue);
-
-        if (type == typeof(Guid))
-        {
-            if (source is string @string)
-                source = new Guid(@string);
-            if (source is byte[] bytes)
-                source = new Guid(bytes);
-        }
-
-        return (T)Convert.ChangeType(source, type, CultureInfo.InvariantCulture);
-    }
+    /// <typeparam name="T">The target type. Nullable value types and enums are supported.</typeparam>
+    /// <param name="value">The object to convert.</param>
+    /// <param name="defaultValue">The value returned when <paramref name="value"/> is null, <see cref="DBNull"/>, empty or not convertible.</param>
+    /// <returns>The converted value, or <paramref name="defaultValue"/>.</returns>
+    /// <example>
+    /// <code>
+    /// ((object)"42").ConvertTo&lt;int&gt;();      // 42
+    /// ((object)"abc").ConvertTo(-1);         // -1
+    /// </code>
+    /// </example>
+    public static T? ConvertTo<T>(this object? value, T? defaultValue = default)
+        => value.TryConvertTo(out T? result) ? result : defaultValue;
 
     /// <summary>
-    /// Tries to cast an object to the specified type.
+    /// Tries to convert an object to the specified type.
     /// </summary>
-    /// <typeparam name="T">The target type to cast to.</typeparam>
-    /// <param name="source">The object to be casted.</param>
-    /// <param name="result">The result of the cast operation if successful, or the default value of type T if unsuccessful.</param>
-    /// <returns>True if the cast operation is successful, false otherwise.</returns>
-    public static bool TryCast<T>(this object? source, out T? result)
+    /// <typeparam name="T">The target type. Nullable value types and enums are supported.</typeparam>
+    /// <param name="value">The object to convert.</param>
+    /// <param name="result">The converted value when the method returns true; otherwise the default value.</param>
+    /// <returns>True if the value was converted; false if it is null, <see cref="DBNull"/>, empty or not convertible.</returns>
+    /// <example>
+    /// <code>
+    /// if (row["Count"].TryConvertTo(out int count)) { /* ... */ }
+    /// </code>
+    /// </example>
+    public static bool TryConvertTo<T>(this object? value, [NotNullWhen(true)] out T? result)
     {
-        try
+        if (value is T same)
         {
-            result = source.ConvertTo<T>();
+            result = same;
             return true;
         }
-        catch
+
+        if (TryConvert(value, typeof(T), out object? converted))
         {
-            result = default;
+            result = (T)converted;
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    // Non-generic core, also used by PropertyInfoExtensions without reflection over generic methods.
+    internal static bool TryConvert(object? value, Type targetType, [NotNullWhen(true)] out object? result)
+    {
+        result = null;
+
+        if (value is null || value == DBNull.Value || (value is string text && string.IsNullOrWhiteSpace(text)))
+            return false;
+
+        Type type = targetType.GetUnderlyingType();
+
+        if (type.IsInstanceOfType(value))
+        {
+            result = value;
+            return true;
+        }
+
+        try
+        {
+            result = type switch
+            {
+                { IsEnum: true } => Enum.TryParse(type, Convert.ToString(value, CultureInfo.InvariantCulture), true, out object? parsed) && Enum.IsDefined(type, parsed) ? parsed : null,
+                _ when type == typeof(Guid) => value switch
+                {
+                    string guidText when Guid.TryParse(guidText, out Guid guid) => guid,
+                    byte[] { Length: 16 } bytes => new Guid(bytes),
+                    _ => null,
+                },
+                _ => Convert.ChangeType(value, type, CultureInfo.InvariantCulture),
+            };
+
+            return result is not null;
+        }
+        catch (Exception exception) when (exception is FormatException or InvalidCastException or OverflowException or ArgumentException)
+        {
+            result = null;
             return false;
         }
     }

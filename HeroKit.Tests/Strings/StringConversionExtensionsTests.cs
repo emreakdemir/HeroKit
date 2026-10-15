@@ -53,6 +53,6 @@ public class StringConversionExtensionsTests
     [InlineData("false", true, false)]
     public void ToBoolean_ShouldReturnDefaultForMissingInput(string? input, bool defaultValue, bool expected)
     {
-        Assert.Equal(expected, input.ToBoolean(defaultvalue: defaultValue));
+        Assert.Equal(expected, input.ToBoolean(defaultValue: defaultValue));
     }
 }
