@@ -7,8 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-15
+
 ### Added
+- Enumerable helpers: `IsNullOrEmpty`, `IsNotNullOrEmpty`, `WhereIf`, `Page` (IEnumerable and IQueryable), `ToReadOnlyList` (#35).
+- Date helpers for `DateTime` and `DateOnly`: start/end of day, week, month and year, `IsWeekend`, `IsBetween`, `Age`. Results keep `DateTimeKind` (#36).
+- Price and VAT helpers: `RoundToStep`, `ToPsychologicalPrice`, `AddPercent`, `SubtractPercent`, `IncludeVat`, `ExcludeVat`, `VatAmountFromGross` (#37).
+- String helpers: `Truncate` (surrogate-safe), `Mask`, `Left`, `Right`, `RemoveWhitespace` (#38).
 - `ToTitleCase(culture)` and `EqualsIgnoreCase(other, culture)` for any culture. `ToTitleCaseTr` and `EqualsTr` now call them with tr-TR (#67).
+- Documentation site with guides and API reference at https://herokit.emreakdemir.dev (#39).
 
 ### Deprecated
 - `ToUpperTr`, `ToLowerTr` and `ToTrString`: use `ToUpper(culture)`, `ToLower(culture)` and `ToCultureString(culture)`. Removal planned for 2.0.0 (#67, #42).
@@ -77,7 +84,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 First stable release. Targets .NET 8 and .NET 10.
 
-[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/1.2.0...HEAD
+[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/1.3.0...HEAD
+[1.3.0]: https://github.com/emreakdemir/HeroKit/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/emreakdemir/HeroKit/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/emreakdemir/HeroKit/compare/1.0.2...1.1.0
 [1.0.2]: https://github.com/emreakdemir/HeroKit/compare/1.0.1...1.0.2
