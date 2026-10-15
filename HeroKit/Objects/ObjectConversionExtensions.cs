@@ -24,7 +24,7 @@ public static class ObjectConversionExtensions
         Type type = typeof(T).GetUnderlyingType();
 
         if (type.IsEnum)
-            return source.ToString().ToEnum<T>();
+            return source.ToString().ToEnum(defaultValue);
 
         if (type == typeof(Guid))
         {
