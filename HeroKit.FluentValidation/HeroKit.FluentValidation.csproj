@@ -23,7 +23,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>herokit.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>Breaking: country rules take a Country (PhoneNumber(Countries.Turkey), VehiclePlate, PostalCode, TaxId, NationalId); new GibInvoiceNumber and Ettn rules. Migration guide: https://herokit.emreakdemir.dev/articles/migrating-to-3.html</PackageReleaseNotes>
+        <PackageReleaseNotes>Breaking: country rules take a Country (PhoneNumber(Countries.Turkey), VehiclePlate, PostalCode, TaxId, NationalId); new GibInvoiceNumber and Ettn rules. Upgrade guide: https://herokit.emreakdemir.dev/articles/upgrading.html</PackageReleaseNotes>
         <Copyright>Copyright © 2023-2026 Emre Akdemir</Copyright>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>

@@ -83,7 +83,7 @@ using HeroKit.Strings;
 | Kart | `IsValidCardNumber` (Luhn), `GetCardBrand` (Troy dahil) |
 | Enum | `GetDescription`, `ToEnum`, `ToUnderlying<T>` |
 
-Bütün metotlar [rehberlerde ve API referansında](https://herokit.emreakdemir.dev). 2.x'ten mi geçiyorsunuz? [3.0 geçiş rehberine](https://herokit.emreakdemir.dev/articles/migrating-to-3.html) bakın. 1.x'ten mi geçiyorsunuz? [2.0 geçiş rehberine](https://herokit.emreakdemir.dev/articles/migrating-to-2.html) bakın.
+Bütün metotlar [rehberlerde ve API referansında](https://herokit.emreakdemir.dev). 1.x ya da 2.x'ten mi geçiyorsunuz? [Yükseltme rehberine](https://herokit.emreakdemir.dev/tr/articles/upgrading.html) bakın.
 
 ## Sorular ve katkı
 
