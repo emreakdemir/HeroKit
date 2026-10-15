@@ -24,7 +24,7 @@ dotnet test -c Release
 
 ## Public API tracking
 
-HeroKit tracks its public API in text files (Roslyn public API analyzer). The analyzer is being added in a separate PR.
+HeroKit tracks its public API with `Microsoft.CodeAnalysis.PublicApiAnalyzers`. The build fails when the public API changes without an update to these files.
 
 - Add every new public API to `HeroKit/PublicAPI.Unshipped.txt`.
 - At release, move those entries to `HeroKit/PublicAPI.Shipped.txt`.
