@@ -739,3 +739,6 @@ $RECYCLE.BIN/
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/rider,macos,csharp,dotnetcore,visualstudio,visualstudiocode,windows
+# DocFX output
+docs/_site/
+docs/api/

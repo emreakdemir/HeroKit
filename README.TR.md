@@ -3,7 +3,7 @@
 [![NuGet](https://img.shields.io/nuget/v/HeroKit.svg)](https://www.nuget.org/packages/HeroKit)
 [![Coverage](https://raw.githubusercontent.com/emreakdemir/HeroKit/badges/coverage.svg)](https://github.com/emreakdemir/HeroKit/actions/workflows/build-tests.yml)
 
-English: [README.md](README.md)
+English: [README.md](README.md) · Dokümantasyon: [herokit.emreakdemir.dev](https://herokit.emreakdemir.dev)
 
 Yardımcı işlemler sağlayan HeroKit kütüphanesi, farklı veri türlerini kontrol etmek, dönüştürmek ve manipüle etmek için kullanılan geniş bir dizi uzantı metodu sunmaktadır. Bu kapsamlı kütüphane, C# dilinde geliştirilen projelerde, dizilerden tarih-saat değerlerine, nesnelerden metinlere kadar birçok farklı veri tipi üzerinde çeşitli işlemler yapmak için tasarlanmıştır.
 

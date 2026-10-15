@@ -1,0 +1,6 @@
+- name: Guide
+  href: articles/
+- name: API reference
+  href: api/
+- name: GitHub
+  href: https://github.com/emreakdemir/HeroKit
