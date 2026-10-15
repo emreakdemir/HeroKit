@@ -1,36 +1,25 @@
-using HeroKit.Objects;
-
 namespace HeroKit.Arrays;
 
 /// <summary>
-/// Provides extension methods for Array value conversions
+/// Provides extension methods for converting arrays.
 /// </summary>
 public static class ArrayConversionExtensions
 {
     /// <summary>
-    /// Converts an array of items to a list using a mapping function.
+    /// Encodes bytes as URL-safe base64 (RFC 4648 §5): '-' and '_' instead of '+' and '/', without padding.
     /// </summary>
-    /// <typeparam name="T">The type of items in the array and list.</typeparam>
-    /// <param name="items">The array of items to convert.</param>
-    /// <param name="mapFunction">The mapping function to apply on each item.</param>
-    /// <returns>A list of converted items.</returns>
-    public static List<T> ToList<T>(this T[]? items, Func<object?, T>? mapFunction)
+    /// <param name="value">The bytes to encode.</param>
+    /// <returns>The encoded string, or an empty string if <paramref name="value"/> is null or empty.</returns>
+    /// <example>
+    /// <code>
+    /// new byte[] { 251, 255 }.ToBase64Url(); // "-_8"
+    /// </code>
+    /// </example>
+    public static string ToBase64Url(this byte[]? value)
     {
-        if (items.IsNullOrEmpty() || mapFunction.IsNull())
-            return [];
+        if (value is not { Length: > 0 })
+            return string.Empty;
 
-        return items.Cast<object>().Select((_, i) => mapFunction(items.GetValue(i)))
-                    .Where(val => val.IsNotNull())
-                    .ToList();
-    }
-
-    /// <summary>
-    /// Encodes a byte array into a URL-safe string.
-    /// </summary>
-    /// <param name="array">The byte array to encode.</param>
-    /// <returns>The URL-safe encoded string.</returns>
-    public static string UrlTokenEncode(this byte[]? array)
-    {
-        return array.IsNullOrEmpty() ? string.Empty : System.Web.HttpUtility.UrlEncode(array);
+        return Convert.ToBase64String(value).TrimEnd('=').Replace('+', '-').Replace('/', '_');
     }
 }

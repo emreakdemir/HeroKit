@@ -1,26 +1,32 @@
 namespace HeroKit.Arrays;
 
 /// <summary>
-/// Provides extension methods for Array value manipulation.
+/// Provides extension methods for changing arrays.
 /// </summary>
 public static class ArrayManipulationExtensions
 {
     /// <summary>
-    /// Inserts items from an enumerable into an array.
+    /// Copies items into the array starting at index 0. Copying stops when the array is full.
     /// </summary>
-    /// <typeparam name="T">The type of items in the array.</typeparam>
-    /// <param name="array">The array to insert items into.</param>
-    /// <param name="items">The enumerable containing items to insert.</param>
-    public static void InsertItems<T>(this T[] array, IEnumerable<T> items)
+    /// <typeparam name="T">The element type.</typeparam>
+    /// <param name="array">The array to write to.</param>
+    /// <param name="items">The items to copy.</param>
+    /// <returns>The number of items copied.</returns>
+    public static int CopyFrom<T>(this T[] array, IEnumerable<T> items)
     {
+        ArgumentNullException.ThrowIfNull(array);
+        ArgumentNullException.ThrowIfNull(items);
+
         int index = 0;
+
         foreach (T item in items)
         {
             if (index >= array.Length)
                 break;
 
-            array[index] = item;
-            index++;
+            array[index++] = item;
         }
+
+        return index;
     }
 }

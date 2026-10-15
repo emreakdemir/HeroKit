@@ -7,13 +7,6 @@ public class DateTimeFormattingExtensionsTests
 {
     private static readonly DateTime Sample = new(2026, 3, 7, 14, 5, 9);
 
-    [Fact]
-    public void ToTrString_ShouldUseTurkishCulture()
-    {
-#pragma warning disable CS0618 // obsolete shortcut stays covered until removal
-        Assert.Equal("07 Mar 2026, Cumartesi", Sample.ToTrString());
-#pragma warning restore CS0618
-    }
 
     [Fact]
     public void ToCultureString_ShouldUseGivenCulture()

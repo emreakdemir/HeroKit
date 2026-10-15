@@ -1,6 +1,34 @@
 #nullable enable
+*REMOVED*HeroKit.Comparers.NameEqualityComparer
+*REMOVED*HeroKit.Comparers.NameEqualityComparer.Equals(string? source, string? control) -> bool
+*REMOVED*HeroKit.Comparers.NameEqualityComparer.GetHashCode(string? value) -> int
+*REMOVED*HeroKit.Comparers.NameEqualityComparer.NameEqualityComparer() -> void
+*REMOVED*static HeroKit.Arrays.ArrayConversionExtensions.ToList<T>(this T[]? items, System.Func<object?, T>? mapFunction) -> System.Collections.Generic.List<T>!
+*REMOVED*static HeroKit.Arrays.ArrayConversionExtensions.UrlTokenEncode(this byte[]? array) -> string!
+*REMOVED*static HeroKit.Arrays.ArrayManipulationExtensions.InsertItems<T>(this T[]! array, System.Collections.Generic.IEnumerable<T>! items) -> void
+*REMOVED*static HeroKit.Booleans.BooleanConversionExtensions.ToString(this bool value, string! trueText, string! falseText) -> string!
+*REMOVED*static HeroKit.Booleans.BooleanConversionExtensions.ToString(this bool? value, string! trueText, string! falseText, string! nullText = "-") -> string!
+*REMOVED*static HeroKit.Comparers.NameEqualityComparer.Default.get -> System.Collections.Generic.IEqualityComparer<string!>!
+*REMOVED*static HeroKit.DateTimes.DateTimeFormattingExtensions.AsDirectoryName(this System.DateTime datetime, string! format = "yyyy-MM-dd") -> string!
+*REMOVED*static HeroKit.DateTimes.DateTimeFormattingExtensions.AsFileName(this System.DateTime datetime, string! baseFileName = "") -> string!
+*REMOVED*static HeroKit.DateTimes.DateTimeFormattingExtensions.ToCultureString(this System.DateTime datetime, System.Globalization.CultureInfo! formatProvider, string! format = "dd MMM yyyy, dddd") -> string!
+*REMOVED*static HeroKit.DateTimes.DateTimeFormattingExtensions.ToTrString(this System.DateTime datetime, string! format = "dd MMM yyyy, dddd") -> string!
+*REMOVED*static HeroKit.Enums.EnumExtensions.GetValue<T>(this System.Enum! value) -> string!
+*REMOVED*static HeroKit.Guids.GuidExtensions.IsEmpty(this System.Guid target) -> bool
+*REMOVED*static HeroKit.Guids.GuidExtensions.IsNotEmpty(this System.Guid target) -> bool
+*REMOVED*static HeroKit.Guids.GuidExtensions.IsNotNullOrEmpty(this System.Guid? target) -> bool
+*REMOVED*static HeroKit.Guids.GuidExtensions.IsNullOrEmpty(this System.Guid? target) -> bool
+*REMOVED*static HeroKit.Integers.IntegerExtensions.Cube(this int source) -> int
+*REMOVED*static HeroKit.Integers.IntegerExtensions.Half(this int source) -> int
+*REMOVED*static HeroKit.Integers.IntegerExtensions.IsEvenNumber(this int number) -> bool
+*REMOVED*static HeroKit.Integers.IntegerExtensions.IsOddNumber(this int number) -> bool
+*REMOVED*static HeroKit.Integers.IntegerExtensions.Seconds(this int source) -> int
+*REMOVED*static HeroKit.Integers.IntegerExtensions.Square(this int source) -> int
+*REMOVED*static HeroKit.Integers.IntegerExtensions.ToMonthString(this int value, System.Globalization.CultureInfo? cultureInfo = null) -> string!
+*REMOVED*static HeroKit.Integers.IntegerExtensions.ToPixel(this int point) -> decimal
 *REMOVED*static HeroKit.Objects.ObjectConversionExtensions.ConvertTo<T>(this object? source, T? defaultValue = default(T?)) -> T?
 *REMOVED*static HeroKit.Objects.ObjectConversionExtensions.TryCast<T>(this object? source, out T? result) -> bool
+*REMOVED*static HeroKit.Properties.PropertyInfoExtensions.SetValue<T>(this System.Reflection.PropertyInfo! property, T instance, object? value) -> void
 *REMOVED*static HeroKit.Properties.PropertyInfoExtensions.TrySetConvertedValue<T>(this System.Reflection.PropertyInfo! property, T instance, object? value) -> bool
 *REMOVED*static HeroKit.Strings.StringConversionExtensions.ToBoolean(this string? value, string? trueCondition = "true", bool defaultvalue = false) -> bool
 *REMOVED*static HeroKit.Strings.StringConversionExtensions.ToByteArray(this string! text) -> byte[]!
@@ -10,6 +38,10 @@
 *REMOVED*static HeroKit.Strings.StringConversionExtensions.ToLong(this string? value) -> long
 *REMOVED*static HeroKit.Strings.StringConversionExtensions.ToNullable<T>(this string? source) -> (bool status, T? result)
 *REMOVED*static HeroKit.Strings.StringConversionExtensions.ToShort(this string? value) -> short
+*REMOVED*static HeroKit.Strings.StringManipulationExtensions.ToDashCase(this string! input) -> string!
+*REMOVED*static HeroKit.Strings.StringManipulationExtensions.ToLowerTr(this string! input) -> string!
+*REMOVED*static HeroKit.Strings.StringManipulationExtensions.ToUpperTr(this string! input) -> string!
+*REMOVED*static HeroKit.Types.TypesExtensions.GetDefault<T>() -> T?
 HeroKit.Banking.CardBrand
 HeroKit.Banking.CardBrand.AmericanExpress = 3 -> HeroKit.Banking.CardBrand
 HeroKit.Banking.CardBrand.Discover = 4 -> HeroKit.Banking.CardBrand
@@ -31,8 +63,26 @@ HeroKit.Turkish.Province.Province(int Code, string! Name) -> void
 HeroKit.Turkish.TurkishLocationExtensions
 HeroKit.Turkish.TurkishProvinces
 override HeroKit.Turkish.Province.GetHashCode() -> int
+static HeroKit.Arrays.ArrayConversionExtensions.ToBase64Url(this byte[]? value) -> string!
+static HeroKit.Arrays.ArrayManipulationExtensions.CopyFrom<T>(this T[]! array, System.Collections.Generic.IEnumerable<T>! items) -> int
 static HeroKit.Banking.CardNumberExtensions.GetCardBrand(this string? value) -> HeroKit.Banking.CardBrand
 static HeroKit.Banking.CardNumberExtensions.IsValidCardNumber(this string? value) -> bool
+static HeroKit.Booleans.BooleanConversionExtensions.ToText(this bool value, string! trueText, string! falseText) -> string!
+static HeroKit.Booleans.BooleanConversionExtensions.ToText(this bool? value, string! trueText, string! falseText, string! nullText = "-") -> string!
+static HeroKit.DateTimes.DateTimeFormattingExtensions.AsDirectoryName(this System.DateTime value, string! format = "yyyy-MM-dd") -> string!
+static HeroKit.DateTimes.DateTimeFormattingExtensions.AsFileName(this System.DateTime value, string! baseFileName = "") -> string!
+static HeroKit.DateTimes.DateTimeFormattingExtensions.ToCultureString(this System.DateTime value, System.Globalization.CultureInfo! culture, string! format = "dd MMM yyyy, dddd") -> string!
+static HeroKit.Enums.EnumExtensions.ToUnderlying<T>(this System.Enum! value) -> T
+static HeroKit.Guids.GuidExtensions.IsEmpty(this System.Guid value) -> bool
+static HeroKit.Guids.GuidExtensions.IsNotEmpty(this System.Guid value) -> bool
+static HeroKit.Guids.GuidExtensions.IsNotNullOrEmpty(this System.Guid? value) -> bool
+static HeroKit.Guids.GuidExtensions.IsNullOrEmpty(this System.Guid? value) -> bool
+static HeroKit.Integers.IntegerExtensions.Cube(this int value) -> int
+static HeroKit.Integers.IntegerExtensions.Half(this int value) -> int
+static HeroKit.Integers.IntegerExtensions.IsEven(this int value) -> bool
+static HeroKit.Integers.IntegerExtensions.IsOdd(this int value) -> bool
+static HeroKit.Integers.IntegerExtensions.Square(this int value) -> int
+static HeroKit.Integers.IntegerExtensions.ToMonthName(this int value, System.Globalization.CultureInfo? culture = null) -> string!
 static HeroKit.Objects.ObjectConversionExtensions.ConvertTo<T>(this object? value, T? defaultValue = default(T?)) -> T?
 static HeroKit.Objects.ObjectConversionExtensions.TryConvertTo<T>(this object? value, out T? result) -> bool
 static HeroKit.Properties.PropertyInfoExtensions.TrySetConvertedValue(this System.Reflection.PropertyInfo! property, object? instance, object? value) -> bool
@@ -48,6 +98,7 @@ static HeroKit.Strings.StringConversionExtensions.ToShort(this string? value, sh
 static HeroKit.Strings.StringConversionExtensions.TryTo<T>(this string? value, out T result, System.IFormatProvider? provider = null) -> bool
 static HeroKit.Strings.StringConversionExtensions.TryToDecimal(this string? value, out decimal result, System.IFormatProvider? provider = null) -> bool
 static HeroKit.Strings.StringConversionExtensions.TryToEnum<T>(this string? value, out T result) -> bool
+static HeroKit.Strings.StringManipulationExtensions.ToDashCase(this string! value) -> string!
 static HeroKit.Turkish.Province.operator !=(HeroKit.Turkish.Province left, HeroKit.Turkish.Province right) -> bool
 static HeroKit.Turkish.Province.operator ==(HeroKit.Turkish.Province left, HeroKit.Turkish.Province right) -> bool
 static HeroKit.Turkish.TurkishLocationExtensions.FormatPlateTr(this string? value) -> string?

@@ -11,7 +11,6 @@ public class IntegerFormattingTests
         Assert.Equal(5, 10.Half());
         Assert.Equal(27, 3.Cube());
         Assert.Equal(16, 4.Square());
-        Assert.Equal(3000, 3.Seconds());
     }
 
     [Theory]
@@ -19,8 +18,8 @@ public class IntegerFormattingTests
     [InlineData(12, "December")]
     [InlineData(0, "")]
     [InlineData(13, "")]
-    public void ToMonthString_ShouldReturnMonthName(int month, string expected)
+    public void ToMonthName_ShouldReturnMonthName(int month, string expected)
     {
-        Assert.Equal(expected, month.ToMonthString(new CultureInfo("en-US")));
+        Assert.Equal(expected, month.ToMonthName(new CultureInfo("en-US")));
     }
 }

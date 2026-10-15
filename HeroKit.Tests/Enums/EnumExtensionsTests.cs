@@ -19,9 +19,10 @@ public class EnumExtensionsTests
     }
 
     [Fact]
-    public void GetValue_ShouldConvertToRequestedType()
+    public void ToUnderlying_ShouldReturnNumericValue()
     {
-        Assert.Equal("2", TestValues.SecondValue.GetValue<int>());
+        Assert.Equal(2, TestValues.SecondValue.ToUnderlying<int>());
+        Assert.Equal(5L, DayOfWeek.Friday.ToUnderlying<long>());
     }
 
     [Fact]
@@ -32,9 +33,4 @@ public class EnumExtensionsTests
         Assert.Equal([TestValues.FirstValue, TestValues.SecondValue, TestValues.ThirdValue], result);
     }
 
-    [Fact]
-    public void ToList_ShouldThrowForNonEnumType()
-    {
-        Assert.Throws<ArgumentException>(() => EnumExtensions.ToList<int>());
-    }
 }

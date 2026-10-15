@@ -1,5 +1,4 @@
 using System.Globalization;
-using HeroKit.Objects;
 
 namespace HeroKit.Integers;
 
@@ -9,68 +8,55 @@ namespace HeroKit.Integers;
 public static class IntegerExtensions
 {
     /// <summary>
-    /// Returns half of the given integer.
+    /// Returns half of the given integer, rounded toward zero.
     /// </summary>
-    /// <param name="source">The integer to halve.</param>
-    /// <returns>The result of dividing the given integer by 2.</returns>
-    public static int Half(this int source) => source / 2;
+    /// <param name="value">The integer to halve.</param>
+    /// <returns><paramref name="value"/> divided by 2.</returns>
+    public static int Half(this int value) => value / 2;
 
     /// <summary>
     /// Returns the cube of the given integer.
     /// </summary>
-    /// <param name="source">The integer to cube.</param>
-    /// <returns>The result of raising the given integer to the power of 3.</returns>
-    public static int Cube(this int source) => (int)Math.Pow(source, 3);
+    /// <param name="value">The integer to cube.</param>
+    /// <returns><paramref name="value"/> to the power of 3.</returns>
+    public static int Cube(this int value) => value * value * value;
 
     /// <summary>
     /// Returns the square of the given integer.
     /// </summary>
-    /// <param name="source">The integer to square.</param>
-    /// <returns>The result of multiplying the given integer by itself.</returns>
-    public static int Square(this int source) => (int)Math.Pow(source, 2);
+    /// <param name="value">The integer to square.</param>
+    /// <returns><paramref name="value"/> multiplied by itself.</returns>
+    public static int Square(this int value) => value * value;
 
     /// <summary>
-    /// Determines whether the given number is an even number.
+    /// Determines whether the given number is even.
     /// </summary>
-    /// <param name="number">The number to check.</param>
-    /// <returns>true if the number is even, false otherwise.</returns>
-    public static bool IsEvenNumber(this int number) => ((number % 2) == 0);
+    /// <param name="value">The number to check.</param>
+    /// <returns>True if the number is even; otherwise false.</returns>
+    public static bool IsEven(this int value) => value % 2 == 0;
 
     /// <summary>
-    /// Determines whether the given number is an odd number.
+    /// Determines whether the given number is odd. Works for negative numbers.
     /// </summary>
-    /// <param name="number">The number to check.</param>
-    /// <returns>true if the number is odd, false otherwise.</returns>
-    public static bool IsOddNumber(this int number) => ((number % 2) != 0);
+    /// <param name="value">The number to check.</param>
+    /// <returns>True if the number is odd; otherwise false.</returns>
+    public static bool IsOdd(this int value) => value % 2 != 0;
 
     /// <summary>
-    /// Returns the month name of the given integer value.
+    /// Returns the name of the month with the given number.
     /// </summary>
-    /// <param name="value">The integer value representing a month (1-12).</param>
-    /// <param name="cultureInfo">The culture for the month name. Defaults to <see cref="CultureInfo.CurrentCulture"/>, because the result is meant for display.</param>
-    /// <returns>The month name corresponding to the given value, or an empty string if the value is out of range.</returns>
-    public static string ToMonthString(this int value, CultureInfo? cultureInfo = null)
+    /// <param name="value">The month number (1-12).</param>
+    /// <param name="culture">The culture for the month name. Defaults to <see cref="CultureInfo.CurrentCulture"/>, because the result is meant for display.</param>
+    /// <returns>The month name, or an empty string if the value is out of range.</returns>
+    /// <example>
+    /// <code>
+    /// 3.ToMonthName(CultureInfo.GetCultureInfo("tr-TR")); // "Mart"
+    /// </code>
+    /// </example>
+    public static string ToMonthName(this int value, CultureInfo? culture = null)
     {
-        cultureInfo ??= CultureInfo.CurrentCulture;
-        
-        return value switch
-        {
-            >= 1 and <= 12 => cultureInfo.DateTimeFormat.GetMonthName(value),
-            _ => ""
-        };
+        culture ??= CultureInfo.CurrentCulture;
+
+        return value is >= 1 and <= 12 ? culture.DateTimeFormat.GetMonthName(value) : string.Empty;
     }
-
-    /// <summary>
-    /// Converts the given typographic point value to pixels at 96 DPI (1pt = 4/3px).
-    /// </summary>
-    /// <param name="point">The integer point value.</param>
-    /// <returns>The pixel value after conversion.</returns>
-    public static decimal ToPixel(this int point) => point * 4m / 3m;
-
-    /// <summary>
-    /// Returns the given number of seconds as milliseconds.
-    /// </summary>
-    /// <param name="source">The number of seconds.</param>
-    /// <returns>The number of seconds converted to milliseconds.</returns>
-    public static int Seconds(this int source) => source * 1000;
 }

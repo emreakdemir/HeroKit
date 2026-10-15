@@ -49,15 +49,4 @@ public class PropertyInfoExtensionsTests
         Assert.Equal(7, sample.Number);
     }
 
-    [Fact]
-    public void SetValue_ShouldStillWorkWhenCalledStatically()
-    {
-        var sample = new Sample();
-
-#pragma warning disable CS0618
-        PropertyInfoExtensions.SetValue(typeof(Sample).GetProperty(nameof(Sample.Number))!, sample, "42");
-#pragma warning restore CS0618
-
-        Assert.Equal(42, sample.Number);
-    }
 }
