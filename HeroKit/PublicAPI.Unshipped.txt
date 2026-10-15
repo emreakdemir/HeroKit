@@ -1,1 +1,3 @@
 #nullable enable
+static HeroKit.Strings.StringControlExtensions.EqualsIgnoreCase(this string? value, string? other, System.Globalization.CultureInfo! culture) -> bool
+static HeroKit.Strings.StringManipulationExtensions.ToTitleCase(this string? value, System.Globalization.CultureInfo! culture) -> string!

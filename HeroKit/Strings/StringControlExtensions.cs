@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using HeroKit.Arrays;
 
 namespace HeroKit.Strings;
@@ -8,6 +9,26 @@ namespace HeroKit.Strings;
 /// </summary>
 public static class StringControlExtensions
 {
+    /// <summary>
+    /// Compares two strings for equality, ignoring case with the rules of the given culture.
+    /// </summary>
+    /// <param name="value">The first string.</param>
+    /// <param name="other">The second string.</param>
+    /// <param name="culture">The culture whose casing rules are used. With tr-TR, "I" matches "ı" and "İ" matches "i".</param>
+    /// <returns>True if both strings are null or equal ignoring case; otherwise false.</returns>
+    /// <example>
+    /// <code>
+    /// "IŞIK".EqualsIgnoreCase("ışık", CultureInfo.GetCultureInfo("tr-TR")); // true
+    /// "FILE".EqualsIgnoreCase("file", CultureInfo.InvariantCulture);        // true
+    /// </code>
+    /// </example>
+    public static bool EqualsIgnoreCase(this string? value, string? other, CultureInfo culture)
+    {
+        ArgumentNullException.ThrowIfNull(culture);
+
+        return string.Compare(value, other, culture, CompareOptions.IgnoreCase) == 0;
+    }
+
     /// <summary>
     /// Checks if the string is null or empty.
     /// </summary>

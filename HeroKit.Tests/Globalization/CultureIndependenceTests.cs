@@ -26,7 +26,7 @@ public class CultureIndependenceTests
             Assert.True("1.5".IsNumeric());
             Assert.Equal(1.5, "1.5".ConvertTo<double>());
             Assert.Equal("2", TestValues.SecondValue.GetValue<int>());
-            Assert.Equal("istanbul", "İSTANBUL".ToLowerTr().ClearTurkishChars());
+            Assert.Equal("istanbul", "İSTANBUL".ToLower(CultureInfo.GetCultureInfo("tr-TR")).ClearTurkishChars());
         }
         finally
         {

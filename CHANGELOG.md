@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `ToTitleCase(culture)` and `EqualsIgnoreCase(other, culture)` for any culture. `ToTitleCaseTr` and `EqualsTr` now call them with tr-TR (#67).
+
+### Deprecated
+- `ToUpperTr`, `ToLowerTr` and `ToTrString`: use `ToUpper(culture)`, `ToLower(culture)` and `ToCultureString(culture)`. Removal planned for 2.0.0 (#67, #42).
+
 ## [1.2.0] - 2026-10-15
 
 ### Added

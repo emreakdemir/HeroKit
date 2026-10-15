@@ -344,7 +344,7 @@ This class contains extension methods for values of the DateTime type, allowing 
 
 ### `ToTrString(this DateTime datetime, string format = "dd MMM yyyy, dddd")`
 
-Returns a string representation of the given DateTime formatted according to Turkish culture.
+Obsolete: use `ToCultureString(CultureInfo.GetCultureInfo("tr-TR"))`. Removed in 2.0.0.
 
 - `datetime`: The DateTime value to be formatted.
 - `format`: Formatting pattern. Default value: "dd MMM yyyy, dddd".
@@ -393,7 +393,7 @@ class Program
     {
         DateTime now = DateTime.Now;
         
-        string trFormatted = now.ToTrString(); // "15 Ağu 2023, Pazartesi"
+        string trFormatted = now.ToCultureString(CultureInfo.GetCultureInfo("tr-TR")); // "15 Ağu 2023, Pazartesi"
         
         string customFormatted = now.ToCultureString(new CultureInfo("en-US"), "MMMM dd, yyyy"); // "August 15, 2023"
         

@@ -328,7 +328,7 @@ Bu sınıf, DateTime (tarih ve saat) türündeki değerlere yönelik uzantı met
 
 ### `ToTrString(this DateTime datetime, string format = "dd MMM yyyy, dddd")`
 
-Verilen bir DateTime'i Türk kültürüne göre biçimlendirilmiş bir string olarak döndürür.
+Eskidi: `ToCultureString(CultureInfo.GetCultureInfo("tr-TR"))` kullanın. 2.0.0'da kaldırılacak.
 
 - `datetime`: Biçimlendirilecek DateTime değeri.
 - `format`: Biçimlendirme şablonu. Varsayılan değer: "dd MMM yyyy, dddd".
@@ -377,7 +377,7 @@ class Program
     {
         DateTime now = DateTime.Now;
         
-        string trFormatted = now.ToTrString(); // "15 Ağu 2023, Pazartesi"
+        string trFormatted = now.ToCultureString(CultureInfo.GetCultureInfo("tr-TR")); // "15 Ağu 2023, Pazartesi"
         
         string customFormatted = now.ToCultureString(new CultureInfo("en-US"), "MMMM dd, yyyy"); // "August 15, 2023"
         

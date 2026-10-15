@@ -124,10 +124,48 @@ public static partial class StringManipulationExtensions
     }
     
     /// <summary>
+    /// Converts a string to title case with the casing rules of the given culture.
+    /// </summary>
+    /// <remarks>
+    /// Words start after whitespace or a hyphen. The first letter of each word is upper-cased and the rest is lower-cased,
+    /// so all-caps input is converted too (unlike <see cref="TextInfo.ToTitleCase(string)"/>).
+    /// Letters after an apostrophe stay lower case: "istanbul'da" becomes "İstanbul'da" with tr-TR.
+    /// </remarks>
+    /// <param name="value">The string to convert.</param>
+    /// <param name="culture">The culture whose casing rules are used, for example tr-TR for İ/ı.</param>
+    /// <returns>The title-cased string, or an empty string if <paramref name="value"/> is null.</returns>
+    /// <example>
+    /// <code>
+    /// "istanbul ılıca".ToTitleCase(CultureInfo.GetCultureInfo("tr-TR")); // "İstanbul Ilıca"
+    /// "HELLO WORLD".ToTitleCase(CultureInfo.InvariantCulture);          // "Hello World"
+    /// </code>
+    /// </example>
+    public static string ToTitleCase(this string? value, CultureInfo culture)
+    {
+        ArgumentNullException.ThrowIfNull(culture);
+
+        if (string.IsNullOrEmpty(value))
+            return string.Empty;
+
+        return string.Create(value.Length, (value, culture), static (destination, state) =>
+        {
+            bool startOfWord = true;
+
+            for (int i = 0; i < state.value.Length; i++)
+            {
+                char c = state.value[i];
+                destination[i] = startOfWord ? char.ToUpper(c, state.culture) : char.ToLower(c, state.culture);
+                startOfWord = char.IsWhiteSpace(c) || c == '-';
+            }
+        });
+    }
+
+    /// <summary>
     /// Converts a string to uppercase using the Turkish culture.
     /// </summary>
     /// <param name="input">The string to convert.</param>
     /// <returns>The uppercase representation of the input string.</returns>
+    [Obsolete("Use ToUpper(CultureInfo.GetCultureInfo(\"tr-TR\")) instead. This method will be removed in 2.0.0.")]
     public static string ToUpperTr(this string input) => input.ToUpper(TurkishCulture);
 
     /// <summary>
@@ -135,5 +173,6 @@ public static partial class StringManipulationExtensions
     /// </summary>
     /// <param name="input">The string to convert.</param>
     /// <returns>The converted lowercase string.</returns>
+    [Obsolete("Use ToLower(CultureInfo.GetCultureInfo(\"tr-TR\")) instead. This method will be removed in 2.0.0.")]
     public static string ToLowerTr(this string input) => input.ToLower(TurkishCulture);
 }
