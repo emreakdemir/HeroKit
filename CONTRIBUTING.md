@@ -33,6 +33,17 @@ HeroKit tracks its public API with `Microsoft.CodeAnalysis.PublicApiAnalyzers`. 
 
 Do not remove a public API in a 1.x release. Mark it with `[Obsolete]` and name the replacement in the message. Remove it in the next major version.
 
+## Documentation
+
+The site at herokit.emreakdemir.dev is built with DocFX from `docs/` and the XML comments. Preview it locally:
+
+```
+dotnet tool install -g docfx
+docfx docs/docfx.json --serve
+```
+
+The `docs.yml` workflow publishes the site when a release is published.
+
 ## Releases
 
 1. Bump `<Version>` in `HeroKit/HeroKit.csproj`.
