@@ -65,7 +65,9 @@ public class StringControlExtensionsTests
     [Theory]
     [InlineData(null, ' ', true)]
     [InlineData("", ' ', true)]
-    [InlineData("  ", ' ', false)]
+    [InlineData("  ", ' ', true)]
+    [InlineData(",,,", ',', true)]
+    [InlineData("a,,", ',', false)]
     [InlineData("Hello World", ' ', false)]
     [InlineData("SomeValue", ' ', false)]
     public void IsNullOrEmpty_ShouldCheckIfStringIsNullOrEmptyOrSplitValue(string input, char splitValue, bool expectedResult)
@@ -82,7 +84,8 @@ public class StringControlExtensionsTests
     [Theory]
     [InlineData(null, ' ', false)]
     [InlineData("", ' ', false)]
-    [InlineData("  ", ' ', true)]
+    [InlineData("  ", ' ', false)]
+    [InlineData(",,,", ',', false)]
     [InlineData("Hello World", ' ', true)]
     [InlineData("SomeValue", ' ', true)]
     public void IsNotNullOrEmpty_ShouldCheckIfStringIsNotNullOrEmptyOrSplitValue(string input, char splitValue, bool expectedResult)

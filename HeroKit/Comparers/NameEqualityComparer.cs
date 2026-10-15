@@ -9,7 +9,7 @@ public class NameEqualityComparer : IEqualityComparer<string>
     /// Gets the default instance of <see cref="IEqualityComparer{T}"/> that uses the <see cref="NameEqualityComparer"/> implementation.
     /// </summary>
     /// <returns>The default instance of <see cref="IEqualityComparer{T}"/>.</returns>
-    public static IEqualityComparer<string> Default => new NameEqualityComparer();
+    public static IEqualityComparer<string> Default { get; } = new NameEqualityComparer();
 
     /// <summary>
     /// Determines whether two specified strings have the same value, ignoring the case.

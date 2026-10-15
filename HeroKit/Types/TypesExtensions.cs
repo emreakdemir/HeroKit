@@ -154,9 +154,11 @@ public static class TypesExtensions
             ParameterInfo[] parameters = methodInfo.GetParameters();
 
             bool found = true;
-            for (byte b = 0; b < types.Length; b++)
+
+            // parameters[0] is the extended type, so the requested types start at index 1.
+            for (int i = 0; i < types.Length && found; i++)
             {
-                found = parameters[b].GetType() == types[b];
+                found = parameters[i + 1].ParameterType == types[i];
             }
 
             if (found)

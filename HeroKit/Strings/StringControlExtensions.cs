@@ -20,7 +20,7 @@ public static class StringControlExtensions
     /// <param name="source">The string to check.</param>
     /// <param name="splitValue">The character used for splitting.</param>
     /// <returns>True if the string is null, empty, or consists only of the split value, false otherwise.</returns>
-    public static bool IsNullOrEmpty(this string source, char splitValue) => source.IsNullOrEmpty() || source.Split(splitValue).IsNullOrEmpty();
+    public static bool IsNullOrEmpty(this string source, char splitValue) => source.IsNullOrEmpty() || source.Split(splitValue, StringSplitOptions.RemoveEmptyEntries).IsNullOrEmpty();
 
     /// <summary>
     /// Checks if the string is not null or empty.

@@ -100,28 +100,25 @@ public static class StringConversionExtensions
     /// <param name="trueCondition">The condition that represents a true value. Default value is "true".</param>
     /// <param name="defaultvalue">The default value to be returned if the conversion fails. Default value is false.</param>
     /// <returns>A boolean value representing the conversion result.</returns>
-    /// <exception cref="ArgumentException">Thrown when the specified value cannot be converted to a boolean value.</exception>
     public static bool ToBoolean(this string value, string trueCondition = "true", bool defaultvalue = false)
     {
-        try
-        {
-            if (bool.TryParse(value, out bool result))
-                return result;
+        if (value.IsNullOrEmpty())
+            return defaultvalue;
 
-            if (trueCondition.IsNotNullOrEmpty())
-                return value.Equals(trueCondition, StringComparison.InvariantCultureIgnoreCase);
-        }
-        catch
-        {
-            throw new ArgumentException("Invalid boolean value");
-        }
+        if (bool.TryParse(value, out bool result))
+            return result;
+
+        if (trueCondition.IsNotNullOrEmpty())
+            return value.Equals(trueCondition, StringComparison.InvariantCultureIgnoreCase);
 
         return defaultvalue;
     }
 
     /// <summary>
-    /// Converts the specified string representation of a number to its equivalent short integer. </summary> <param name="value">A string containing a number to convert.</param> <returns>The short integer equivalent to the value of the specified string.</returns>
-    /// /
+    /// Converts the specified string representation of a number to its equivalent short integer.
+    /// </summary>
+    /// <param name="value">A string containing a number to convert.</param>
+    /// <returns>The short integer equivalent of the string, or zero if the conversion fails.</returns>
     public static short ToShort(this string value)
     {
         short result = 0;
