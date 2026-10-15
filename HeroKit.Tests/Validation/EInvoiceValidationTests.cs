@@ -1,18 +1,19 @@
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 using HeroKit.FluentValidation;
-using HeroKit.Turkish;
+using HeroKit.Globalization;
+using HeroKit.Globalization.Turkey;
 using HeroKit.Validation;
 
 namespace HeroKit.Tests.Validation;
 
-// HeroKit.Turkish (InvoiceNumberTr struct) and HeroKit.Validation (InvoiceNumberTrAttribute) are both imported on purpose:
-// [InvoiceNumberTr] must bind to the attribute.
+// HeroKit.Turkish (GibInvoiceNumber struct) and HeroKit.Validation (InvoiceNumberTrAttribute) are both imported on purpose:
+// [GibInvoiceNumber] must bind to the attribute.
 public class EInvoiceValidationTests
 {
     public sealed class Invoice
     {
-        [InvoiceNumberTr]
+        [GibInvoiceNumber]
         public string? Number { get; set; }
 
         [Ettn]
@@ -23,7 +24,7 @@ public class EInvoiceValidationTests
     {
         public InvoiceValidator()
         {
-            RuleFor(x => x.Number).InvoiceNumberTr();
+            RuleFor(x => x.Number).GibInvoiceNumber();
             RuleFor(x => x.Ettn).Ettn();
         }
     }
@@ -40,6 +41,6 @@ public class EInvoiceValidationTests
 
         Assert.Equal(errors, results.Count);
         Assert.Equal(errors, new InvoiceValidator().Validate(invoice).Errors.Count);
-        Assert.Equal(number is not null && InvoiceNumberTr.TryParse(number, out _), number.IsValidInvoiceNumberTr());
+        Assert.Equal(number is not null && GibInvoiceNumber.TryParse(number, out _), number.IsValidGibInvoiceNumber());
     }
 }

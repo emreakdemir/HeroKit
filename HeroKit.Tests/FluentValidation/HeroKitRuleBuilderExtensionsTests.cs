@@ -1,3 +1,4 @@
+using HeroKit.Globalization;
 using FluentValidation;
 using FluentValidation.Results;
 using HeroKit.FluentValidation;
@@ -26,12 +27,12 @@ public class HeroKitRuleBuilderExtensionsTests
         {
             RuleFor(x => x.IdentityNumber).NotEmpty().Tckn();
             RuleFor(x => x.TaxNumber).Vkn();
-            RuleFor(x => x.TaxId).TaxIdTr();
+            RuleFor(x => x.TaxId).TaxId(Countries.Turkey);
             RuleFor(x => x.Iban).Iban();
-            RuleFor(x => x.Phone).TurkishPhone();
-            RuleFor(x => x.Mobile).TurkishPhone(mobileOnly: true).WithMessage("Cep telefonu geçersiz.");
-            RuleFor(x => x.PostalCode).PostalCodeTr();
-            RuleFor(x => x.Plate).PlateTr();
+            RuleFor(x => x.Phone).PhoneNumber(Countries.Turkey);
+            RuleFor(x => x.Mobile).PhoneNumber(Countries.Turkey, mobileOnly: true).WithMessage("Cep telefonu geçersiz.");
+            RuleFor(x => x.PostalCode).PostalCode(Countries.Turkey);
+            RuleFor(x => x.Plate).VehiclePlate(Countries.Turkey);
             RuleFor(x => x.Card).CardNumber();
         }
     }

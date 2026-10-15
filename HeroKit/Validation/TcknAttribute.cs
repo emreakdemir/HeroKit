@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
-using HeroKit.Turkish;
+using HeroKit.Globalization.Turkey;
 
 namespace HeroKit.Validation;
 
 /// <summary>
-/// Validates a Turkish identity number (T.C. Kimlik No) with <see cref="Turkish.TurkishIdentityExtensions.IsValidTckn"/>.
+/// Validates a Turkish identity number (T.C. Kimlik No) with <see cref="Globalization.Turkey.TurkeyIdentityExtensions.IsValidTckn"/>.
 /// </summary>
 /// <remarks>
 /// Null and empty values are valid; combine with <see cref="RequiredAttribute"/> to require a value. Non-string values are invalid.

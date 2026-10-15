@@ -1,6 +1,7 @@
 using FluentValidation;
 using HeroKit.Banking;
-using HeroKit.Turkish;
+using HeroKit.Globalization;
+using HeroKit.Globalization.Turkey;
 
 namespace HeroKit.FluentValidation;
 
@@ -10,6 +11,7 @@ namespace HeroKit.FluentValidation;
 /// <remarks>
 /// Null and empty values pass, so optional properties stay optional. Combine with <c>NotEmpty()</c> to require a value.
 /// Messages use the FluentValidation placeholder <c>{PropertyName}</c> and can be replaced with <c>WithMessage</c>.
+/// Country rules take a <see cref="Country"/>, for example <see cref="Countries.Turkey"/>.
 /// </remarks>
 public static class HeroKitRuleBuilderExtensions
 {
@@ -19,11 +21,6 @@ public static class HeroKitRuleBuilderExtensions
     /// <typeparam name="T">The validated object type.</typeparam>
     /// <param name="ruleBuilder">The rule builder.</param>
     /// <returns>The rule builder options, for chaining.</returns>
-    /// <example>
-    /// <code>
-    /// RuleFor(x => x.Value).NotEmpty().Tckn();
-    /// </code>
-    /// </example>
     public static IRuleBuilderOptions<T, string?> Tckn<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
         ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidTckn())
                    .WithMessage("'{PropertyName}' must be a valid Turkish identity number (TCKN).");
@@ -34,29 +31,9 @@ public static class HeroKitRuleBuilderExtensions
     /// <typeparam name="T">The validated object type.</typeparam>
     /// <param name="ruleBuilder">The rule builder.</param>
     /// <returns>The rule builder options, for chaining.</returns>
-    /// <example>
-    /// <code>
-    /// RuleFor(x => x.Value).NotEmpty().Vkn();
-    /// </code>
-    /// </example>
     public static IRuleBuilderOptions<T, string?> Vkn<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
         ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidVkn())
                    .WithMessage("'{PropertyName}' must be a valid Turkish tax number (VKN).");
-
-    /// <summary>
-    /// Validates that the value is a valid Turkish tax identifier (VKN or TCKN).
-    /// </summary>
-    /// <typeparam name="T">The validated object type.</typeparam>
-    /// <param name="ruleBuilder">The rule builder.</param>
-    /// <returns>The rule builder options, for chaining.</returns>
-    /// <example>
-    /// <code>
-    /// RuleFor(x => x.Value).NotEmpty().TaxIdTr();
-    /// </code>
-    /// </example>
-    public static IRuleBuilderOptions<T, string?> TaxIdTr<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
-        ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidTaxIdTr())
-                   .WithMessage("'{PropertyName}' must be a valid Turkish tax identifier (VKN or TCKN).");
 
     /// <summary>
     /// Validates that the value is a valid IBAN.
@@ -64,44 +41,9 @@ public static class HeroKitRuleBuilderExtensions
     /// <typeparam name="T">The validated object type.</typeparam>
     /// <param name="ruleBuilder">The rule builder.</param>
     /// <returns>The rule builder options, for chaining.</returns>
-    /// <example>
-    /// <code>
-    /// RuleFor(x => x.Value).NotEmpty().Iban();
-    /// </code>
-    /// </example>
     public static IRuleBuilderOptions<T, string?> Iban<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
         ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidIban())
                    .WithMessage("'{PropertyName}' must be a valid IBAN.");
-
-    /// <summary>
-    /// Validates that the value is a valid Turkish postal code.
-    /// </summary>
-    /// <typeparam name="T">The validated object type.</typeparam>
-    /// <param name="ruleBuilder">The rule builder.</param>
-    /// <returns>The rule builder options, for chaining.</returns>
-    /// <example>
-    /// <code>
-    /// RuleFor(x => x.Value).NotEmpty().PostalCodeTr();
-    /// </code>
-    /// </example>
-    public static IRuleBuilderOptions<T, string?> PostalCodeTr<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
-        ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidPostalCodeTr())
-                   .WithMessage("'{PropertyName}' must be a valid Turkish postal code.");
-
-    /// <summary>
-    /// Validates that the value is a valid Turkish vehicle plate.
-    /// </summary>
-    /// <typeparam name="T">The validated object type.</typeparam>
-    /// <param name="ruleBuilder">The rule builder.</param>
-    /// <returns>The rule builder options, for chaining.</returns>
-    /// <example>
-    /// <code>
-    /// RuleFor(x => x.Value).NotEmpty().PlateTr();
-    /// </code>
-    /// </example>
-    public static IRuleBuilderOptions<T, string?> PlateTr<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
-        ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidPlateTr())
-                   .WithMessage("'{PropertyName}' must be a valid Turkish vehicle plate.");
 
     /// <summary>
     /// Validates that the value is a valid card number.
@@ -109,24 +51,19 @@ public static class HeroKitRuleBuilderExtensions
     /// <typeparam name="T">The validated object type.</typeparam>
     /// <param name="ruleBuilder">The rule builder.</param>
     /// <returns>The rule builder options, for chaining.</returns>
-    /// <example>
-    /// <code>
-    /// RuleFor(x => x.Value).NotEmpty().CardNumber();
-    /// </code>
-    /// </example>
     public static IRuleBuilderOptions<T, string?> CardNumber<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
         ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidCardNumber())
                    .WithMessage("'{PropertyName}' must be a valid card number.");
 
     /// <summary>
-    /// Validates that the value is a valid Turkish e-invoice number.
+    /// Validates that the value is a valid e-invoice number (GİB format).
     /// </summary>
     /// <typeparam name="T">The validated object type.</typeparam>
     /// <param name="ruleBuilder">The rule builder.</param>
     /// <returns>The rule builder options, for chaining.</returns>
-    public static IRuleBuilderOptions<T, string?> InvoiceNumberTr<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
-        ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidInvoiceNumberTr())
-                   .WithMessage("'{PropertyName}' must be a valid Turkish e-invoice number.");
+    public static IRuleBuilderOptions<T, string?> GibInvoiceNumber<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
+        ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidGibInvoiceNumber())
+                   .WithMessage("'{PropertyName}' must be a valid e-invoice number (GİB format).");
 
     /// <summary>
     /// Validates that the value is a valid ETTN (UUID).
@@ -139,18 +76,98 @@ public static class HeroKitRuleBuilderExtensions
                    .WithMessage("'{PropertyName}' must be a valid ETTN (UUID).");
 
     /// <summary>
-    /// Validates that the value is a valid Turkish phone number, or a mobile number when <paramref name="mobileOnly"/> is true.
+    /// Validates that the value is a valid vehicle plate of a country.
     /// </summary>
     /// <typeparam name="T">The validated object type.</typeparam>
     /// <param name="ruleBuilder">The rule builder.</param>
-    /// <param name="mobileOnly">When true, only mobile numbers (starting with 5) pass.</param>
+    /// <param name="country">The country, for example <see cref="Countries.Turkey"/>.</param>
     /// <returns>The rule builder options, for chaining.</returns>
     /// <example>
     /// <code>
-    /// RuleFor(x => x.Mobile).TurkishPhone(mobileOnly: true);
+    /// RuleFor(x => x.Value).VehiclePlate(Countries.Turkey);
     /// </code>
     /// </example>
-    public static IRuleBuilderOptions<T, string?> TurkishPhone<T>(this IRuleBuilder<T, string?> ruleBuilder, bool mobileOnly = false) =>
-        ruleBuilder.Must(value => string.IsNullOrEmpty(value) || (mobileOnly ? value.IsValidMobileTr() : value.IsValidPhoneTr()))
-                   .WithMessage(mobileOnly ? "'{PropertyName}' must be a valid Turkish mobile number." : "'{PropertyName}' must be a valid Turkish phone number.");
+    public static IRuleBuilderOptions<T, string?> VehiclePlate<T>(this IRuleBuilder<T, string?> ruleBuilder, Country country)
+    {
+        ArgumentNullException.ThrowIfNull(country);
+        return ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidVehiclePlate(country))
+                          .WithMessage("'{PropertyName}' must be a valid vehicle plate.");
+    }
+
+    /// <summary>
+    /// Validates that the value is a valid postal code of a country.
+    /// </summary>
+    /// <typeparam name="T">The validated object type.</typeparam>
+    /// <param name="ruleBuilder">The rule builder.</param>
+    /// <param name="country">The country, for example <see cref="Countries.Turkey"/>.</param>
+    /// <returns>The rule builder options, for chaining.</returns>
+    /// <example>
+    /// <code>
+    /// RuleFor(x => x.Value).PostalCode(Countries.Turkey);
+    /// </code>
+    /// </example>
+    public static IRuleBuilderOptions<T, string?> PostalCode<T>(this IRuleBuilder<T, string?> ruleBuilder, Country country)
+    {
+        ArgumentNullException.ThrowIfNull(country);
+        return ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidPostalCode(country))
+                          .WithMessage("'{PropertyName}' must be a valid postal code.");
+    }
+
+    /// <summary>
+    /// Validates that the value is a valid national identity number of a country.
+    /// </summary>
+    /// <typeparam name="T">The validated object type.</typeparam>
+    /// <param name="ruleBuilder">The rule builder.</param>
+    /// <param name="country">The country, for example <see cref="Countries.Turkey"/>.</param>
+    /// <returns>The rule builder options, for chaining.</returns>
+    /// <example>
+    /// <code>
+    /// RuleFor(x => x.Value).NationalId(Countries.Turkey);
+    /// </code>
+    /// </example>
+    public static IRuleBuilderOptions<T, string?> NationalId<T>(this IRuleBuilder<T, string?> ruleBuilder, Country country)
+    {
+        ArgumentNullException.ThrowIfNull(country);
+        return ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidNationalId(country))
+                          .WithMessage("'{PropertyName}' must be a valid national identity number.");
+    }
+
+    /// <summary>
+    /// Validates that the value is a valid tax identifier of a country.
+    /// </summary>
+    /// <typeparam name="T">The validated object type.</typeparam>
+    /// <param name="ruleBuilder">The rule builder.</param>
+    /// <param name="country">The country, for example <see cref="Countries.Turkey"/>.</param>
+    /// <returns>The rule builder options, for chaining.</returns>
+    /// <example>
+    /// <code>
+    /// RuleFor(x => x.Value).TaxId(Countries.Turkey);
+    /// </code>
+    /// </example>
+    public static IRuleBuilderOptions<T, string?> TaxId<T>(this IRuleBuilder<T, string?> ruleBuilder, Country country)
+    {
+        ArgumentNullException.ThrowIfNull(country);
+        return ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidTaxId(country))
+                          .WithMessage("'{PropertyName}' must be a valid tax identifier.");
+    }
+
+    /// <summary>
+    /// Validates that the value is a valid phone number of a country, or a mobile number when <paramref name="mobileOnly"/> is true.
+    /// </summary>
+    /// <typeparam name="T">The validated object type.</typeparam>
+    /// <param name="ruleBuilder">The rule builder.</param>
+    /// <param name="country">The country, for example <see cref="Countries.Turkey"/>.</param>
+    /// <param name="mobileOnly">When true, only mobile numbers pass.</param>
+    /// <returns>The rule builder options, for chaining.</returns>
+    /// <example>
+    /// <code>
+    /// RuleFor(x => x.Mobile).PhoneNumber(Countries.Turkey, mobileOnly: true);
+    /// </code>
+    /// </example>
+    public static IRuleBuilderOptions<T, string?> PhoneNumber<T>(this IRuleBuilder<T, string?> ruleBuilder, Country country, bool mobileOnly = false)
+    {
+        ArgumentNullException.ThrowIfNull(country);
+        return ruleBuilder.Must(value => string.IsNullOrEmpty(value) || (mobileOnly ? value.IsValidMobilePhone(country) : value.IsValidPhone(country)))
+                          .WithMessage(mobileOnly ? "'{PropertyName}' must be a valid mobile phone number." : "'{PropertyName}' must be a valid phone number.");
+    }
 }

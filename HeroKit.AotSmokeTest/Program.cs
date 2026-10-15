@@ -5,7 +5,8 @@ using HeroKit.Enums;
 using HeroKit.Objects;
 using HeroKit.Properties;
 using HeroKit.Strings;
-using HeroKit.Turkish;
+using HeroKit.Globalization;
+using HeroKit.Globalization.Turkey;
 using HeroKit.Types;
 using HeroKit.Validation;
 
@@ -24,10 +25,12 @@ var checks = new (string Name, bool Passed)[]
     ("TCKN", "10000000146".IsValidTckn()),
     ("IBAN", "TR330006100519786457841326".FormatIban() == "TR33 0006 1005 1978 6457 8413 26"),
     ("Card brand", "4111111111111111".GetCardBrand() == CardBrand.Visa),
-    ("Plate", "34abc123".FormatPlateTr() == "34 ABC 123"),
-    ("Lira", 1234.5m.ToTurkishLira() == "₺1.234,50"),
-    ("Words", 123.50m.ToTurkishCurrencyWords() == "yüz yirmi üç Türk lirası elli kuruş"),
-    ("Holidays", new DateOnly(2026, 3, 19).AddBusinessDaysTr(1) == new DateOnly(2026, 3, 23)),
+    ("Plate", "34abc123".FormatVehiclePlate(Countries.Turkey) == "34 ABC 123"),
+    ("Lira", 1234.5m.ToCurrencyString(Currencies.TurkishLira) == "₺1.234,50"),
+    ("Words", 123.50m.ToCurrencyWords(Currencies.TurkishLira) == "yüz yirmi üç Türk lirası elli kuruş"),
+    ("Holidays", new DateOnly(2026, 3, 19).AddBusinessDays(1, Countries.Turkey) == new DateOnly(2026, 3, 23)),
+    ("Title case", "istanbul ılıca".ToTitleCase(Languages.Turkish) == "İstanbul Ilıca"),
+    ("Country attribute", new PhoneNumberAttribute("TR").IsValid("0532 123 45 67") && !new PhoneNumberAttribute("TR") { MobileOnly = true }.IsValid("0212 555 12 34")),
     ("Attribute", new TcknAttribute().IsValid("10000000146") && !new IbanAttribute().IsValid("TR00")),
 };
 

@@ -14,10 +14,7 @@ public class StringBenchmarks
     public string ToSlug() => Title.ToSlug();
 
     [Benchmark]
-    public string ClearTurkishChars() => Title.ClearTurkishChars();
-
-    [Benchmark]
-    public string RemoveAccent() => Title.RemoveAccent();
+    public string RemoveDiacritics() => Title.RemoveDiacritics();
 
     [Benchmark]
     public string ToDashCase() => PascalCase.ToDashCase();
