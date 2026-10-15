@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # push the coverage badge to the badges branch
     steps:
       - uses: actions/checkout@v7
 
@@ -34,10 +36,28 @@ jobs:
         with:
           reports: coverage/**/coverage.cobertura.xml
           targetdir: coverage/report
-          reporttypes: MarkdownSummaryGithub;Cobertura
+          reporttypes: MarkdownSummaryGithub;Cobertura;Badges
 
       - name: Coverage summary
         run: cat coverage/report/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
+
+      # Keeps the README coverage badge current without an external service.
+      - name: Publish coverage badge
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          cp coverage/report/badge_linecoverage.svg "$RUNNER_TEMP/coverage.svg"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git fetch --depth 1 origin badges; then
+            git switch -C badges FETCH_HEAD
+          else
+            git switch --orphan badges
+          fi
+          git rm -rf --quiet --ignore-unmatch .
+          git clean -fdxq
+          cp "$RUNNER_TEMP/coverage.svg" coverage.svg
+          git add coverage.svg
+          git diff --cached --quiet || { git commit -qm "Update coverage badge"; git push origin badges; }
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v7

@@ -3,6 +3,7 @@
 [![NuGet](https://img.shields.io/nuget/v/HeroKit.svg)](https://www.nuget.org/packages/HeroKit)
 [![NuGet downloads](https://img.shields.io/nuget/dt/HeroKit.svg)](https://www.nuget.org/packages/HeroKit)
 [![Build & Test](https://github.com/emreakdemir/HeroKit/actions/workflows/build-tests.yml/badge.svg)](https://github.com/emreakdemir/HeroKit/actions/workflows/build-tests.yml)
+[![Coverage](https://raw.githubusercontent.com/emreakdemir/HeroKit/badges/coverage.svg)](https://github.com/emreakdemir/HeroKit/actions/workflows/build-tests.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Türkçe: [README.TR.md](README.TR.md)
@@ -808,3 +809,8 @@ class Program
     }
 }
 ```
+## Questions and contributions
+
+- Questions and ideas: [GitHub Discussions](https://github.com/emreakdemir/HeroKit/discussions)
+- Bugs and feature requests: [Issues](https://github.com/emreakdemir/HeroKit/issues)
+- How to contribute: [CONTRIBUTING.md](CONTRIBUTING.md)
