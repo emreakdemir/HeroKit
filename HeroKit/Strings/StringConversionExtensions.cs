@@ -124,7 +124,7 @@ public static class StringConversionExtensions
         short result = 0;
 
         if (value.IsNotNullOrEmpty())
-            _ = short.TryParse(value, out result);
+            _ = short.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result);
 
         return result;
     }
@@ -139,7 +139,7 @@ public static class StringConversionExtensions
         int result = 0;
 
         if (value.IsNotNullOrEmpty())
-            _ = int.TryParse(value, out result);
+            _ = int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result);
 
         return result;
     }
@@ -156,7 +156,7 @@ public static class StringConversionExtensions
         long result = 0;
 
         if (value.IsNotNullOrEmpty())
-            _ = long.TryParse(value, out result);
+            _ = long.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result);
 
         return result;
     }
@@ -165,7 +165,7 @@ public static class StringConversionExtensions
     /// Converts a string to a DateTime value.
     /// </summary>
     /// <param name="value">The string value to convert.</param>
-    /// <param name="cultureInfo">Optional. The culture-specific information used to interpret the string.</param>
+    /// <param name="cultureInfo">Optional. The culture used to interpret the string. Defaults to <see cref="CultureInfo.InvariantCulture"/>.</param>
     /// <param name="defaultValue">Optional. The default value to return if the conversion fails.</param>
     /// <returns>The DateTime value converted from the string, or the default value if the conversion fails.</returns>
     public static DateTime ToDateTime(this string value, CultureInfo cultureInfo = null, DateTime defaultValue = default)
@@ -173,7 +173,7 @@ public static class StringConversionExtensions
         if (value.IsNullOrEmpty())
             return defaultValue;
 
-        cultureInfo ??= CultureInfo.DefaultThreadCurrentCulture;
+        cultureInfo ??= CultureInfo.InvariantCulture;
 
         if (!DateTime.TryParse(value, cultureInfo, out DateTime datetimeValue))
             return defaultValue;

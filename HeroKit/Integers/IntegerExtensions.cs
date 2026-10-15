@@ -47,7 +47,7 @@ public static class IntegerExtensions
     /// Returns the month name of the given integer value.
     /// </summary>
     /// <param name="value">The integer value representing a month (1-12).</param>
-    /// <param name="cultureInfo">The culture information to use for month names (optional).</param>
+    /// <param name="cultureInfo">The culture for the month name. Defaults to <see cref="CultureInfo.CurrentCulture"/>, because the result is meant for display.</param>
     /// <returns>The month name corresponding to the given value, or an empty string if the value is out of range.</returns>
     public static string ToMonthString(this int value, CultureInfo cultureInfo = null)
     {
