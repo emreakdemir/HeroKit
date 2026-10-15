@@ -14,7 +14,7 @@
     <PropertyGroup Label="Package">
         <PackageId>HeroKit</PackageId>
         <Title>HeroKit</Title>
-        <Version>1.0.2</Version>
+        <Version>1.1.0</Version>
         <Authors>Emre Akdemir</Authors>
         <Description>Extension methods for everyday .NET types: validation, conversion and manipulation helpers for arrays, booleans, strings, dates, enums, GUIDs, objects, types and more.</Description>
         <PackageTags>csharp;dotnet;extensions;extension-methods;utilities;helpers</PackageTags>
@@ -24,7 +24,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>herokit.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>Bug fixes: culture-independent parsing, extension method overload lookup, split-value empty check, ToBoolean null handling. New TrySetConvertedValue replaces the hidden PropertyInfoExtensions.SetValue, now obsolete.</PackageReleaseNotes>
+        <PackageReleaseNotes>Nullable annotations on the whole public API, trimming and Native AOT compatibility, faster string manipulation. See CHANGELOG.md for details.</PackageReleaseNotes>
         <Copyright>Copyright © 2023-2026 Emre Akdemir</Copyright>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>

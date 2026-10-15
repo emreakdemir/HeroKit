@@ -7,11 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-15
+
 ### Added
-- Nullable reference type annotations on the whole public API, with `[NotNullWhen]` on null-check helpers (#20)
-- Public API tracking with `Microsoft.CodeAnalysis.PublicApiAnalyzers` (#21)
-- Dependabot for NuGet and GitHub Actions (#27)
-- CHANGELOG, CONTRIBUTING, issue forms and pull request template (#28)
+- Nullable reference type annotations on the whole public API. Null-check helpers such as `IsNullOrEmpty`, `IsNotNull` and array `IsNotNullOrEmpty` carry `[NotNullWhen]` (#20).
+- Trimming and Native AOT compatibility (`IsAotCompatible`). Reflection-based APIs carry `[RequiresUnreferencedCode]` / `[RequiresDynamicCode]` (#24).
+- Public API tracking with `Microsoft.CodeAnalysis.PublicApiAnalyzers` (#21).
+- Benchmark project (`HeroKit.Benchmarks`) and Native AOT smoke test in CI (#26, #24).
+- Code coverage summary in CI (#25).
+- Dependabot, CHANGELOG, CONTRIBUTING, issue forms and pull request template (#27, #28).
+
+### Changed
+- `ToSlug` and `ToDashCase` use source-generated regex. `ClearTurkishChars` and `RemoveAccent` run in a single pass. `ClearTurkishChars` is up to 3x faster (#26).
+- `EnumExtensions.ToList<TEnum>()` no longer uses `Enum.GetValues(Type)` (#24).
+- `ConvertTo<T>` and `TryCast<T>` return `T?`: a null source converts to the default value (#20).
 
 ## [1.0.2] - 2026-10-15
 
@@ -52,7 +61,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 First stable release. Targets .NET 8 and .NET 10.
 
-[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/1.0.2...HEAD
+[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/emreakdemir/HeroKit/compare/1.0.2...1.1.0
 [1.0.2]: https://github.com/emreakdemir/HeroKit/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/emreakdemir/HeroKit/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/emreakdemir/HeroKit/releases/tag/1.0.0
