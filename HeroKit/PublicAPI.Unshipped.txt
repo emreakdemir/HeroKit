@@ -1,1 +1,5 @@
 #nullable enable
+HeroKit.Turkish.TurkishIdentityExtensions
+static HeroKit.Turkish.TurkishIdentityExtensions.IsValidTaxIdTr(this string? value) -> bool
+static HeroKit.Turkish.TurkishIdentityExtensions.IsValidTckn(this string? value) -> bool
+static HeroKit.Turkish.TurkishIdentityExtensions.IsValidVkn(this string? value) -> bool
