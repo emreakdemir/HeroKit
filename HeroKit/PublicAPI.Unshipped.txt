@@ -1,5 +1,28 @@
 #nullable enable
+HeroKit.DateTimes.DateTimeRangeExtensions
 HeroKit.Enumerables.EnumerableExtensions
+static HeroKit.DateTimes.DateTimeRangeExtensions.Age(this System.DateOnly birthDate, System.DateOnly asOf) -> int
+static HeroKit.DateTimes.DateTimeRangeExtensions.Age(this System.DateTime birthDate, System.DateTime asOf) -> int
+static HeroKit.DateTimes.DateTimeRangeExtensions.EndOfDay(this System.DateTime value) -> System.DateTime
+static HeroKit.DateTimes.DateTimeRangeExtensions.EndOfMonth(this System.DateOnly value) -> System.DateOnly
+static HeroKit.DateTimes.DateTimeRangeExtensions.EndOfMonth(this System.DateTime value) -> System.DateTime
+static HeroKit.DateTimes.DateTimeRangeExtensions.EndOfWeek(this System.DateOnly value) -> System.DateOnly
+static HeroKit.DateTimes.DateTimeRangeExtensions.EndOfWeek(this System.DateOnly value, System.DayOfWeek firstDayOfWeek) -> System.DateOnly
+static HeroKit.DateTimes.DateTimeRangeExtensions.EndOfWeek(this System.DateTime value) -> System.DateTime
+static HeroKit.DateTimes.DateTimeRangeExtensions.EndOfWeek(this System.DateTime value, System.DayOfWeek firstDayOfWeek) -> System.DateTime
+static HeroKit.DateTimes.DateTimeRangeExtensions.EndOfYear(this System.DateTime value) -> System.DateTime
+static HeroKit.DateTimes.DateTimeRangeExtensions.IsBetween(this System.DateOnly value, System.DateOnly start, System.DateOnly end) -> bool
+static HeroKit.DateTimes.DateTimeRangeExtensions.IsBetween(this System.DateTime value, System.DateTime start, System.DateTime end) -> bool
+static HeroKit.DateTimes.DateTimeRangeExtensions.IsWeekend(this System.DateOnly value) -> bool
+static HeroKit.DateTimes.DateTimeRangeExtensions.IsWeekend(this System.DateTime value) -> bool
+static HeroKit.DateTimes.DateTimeRangeExtensions.StartOfDay(this System.DateTime value) -> System.DateTime
+static HeroKit.DateTimes.DateTimeRangeExtensions.StartOfMonth(this System.DateOnly value) -> System.DateOnly
+static HeroKit.DateTimes.DateTimeRangeExtensions.StartOfMonth(this System.DateTime value) -> System.DateTime
+static HeroKit.DateTimes.DateTimeRangeExtensions.StartOfWeek(this System.DateOnly value) -> System.DateOnly
+static HeroKit.DateTimes.DateTimeRangeExtensions.StartOfWeek(this System.DateOnly value, System.DayOfWeek firstDayOfWeek) -> System.DateOnly
+static HeroKit.DateTimes.DateTimeRangeExtensions.StartOfWeek(this System.DateTime value) -> System.DateTime
+static HeroKit.DateTimes.DateTimeRangeExtensions.StartOfWeek(this System.DateTime value, System.DayOfWeek firstDayOfWeek) -> System.DateTime
+static HeroKit.DateTimes.DateTimeRangeExtensions.StartOfYear(this System.DateTime value) -> System.DateTime
 static HeroKit.Enumerables.EnumerableExtensions.IsNotNullOrEmpty<T>(this System.Collections.Generic.IEnumerable<T>? source) -> bool
 static HeroKit.Enumerables.EnumerableExtensions.IsNullOrEmpty<T>(this System.Collections.Generic.IEnumerable<T>? source) -> bool
 static HeroKit.Enumerables.EnumerableExtensions.Page<T>(this System.Collections.Generic.IEnumerable<T>! source, int pageNumber, int pageSize) -> System.Collections.Generic.IEnumerable<T>!
