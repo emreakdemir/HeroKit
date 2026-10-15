@@ -1,7 +1,7 @@
 - name: Getting started
   href: getting-started.md
-- name: Turkish toolkit
-  href: turkish-toolkit.md
+- name: Countries and languages
+  href: countries-and-languages.md
 - name: Form validation
   href: validation.md
 - name: Strings
@@ -16,3 +16,5 @@
   href: nullable-and-aot.md
 - name: Migrating to 2.0
   href: migrating-to-2.md
+- name: Migrating to 3.0
+  href: migrating-to-3.md

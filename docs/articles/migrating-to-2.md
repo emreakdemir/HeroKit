@@ -50,4 +50,4 @@ Single-value parameters are named `value` everywhere (was `input`, `datetime`, `
 
 ## New in 2.0
 
-Form validation attributes (`[Tckn]`, `[Iban]`, `[TurkishPhone]`, …), provinces, plates and postal codes, card validation with Troy, Turkish lira formatting and enum descriptions. See the guides in the menu.
+Form validation attributes (`[Tckn]`, `[Iban]`, `[Vkn]`, …), provinces, plates and postal codes, card validation with Troy, Turkish lira formatting and enum descriptions. See the guides in the menu. The Turkish helpers were reorganized again in 3.0: see [Migrating to 3.0](migrating-to-3.md).

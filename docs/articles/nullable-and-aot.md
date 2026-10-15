@@ -19,4 +19,6 @@ A few reflection-based helpers cannot be fully trimmed. They carry `[RequiresUnr
 
 - `TypesExtensions.GetExtensionMethods`, `GetExtensionMethod`, `GetRealType`
 
+The `Country`, `Language` and `Currency` model is made of plain objects and interfaces. It does not use reflection.
+
 Conversions, enum helpers and `TrySetConvertedValue` are AOT-safe since 2.0: they use `IParsable<T>` and generic enum APIs instead of reflection.

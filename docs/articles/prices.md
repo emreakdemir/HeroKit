@@ -24,6 +24,19 @@ troyCard.GetCardBrand();                   // CardBrand.Troy (prefix 9792)
 
 Brands: Visa, Mastercard, American Express, Discover, JCB and Troy.
 
+## Currency formatting
+
+```csharp
+using HeroKit.Globalization;
+
+1234.5m.ToCurrencyString(Currencies.TurkishLira);                             // "₺1.234,50"
+1234.5m.ToCurrencyString(Currencies.TurkishLira, CurrencyStyle.Abbreviation); // "1.234,50 TL"
+1234.5m.ToCurrencyString(Currencies.TurkishLira, CurrencyStyle.IsoCode);      // "1.234,50 TRY"
+123.50m.ToCurrencyWords(Currencies.TurkishLira);                              // "yüz yirmi üç Türk lirası elli kuruş"
+```
+
+A `Currency` holds its own symbol, separators and unit names, so the output does not depend on the current culture. Create your own instance for other currencies, for example `new Currency("EUR", "€", Languages.Turkish) { UnitName = "Euro", SubunitName = "sent" }`. See [Countries and languages](countries-and-languages.md).
+
 ## Rounding
 
 VAT helpers return unrounded values. Pass `decimals: 2` to round with `MidpointRounding.AwayFromZero`, the usual rule on invoices.

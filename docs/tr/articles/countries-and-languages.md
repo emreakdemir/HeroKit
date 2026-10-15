@@ -1,0 +1,213 @@
+# Ülkeler ve diller
+
+HeroKit 3.0 her ülke için ayrı bir metot kümesi eklemez. Ülke ya da dil alan tek bir metot kümesi vardır. Türkiye hazır gelir. Diğer ülkeler, tanımladığınız anda aynı metotları kullanır.
+
+## Model
+
+| Tip | Ne tutar | Hazır olan |
+|---|---|---|
+| `Country` | ISO kodu, ad, dil, para birimi ve isteğe bağlı kurallar: telefon numaraları, araç plakaları, posta kodları, kimlik ve vergi numaraları, resmî tatiller, bölgeler, IBAN uzunlukları | `Countries.Turkey` |
+| `Language` | ISO kodu ve isteğe bağlı kurallar: harf büyüklüğü ve sıralama (`TextRules`), yazıyla sayı (`NumberSpeller`) | `Languages.Turkish` |
+| `Currency` | ISO kodu, simge, ayırıcılar, birim adları | `Currencies.TurkishLira` |
+
+Bütün tipler `HeroKit.Globalization` namespace'indedir. Yalnızca Türkiye'ye ait kontroller (TCKN, VKN, e-fatura) `HeroKit.Globalization.Turkey` içindedir.
+
+```csharp
+using HeroKit.Globalization;
+
+"0532 123 45 67".IsValidPhone(Countries.Turkey);   // true
+"34 ABC 123".IsValidVehiclePlate(Countries.Turkey); // true
+1234.5m.ToCurrencyString(Currencies.TurkishLira);   // "₺1.234,50"
+"istanbul".ToUpper(Languages.Turkish);              // "İSTANBUL"
+```
+
+Bir ülkenin her kuralı isteğe bağlıdır. Ülkede olmayan bir kurala ihtiyaç duyan metot `NotSupportedException` fırlatır.
+
+Bu kuralların hiçbiri ICU'yu ya da işletim sisteminin kültür verisini kullanmaz. Sonuç her makinede aynıdır; `InvariantGlobalization` açıkken de.
+
+## Kendi ülkenizi ekleyin
+
+İhtiyacınız olan kural arayüzlerini uygulayın, bir `Country` oluşturun ve kaydedin:
+
+```csharp
+using HeroKit.Globalization;
+
+public sealed class SixDigitPhoneRules : IPhoneNumberRules
+{
+    public bool IsValid(string? value) => value is { Length: 6 } && value.All(char.IsAsciiDigit);
+    public bool IsMobile(string? value) => IsValid(value) && value![0] == '9';
+    public string? ToE164(string? value) => IsValid(value) ? "+999" + value : null;
+    public string? Format(string? value) => IsValid(value) ? $"{value![..3]} {value[3..]}" : null;
+}
+
+var testland = new Country("XT", "Testland", Languages.Turkish)
+{
+    PhoneNumbers = new SixDigitPhoneRules(),
+};
+
+Countries.Register(testland);
+
+"912345".IsValidPhone(testland);        // true
+"912345".IsValidMobilePhone(testland);  // true
+"912345".ToE164(testland);              // "+999912345"
+"912345".FormatPhone(testland);         // "912 345"
+```
+
+Diğer kural özellikleri: `VehiclePlates` (`IVehiclePlateRules`), `PostalCodes`, `NationalIds`, `TaxIds` ve `IbanRules` (`IIdentifierRules`), `Holidays` (`IHolidayCalendar`), `Regions` ve `Currency`.
+
+`Countries.Register`, ülkeyi doğrulama özniteliklerine ISO koduyla da açar: ülke kaydedildikten sonra `[PhoneNumber("XT")]` çalışır. Kaydı `Countries.Get("XT")`, `Countries.TryGet` ve `Countries.All` okur.
+
+Yeni bir dil de aynı şekilde eklenir: kendi `ITextRules` ve `INumberSpeller` uygulamalarınızla `new Language("xx", "Ad") { TextRules = ..., NumberSpeller = ... }` oluşturun.
+
+## Türkiye
+
+### Kimlik ve vergi numaraları
+
+```csharp
+using HeroKit.Globalization;
+using HeroKit.Globalization.Turkey;
+
+"10000000146".IsValidTckn();                        // true (TCKN)
+"4840847211".IsValidVkn();                          // true (VKN)
+"10000000146".IsValidNationalId(Countries.Turkey);  // true (TCKN)
+"4840847211".IsValidTaxId(Countries.Turkey);        // true: VKN veya TCKN
+```
+
+Bunlar sağlama toplamı kontrolleridir. Bir numaranın biçiminin doğru olduğunu gösterir; numaranın verilmiş olduğunu göstermez. Girdi yalnızca rakam içermelidir.
+
+### IBAN
+
+```csharp
+using HeroKit.Banking;
+
+var iban = "tr33 0006 1005 1978 6457 8413 26";
+
+iban.IsValidIban();   // true
+iban.NormalizeIban(); // "TR330006100519786457841326"
+iban.FormatIban();    // "TR33 0006 1005 1978 6457 8413 26"
+```
+
+IBAN doğrulama her ülke için ISO 13616 mod-97 kontrolüyle çalışır. Kayıtlı bir ülkenin `IbanRules` kuralı varsa uzunluğu ve sabit konumları da kontrol edilir: Türkiye IBAN'ları 26 karakter olmalıdır.
+
+### Bölgeler, plakalar ve posta kodları
+
+```csharp
+using HeroKit.Globalization;
+
+Countries.Turkey.FindRegion("34")?.Name;        // "İstanbul"
+Countries.Turkey.FindRegion(6)?.Name;           // "Ankara"
+Countries.Turkey.FindRegion("sanliurfa")?.Code; // 63 (büyük-küçük harf ve aksanlar yok sayılır)
+Countries.Turkey.Regions.Count;                 // 81
+
+"34abc123".FormatVehiclePlate(Countries.Turkey);   // "34 ABC 123"
+"06 A 1234".IsValidVehiclePlate(Countries.Turkey); // true
+"34 Q 1234".IsValidVehiclePlate(Countries.Turkey); // false: Q plakada kullanılan bir harf değil
+
+"34710".IsValidPostalCode(Countries.Turkey);       // true
+```
+
+`Regions`, `Region(Code, Name)` değerlerinin listesidir. Türkiye için bölgeler 81 ildir.
+
+### Telefon numaraları
+
+```csharp
+"0532 123 45 67".ToE164(Countries.Turkey);          // "+905321234567"
+"+905321234567".FormatPhone(Countries.Turkey);      // "0532 123 45 67"
+"(0212) 555 12 34".IsValidPhone(Countries.Turkey);  // true
+"0212 555 12 34".IsValidMobilePhone(Countries.Turkey); // false
+```
+
+Kabul edilen önekler: `+90`, `0090`, `90`, `0` veya öneksiz. Kontrol yapısaldır; operatör ya da alan kodu izin listesi değildir.
+
+### Resmî tatiller ve iş günleri
+
+```csharp
+new DateOnly(2026, 10, 29).IsPublicHoliday(Countries.Turkey);   // true  (Cumhuriyet Bayramı)
+new DateOnly(2026, 10, 28).IsHalfDayHoliday(Countries.Turkey);  // true  (öğleden sonra tatil)
+new DateOnly(2026, 3, 20).GetPublicHoliday(Countries.Turkey)?.Name; // "Ramazan Bayramı 1. Gün"
+
+new DateOnly(2026, 3, 19).AddBusinessDays(1, Countries.Turkey); // 2026-03-23, bayramı ve hafta sonunu atlar
+new DateOnly(2026, 10, 26).BusinessDaysUntil(new DateOnly(2026, 10, 30), Countries.Turkey); // 3
+
+foreach (PublicHoliday holiday in Countries.Turkey.Holidays!.GetHolidays(2026))
+    Console.WriteLine($"{holiday.Date:dd.MM.yyyy} {holiday.Name}{(holiday.IsHalfDay ? " (yarım gün)" : "")}");
+```
+
+- Sabit tatiller 2429 sayılı Kanun'a göre belirlenir. Ramazan ve Kurban Bayramı tarihleri Diyanet takviminden gelir ve takvimin `FirstSupportedYear`–`LastSupportedYear` (2022–2027) aralığı için vardır. Diğer yıllarda eksik veri döndürmek yerine istisna fırlatılır.
+- İş günleri, tam gün tatiller hariç Pazartesi'den Cuma'ya kadardır. Yarım günler (arife ve 28 Ekim) iş günü sayılır.
+- İdari izin köprü günleri duruma göre ilan edilir ve dahil değildir.
+- `IsBusinessDay(country)` de vardır. `IHolidayCalendar` tanımlı olan her özel ülke bu metotları alır.
+
+### Türk lirası
+
+```csharp
+1234.5m.ToCurrencyString(Currencies.TurkishLira);                              // "₺1.234,50"
+1234.5m.ToCurrencyString(Currencies.TurkishLira, CurrencyStyle.Abbreviation);  // "1.234,50 TL"
+1234.5m.ToCurrencyString(Currencies.TurkishLira, CurrencyStyle.IsoCode);       // "1.234,50 TRY"
+```
+
+Para birimi kendi ayırıcılarını taşır; sonuç geçerli kültüre bağlı değildir.
+
+### Yazıyla tutar
+
+```csharp
+123.ToWords(Languages.Turkish);                        // "yüz yirmi üç"
+1_001_000L.ToWords(Languages.Turkish);                 // "bir milyon bin"
+123.50m.ToCurrencyWords(Currencies.TurkishLira);
+// "yüz yirmi üç Türk lirası elli kuruş"
+
+var euro = new Currency("EUR", "€", Languages.Turkish) { UnitName = "Euro", SubunitName = "sent" };
+10.20m.ToCurrencyWords(euro);
+// "on Euro yirmi sent"
+```
+
+### ICU olmadan harf büyüklüğü ve sıralama
+
+```csharp
+"istanbul ılıca".ToTitleCase(Languages.Turkish);   // "İstanbul Ilıca"
+"istanbul".ToUpper(Languages.Turkish);             // "İSTANBUL"
+"IŞIK".ToLower(Languages.Turkish);                 // "ışık"
+"IŞIK".EqualsIgnoreCase("ışık", Languages.Turkish); // true
+"ISIK".EqualsIgnoreCase("isik", Languages.Turkish); // false: I, ı harfinin büyüğüdür
+```
+
+Diğer kültürler için `HeroKit.Strings` içindeki `ToTitleCase(culture)` ve `EqualsIgnoreCase(other, culture)` metotlarını kullanın.
+
+Türkçe karşılaştırıcılar ICU olmadan Türk alfabesini izler (c, ç, g, ğ, ı, i, o, ö, s, ş, u, ü). Bu, değişmez globalleştirme (invariant globalization) ile çalışan kapsayıcılarda ve uygulamalarda da geçerlidir; oralarda kültüre dayalı karşılaştırma Türk alfabesini izlemez.
+
+```csharp
+using HeroKit.Globalization;
+
+var comparer = Languages.Turkish.TextRules!.Comparer;
+
+string[] names = ["Zeynep", "Çağla", "Ilgın", "İpek", "Cem", "Şule", "Oya", "Ömer", "Uğur", "Ümit", "Gül"];
+Array.Sort(names, comparer);
+// Cem, Çağla, Gül, Ilgın, İpek, Oya, Ömer, Şule, Uğur, Ümit, Zeynep
+
+var sorted = customers.OrderBy(c => c.Name, comparer).ThenBy(c => c.City, comparer);
+
+var cities = new Dictionary<string, int>(Languages.Turkish.TextRules!.IgnoreCaseComparer) { ["İzmir"] = 35 };
+cities.ContainsKey("izmir"); // true
+cities.ContainsKey("IZMIR"); // false: I, ı harfidir; i değil
+```
+
+`Comparer` küçük harfi önce sıralar. `IgnoreCaseComparer` büyük-küçük harfi Türkçe kurallarla yok sayar; sözlük ya da hash set karşılaştırıcısı olarak kullanılabilir.
+
+### e-Fatura ve e-Arşiv
+
+```csharp
+using HeroKit.Globalization.Turkey;
+
+"ABC2026000000001".IsValidGibInvoiceNumber(); // true
+"ABC2026000000000".IsValidGibInvoiceNumber(); // false: sıra numarası 1'den başlar
+"51d3bb18-9650-4c8e-825d-5a7f845be630".IsValidEttn(); // true
+
+GibInvoiceNumber.TryParse("ABC2026000000001", out GibInvoiceNumber parsed); // true
+var invoice = GibInvoiceNumber.Create("ABC", 2026, 41);
+invoice.ToString();        // "ABC2026000000041"
+invoice.Next().ToString(); // "ABC2026000000042"
+```
+
+GİB fatura numarası 16 karakterdir: 3 büyük harf ya da rakamdan (A–Z, 0–9) oluşan seri, 4 haneli yıl (2000–2099) ve 1'den başlayan 9 haneli sıra numarası. `Create` geçersiz bir parça için `ArgumentException`, `Next` sıra numarası 999.999.999'a ulaştığında `InvalidOperationException` fırlatır. ETTN, 8-4-4-4-12 biçiminde boş olmayan bir UUID'dir.
+
+`[GibInvoiceNumber]` ve `[Ettn]` öznitelikleri ile `GibInvoiceNumber()` ve `Ettn()` FluentValidation kuralları [Form doğrulama](validation.md) sayfasında anlatılır.

@@ -29,4 +29,21 @@ new DateTime(1990, 2, 15).Age(asOf: date); // 34
 date.AsFileName("Monthly Report"); // "monthly-report-2024-02-15-13-45-00"
 ```
 
+## Business days
+
+Business days and public holidays take a `Country` with a holiday calendar:
+
+```csharp
+using HeroKit.Globalization;
+
+var day = new DateOnly(2026, 3, 19);
+
+day.IsBusinessDay(Countries.Turkey);               // true
+day.AddBusinessDays(1, Countries.Turkey);          // 2026-03-23, skips the bayram and the weekend
+day.BusinessDaysUntil(new DateOnly(2026, 3, 27), Countries.Turkey); // business days after day, up to and including 27 March
+new DateOnly(2026, 10, 29).IsPublicHoliday(Countries.Turkey); // true
+```
+
+See [Countries and languages](countries-and-languages.md) for holidays, half days and how to add a calendar for another country.
+
 Results keep the `DateTimeKind` of the input. `DateOnly` overloads are available for week, month, weekend, range and age helpers.

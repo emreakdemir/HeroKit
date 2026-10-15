@@ -5,14 +5,14 @@ _disableToc: true
 
 <div class="hk-hero">
   <h1>HeroKit</h1>
-  <p class="hk-tagline">Everyday extension methods for .NET, with <strong>first-class support for Turkish data</strong>: TCKN, VKN, IBAN, phone numbers and amounts in words.</p>
+  <p class="hk-tagline">Everyday extension methods for .NET, with <strong>first-class support for Turkish data</strong>: TCKN, VKN, IBAN, phone numbers and amounts in words. One country and language model; add your own country without new methods.</p>
   <div class="hk-install">
     <code>dotnet add package HeroKit</code>
     <button type="button" data-copy="dotnet add package HeroKit">Copy</button>
   </div>
   <div class="hk-actions">
     <a class="hk-primary" href="articles/getting-started.md">Get started</a>
-    <a class="hk-secondary" href="articles/turkish-toolkit.md">Turkish toolkit</a>
+    <a class="hk-secondary" href="articles/countries-and-languages.md">Countries and languages</a>
     <a class="hk-secondary" href="api/HeroKit.Strings.yml">API reference</a>
   </div>
   <div class="hk-badges">
@@ -27,29 +27,29 @@ _disableToc: true
 
 ```csharp
 using HeroKit.Banking;
-using HeroKit.Strings;
-using HeroKit.Turkish;
+using HeroKit.Globalization;
+using HeroKit.Globalization.Turkey;
 
-"10000000146".IsValidTckn();                 // true
-"TR330006100519786457841326".FormatIban();  // "TR33 0006 1005 1978 6457 8413 26"
-"0532 123 45 67".ToE164Tr();                 // "+905321234567"
-123.50m.ToTurkishCurrencyWords();            // "yüz yirmi üç Türk lirası elli kuruş"
-"istanbul ılıca".ToTitleCaseTr();            // "İstanbul Ilıca"
-"34abc123".FormatPlateTr();                   // "34 ABC 123"
+"10000000146".IsValidTckn();                                // true
+"TR330006100519786457841326".FormatIban();                  // "TR33 0006 1005 1978 6457 8413 26"
+"0532 123 45 67".ToE164(Countries.Turkey);                  // "+905321234567"
+123.50m.ToCurrencyWords(Currencies.TurkishLira);            // "yüz yirmi üç Türk lirası elli kuruş"
+"istanbul ılıca".ToTitleCase(Languages.Turkish);            // "İstanbul Ilıca"
+"34abc123".FormatVehiclePlate(Countries.Turkey);            // "34 ABC 123"
 ```
 
 <h2 class="hk-section-title">What's inside</h2>
 
 <div class="hk-grid">
-  <a class="hk-card hk-featured" href="articles/turkish-toolkit.md">
-    <div class="hk-icon">🇹🇷</div>
-    <h3>Turkish toolkit</h3>
-    <p>TCKN and VKN, IBAN, phone numbers, provinces, plates, postal codes, lira formatting, amounts in words, public holidays and business days, İ/ı-aware casing.</p>
+  <a class="hk-card hk-featured" href="articles/countries-and-languages.md">
+    <div class="hk-icon">🌍</div>
+    <h3>Countries and languages</h3>
+    <p>A Country, Language and Currency model with Türkiye built in: TCKN and VKN, IBAN, phone numbers, regions, plates, postal codes, lira, amounts in words, holidays and business days, e-invoice numbers, İ/ı-aware casing and sorting without ICU. Add your own country.</p>
   </a>
   <a class="hk-card" href="articles/validation.md">
     <div class="hk-icon">✅</div>
     <h3>Form validation</h3>
-    <p>[Tckn], [Iban], [TurkishPhone], [PlateTr] and more for ASP.NET Core and Blazor models. One line per field.</p>
+    <p>[Tckn], [Iban], [PhoneNumber("TR")], [VehiclePlate("TR")] and more for ASP.NET Core and Blazor models. One line per field.</p>
   </a>
   <a class="hk-card" href="articles/strings.md">
     <div class="hk-icon">🔤</div>
