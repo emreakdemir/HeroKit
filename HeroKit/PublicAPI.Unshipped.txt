@@ -1,1 +1,30 @@
 #nullable enable
+HeroKit.Turkish.EInvoiceExtensions
+HeroKit.Turkish.InvoiceNumberTr
+HeroKit.Turkish.InvoiceNumberTr.Deconstruct(out string! Series, out int Year, out int Sequence) -> void
+HeroKit.Turkish.InvoiceNumberTr.Equals(HeroKit.Turkish.InvoiceNumberTr other) -> bool
+HeroKit.Turkish.InvoiceNumberTr.InvoiceNumberTr() -> void
+HeroKit.Turkish.InvoiceNumberTr.InvoiceNumberTr(string! Series, int Year, int Sequence) -> void
+HeroKit.Turkish.InvoiceNumberTr.Next() -> HeroKit.Turkish.InvoiceNumberTr
+HeroKit.Turkish.InvoiceNumberTr.Sequence.get -> int
+HeroKit.Turkish.InvoiceNumberTr.Sequence.init -> void
+HeroKit.Turkish.InvoiceNumberTr.Series.get -> string!
+HeroKit.Turkish.InvoiceNumberTr.Series.init -> void
+HeroKit.Turkish.InvoiceNumberTr.Year.get -> int
+HeroKit.Turkish.InvoiceNumberTr.Year.init -> void
+HeroKit.Validation.EttnAttribute
+HeroKit.Validation.EttnAttribute.EttnAttribute() -> void
+HeroKit.Validation.InvoiceNumberTrAttribute
+HeroKit.Validation.InvoiceNumberTrAttribute.InvoiceNumberTrAttribute() -> void
+const HeroKit.Turkish.InvoiceNumberTr.MaxSequence = 999999999 -> int
+override HeroKit.Turkish.InvoiceNumberTr.GetHashCode() -> int
+override HeroKit.Turkish.InvoiceNumberTr.ToString() -> string!
+override HeroKit.Validation.EttnAttribute.IsValid(object? value) -> bool
+override HeroKit.Validation.InvoiceNumberTrAttribute.IsValid(object? value) -> bool
+static HeroKit.Turkish.EInvoiceExtensions.IsValidEttn(this string? value) -> bool
+static HeroKit.Turkish.EInvoiceExtensions.IsValidInvoiceNumberTr(this string? value) -> bool
+static HeroKit.Turkish.InvoiceNumberTr.Create(string! series, int year, int sequence) -> HeroKit.Turkish.InvoiceNumberTr
+static HeroKit.Turkish.InvoiceNumberTr.TryParse(string? value, out HeroKit.Turkish.InvoiceNumberTr result) -> bool
+static HeroKit.Turkish.InvoiceNumberTr.operator !=(HeroKit.Turkish.InvoiceNumberTr left, HeroKit.Turkish.InvoiceNumberTr right) -> bool
+static HeroKit.Turkish.InvoiceNumberTr.operator ==(HeroKit.Turkish.InvoiceNumberTr left, HeroKit.Turkish.InvoiceNumberTr right) -> bool
+~override HeroKit.Turkish.InvoiceNumberTr.Equals(object obj) -> bool

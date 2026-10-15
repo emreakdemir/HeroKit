@@ -119,6 +119,26 @@ public static class HeroKitRuleBuilderExtensions
                    .WithMessage("'{PropertyName}' must be a valid card number.");
 
     /// <summary>
+    /// Validates that the value is a valid Turkish e-invoice number.
+    /// </summary>
+    /// <typeparam name="T">The validated object type.</typeparam>
+    /// <param name="ruleBuilder">The rule builder.</param>
+    /// <returns>The rule builder options, for chaining.</returns>
+    public static IRuleBuilderOptions<T, string?> InvoiceNumberTr<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
+        ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidInvoiceNumberTr())
+                   .WithMessage("'{PropertyName}' must be a valid Turkish e-invoice number.");
+
+    /// <summary>
+    /// Validates that the value is a valid ETTN (UUID).
+    /// </summary>
+    /// <typeparam name="T">The validated object type.</typeparam>
+    /// <param name="ruleBuilder">The rule builder.</param>
+    /// <returns>The rule builder options, for chaining.</returns>
+    public static IRuleBuilderOptions<T, string?> Ettn<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
+        ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidEttn())
+                   .WithMessage("'{PropertyName}' must be a valid ETTN (UUID).");
+
+    /// <summary>
     /// Validates that the value is a valid Turkish phone number, or a mobile number when <paramref name="mobileOnly"/> is true.
     /// </summary>
     /// <typeparam name="T">The validated object type.</typeparam>
