@@ -3,6 +3,10 @@ name: Docs
 on:
   release:
     types: [ published ]
+  # Guide edits go live without a release. API pages still follow master.
+  push:
+    branches: [ master ]
+    paths: [ 'docs/**' ]
   workflow_dispatch:
 
 permissions:

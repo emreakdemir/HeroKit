@@ -7,24 +7,26 @@ Validation, formatting and text helpers for Turkish data.
 ```csharp
 using HeroKit.Turkish;
 
-"10000000146".IsValidTckn();   // true  - T.C. Kimlik No: 11 digits, two check digits
-"4840847211".IsValidVkn();     // true  - Vergi Kimlik No: 10 digits, one check digit
-"4840847211".IsValidTaxIdTr(); // true  - VKN (companies) or TCKN (individuals)
+"10000000146".IsValidTckn();   // true (TCKN)
+"4840847211".IsValidVkn();     // true (VKN)
+"4840847211".IsValidTaxIdTr(); // true: VKN or TCKN
 ```
 
-These are checksum checks. They confirm that a number is well formed, not that it is issued. Input must contain digits only.
+These are checksum checks. They confirm that a number is well formed, not that it is issued. Input must contain digits only. ISO 13616 mod-97 is used for IBANs; Turkish IBANs also get a length check (26).
 
 ## IBAN
 
 ```csharp
 using HeroKit.Banking;
 
-"tr33 0006 1005 1978 6457 8413 26".IsValidIban(); // true - ISO 13616 mod-97, TR length 26
-"TR330006100519786457841326".FormatIban();        // "TR33 0006 1005 1978 6457 8413 26"
-"tr33 0006 1005 1978 6457 8413 26".NormalizeIban(); // "TR330006100519786457841326"
+var iban = "tr33 0006 1005 1978 6457 8413 26";
+
+iban.IsValidIban();   // true
+iban.NormalizeIban(); // "TR330006100519786457841326"
+iban.FormatIban();    // "TR33 0006 1005 1978 6457 8413 26"
 ```
 
-IBAN validation works for every country. Turkish IBANs also get a length check.
+IBAN validation works for every country.
 
 ## Phone numbers
 
@@ -42,8 +44,11 @@ Accepted prefixes: `+90`, `0090`, `90`, `0` or none. The check is structural, no
 ```csharp
 123.ToTurkishWords();                          // "yüz yirmi üç"
 1_001_000L.ToTurkishWords();                   // "bir milyon bin"
-123.50m.ToTurkishCurrencyWords();              // "yüz yirmi üç Türk lirası elli kuruş"
-10.20m.ToTurkishCurrencyWords("Euro", "sent"); // "on Euro yirmi sent"
+123.50m.ToTurkishCurrencyWords();
+// "yüz yirmi üç Türk lirası elli kuruş"
+
+10.20m.ToTurkishCurrencyWords("Euro", "sent");
+// "on Euro yirmi sent"
 ```
 
 ## Casing and comparison
