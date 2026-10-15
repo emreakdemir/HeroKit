@@ -94,7 +94,7 @@ public class DecimalPriceExtensionsTests
         Assert.True(100m.ExcludeVat(20m) > 83.3333m);
         Assert.Equal(83.33m, 100m.ExcludeVat(20m, 2));
         Assert.Equal(16.67m, 100m.VatAmountFromGross(20m, 2));
-        Assert.Equal(12.35m, 10.285m.IncludeVat(20m, 2));
+        Assert.Equal(12.53m, 10.4375m.IncludeVat(20m, 2));
         Assert.Equal(0m, 0m.IncludeVat(20m));
     }
 
