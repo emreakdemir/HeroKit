@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using HeroKit.Banking;
 using HeroKit.Enums;
+using HeroKit.FileTypes;
 using HeroKit.Objects;
 using HeroKit.Properties;
 using HeroKit.Strings;
@@ -34,6 +35,10 @@ var checks = new (string Name, bool Passed)[]
         && "0879001756600379".IsValidMersis()
         && GibInvoiceQrCode.TryParse("""{"vkntckn":"4840847211","avkntckn":"11111111111","no":"ABC2026000000001","ettn":"51d3bb18-9650-4c8e-825d-5a7f845be630","tarih":"2026-10-15","odenecek":"120.00"}""", out GibInvoiceQrCode? qr)
         && qr.PayableAmount == 120m),
+    ("File types", FileTypes.Detect([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]) == FileTypes.Png
+        && FileTypes.GetMimeType("report.docx") == FileTypes.Docx.MimeType
+        && FileTypes.CheckUpload("MZ\u0090\u0000"u8, "photo.png").Rejection == UploadRejection.DangerousContent
+        && !FileTypes.CheckUpload("<svg onload=\"x\"/>"u8, "icon.svg").IsSafe),
     ("United States", "(212) 555-0123".ToE164(Countries.UnitedStates) == "+12125550123"
         && 1.01m.ToCurrencyWords(Currencies.USDollar) == "one dollar and one cent"
         && new DateOnly(2026, 7, 2).AddBusinessDays(1, Countries.UnitedStates) == new DateOnly(2026, 7, 6)),

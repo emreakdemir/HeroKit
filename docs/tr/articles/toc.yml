@@ -12,6 +12,8 @@
   href: collections-and-dates.md
 - name: Fiyat, KDV ve kartlar
   href: prices.md
+- name: Dosya türleri ve yükleme
+  href: file-types.md
 - name: Nullable ve AOT
   href: nullable-and-aot.md
 - name: "3.0'a yükseltme"

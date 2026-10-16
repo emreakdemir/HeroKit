@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.3.0] - 2026-10-16
+
+### Added
+- New package **HeroKit.FileTypes**, dependency-free and Native AOT compatible:
+  - `FileTypes.Detect` / `DetectAsync` / `DetectAll` recognize about 70 types from magic bytes, including DOCX/XLSX/PPTX, OpenDocument, EPUB, APK and JAR inside ZIP, MP4/MOV/M4A/3GP/HEIC/AVIF by `ftyp` brand, WebP, JPEG XL, WebM vs. Matroska and Java class vs. Mach-O. Streams are read up to 16 KB and their position is restored.
+  - `FromExtension`, `FromMimeType` (with aliases) and `GetMimeType` for 86 types.
+  - `ContentMatchesExtension` accepts a more general detected type for a more specific extension (`FileType.Parent`).
+  - `CheckUpload` with `UploadPolicy` rejects invalid file names, program and script extensions, hidden double extensions, program or script content, unknown or mismatching content, types outside an allow-list and SVG with active content.
+  - Your own types (`FileTypes.Register`, `MagicNumber`, `ZipEntryDetector`, `IsoMediaDetector`, `IFileTypeDetector`) and upload rules (`IUploadRule`).
+
+### Fixed
+- The HeroKit.FluentValidation package readme showed method names that 3.0 removed.
+
 ## [3.2.0] - 2026-10-15
 
 ### Added
@@ -85,7 +98,8 @@ Superseded by 3.0.0. Highlights:
 
 1.0.0-alpha to 1.0.0-alpha.6: the first array, boolean, string, type and conversion helpers (contributors: @emreakdemir, @jepozdemir).
 
-[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/3.2.0...HEAD
+[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/3.3.0...HEAD
+[3.3.0]: https://github.com/emreakdemir/HeroKit/compare/3.2.0...3.3.0
 [3.2.0]: https://github.com/emreakdemir/HeroKit/compare/3.1.0...3.2.0
 [3.1.0]: https://github.com/emreakdemir/HeroKit/compare/3.0.0...3.1.0
 [3.0.0]: https://github.com/emreakdemir/HeroKit/compare/2.2.0...3.0.0

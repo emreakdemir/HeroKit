@@ -14,6 +14,12 @@
           "files": [
             "HeroKit.FluentValidation.csproj"
           ]
+        },
+        {
+          "src": "../HeroKit.FileTypes",
+          "files": [
+            "HeroKit.FileTypes.csproj"
+          ]
         }
       ],
       "dest": "api",

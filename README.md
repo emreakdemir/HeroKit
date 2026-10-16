@@ -60,6 +60,18 @@ Also: `[Vkn]`, `[TaxId("TR")]`, `[NationalId("TR")]`, `[PostalCode("TR")]`, `[Gi
 
 Using FluentValidation? Add [HeroKit.FluentValidation](https://www.nuget.org/packages/HeroKit.FluentValidation): `RuleFor(x => x.IdentityNumber).Tckn();`
 
+## File types and uploads
+
+[HeroKit.FileTypes](https://www.nuget.org/packages/HeroKit.FileTypes) is a separate, dependency-free package: content detection for about 70 types (Office inside ZIP, HEIC/AVIF/MP4 brands, WebP, JPEG XL), extension and MIME mapping, and an OWASP-style upload check.
+
+```csharp
+using HeroKit.FileTypes;
+
+FileTypes.Detect(stream)?.MimeType;               // "image/png"
+FileTypes.GetMimeType("report.docx");             // "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+FileTypes.CheckUpload(stream, "photo.php.jpg").Rejection; // UploadRejection.DoubleExtension
+```
+
 ## Conversions
 
 Every conversion has a lenient form that returns a default value and a `Try` form. Neither throws for bad input. Parsing is culture-invariant unless you pass a provider.
