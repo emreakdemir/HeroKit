@@ -71,6 +71,11 @@ using HeroKit.Globalization.Turkey;
     <h3>Fiyat, KDV ve kartlar</h3>
     <p>Adıma yuvarlama, psikolojik fiyatlar, KDV ekleme ve çıkarma. Troy destekli kart doğrulama.</p>
   </a>
+  <a class="hk-card" href="articles/file-types.md">
+    <div class="hk-icon">📁</div>
+    <h3>Dosya türleri ve yükleme</h3>
+    <p>Ayrı paket: içerikten yaklaşık 70 tür tespiti, uzantı ve MIME eşlemesi, güvensiz yüklemeleri reddetme: programlar, çift uzantı, betikli SVG. Kendi türlerinizi ekleyin.</p>
+  </a>
 </div>
 
 <div class="hk-stats">

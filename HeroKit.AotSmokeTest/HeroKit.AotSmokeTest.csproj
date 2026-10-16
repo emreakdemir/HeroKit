@@ -12,6 +12,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\HeroKit\HeroKit.csproj" />
+        <ProjectReference Include="..\HeroKit.FileTypes\HeroKit.FileTypes.csproj" />
     </ItemGroup>
 
 </Project>

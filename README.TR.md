@@ -60,6 +60,18 @@ Ayrıca: `[Vkn]`, `[TaxId("TR")]`, `[NationalId("TR")]`, `[PostalCode("TR")]`, `
 
 FluentValidation mı kullanıyorsunuz? [HeroKit.FluentValidation](https://www.nuget.org/packages/HeroKit.FluentValidation) paketini ekleyin: `RuleFor(x => x.IdentityNumber).Tckn();`
 
+## Dosya türleri ve yükleme
+
+[HeroKit.FileTypes](https://www.nuget.org/packages/HeroKit.FileTypes) ayrı ve bağımlılıksız bir pakettir: yaklaşık 70 tür için içerikten tespit (ZIP içindeki Office, HEIC/AVIF/MP4 markaları, WebP, JPEG XL), uzantı ve MIME eşlemesi ve OWASP tarzı yükleme kontrolü.
+
+```csharp
+using HeroKit.FileTypes;
+
+FileTypes.Detect(stream)?.MimeType;               // "image/png"
+FileTypes.GetMimeType("report.docx");             // "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+FileTypes.CheckUpload(stream, "photo.php.jpg").Rejection; // UploadRejection.DoubleExtension
+```
+
 ## Dönüşümler
 
 Her dönüşümün varsayılan değer döndüren esnek bir hâli ve bir `Try` hâli vardır. İkisi de hatalı girdide hata fırlatmaz. Bir kültür verilmezse çözümleme kültürden bağımsızdır.

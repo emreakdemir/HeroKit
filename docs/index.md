@@ -71,6 +71,11 @@ using HeroKit.Globalization.Turkey;
     <h3>Prices, VAT and cards</h3>
     <p>Round to a step, psychological prices, VAT in and out. Card validation with Troy support.</p>
   </a>
+  <a class="hk-card" href="articles/file-types.md">
+    <div class="hk-icon">📁</div>
+    <h3>File types and uploads</h3>
+    <p>Separate package: detect about 70 types from content, map extensions and MIME types, and reject unsafe uploads: programs, double extensions, SVG with script. Add your own types.</p>
+  </a>
 </div>
 
 <div class="hk-stats">

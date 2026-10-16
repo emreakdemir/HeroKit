@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroKit.Benchmarks", "HeroK
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroKit.FluentValidation", "HeroKit.FluentValidation\HeroKit.FluentValidation.csproj", "{77DECE72-E46F-42A5-8153-9BA4DE80FEEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroKit.FileTypes", "HeroKit.FileTypes\HeroKit.FileTypes.csproj", "{03CB4DB0-5F52-4C83-AB9F-E50CBAD3026E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,18 @@ Global
 		{77DECE72-E46F-42A5-8153-9BA4DE80FEEC}.Release|x64.Build.0 = Release|Any CPU
 		{77DECE72-E46F-42A5-8153-9BA4DE80FEEC}.Release|x86.ActiveCfg = Release|Any CPU
 		{77DECE72-E46F-42A5-8153-9BA4DE80FEEC}.Release|x86.Build.0 = Release|Any CPU
+		{03CB4DB0-5F52-4C83-AB9F-E50CBAD3026E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03CB4DB0-5F52-4C83-AB9F-E50CBAD3026E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03CB4DB0-5F52-4C83-AB9F-E50CBAD3026E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{03CB4DB0-5F52-4C83-AB9F-E50CBAD3026E}.Debug|x64.Build.0 = Debug|Any CPU
+		{03CB4DB0-5F52-4C83-AB9F-E50CBAD3026E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{03CB4DB0-5F52-4C83-AB9F-E50CBAD3026E}.Debug|x86.Build.0 = Debug|Any CPU
+		{03CB4DB0-5F52-4C83-AB9F-E50CBAD3026E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03CB4DB0-5F52-4C83-AB9F-E50CBAD3026E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03CB4DB0-5F52-4C83-AB9F-E50CBAD3026E}.Release|x64.ActiveCfg = Release|Any CPU
+		{03CB4DB0-5F52-4C83-AB9F-E50CBAD3026E}.Release|x64.Build.0 = Release|Any CPU
+		{03CB4DB0-5F52-4C83-AB9F-E50CBAD3026E}.Release|x86.ActiveCfg = Release|Any CPU
+		{03CB4DB0-5F52-4C83-AB9F-E50CBAD3026E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

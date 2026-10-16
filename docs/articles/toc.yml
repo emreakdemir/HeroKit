@@ -12,6 +12,8 @@
   href: collections-and-dates.md
 - name: Prices, VAT and cards
   href: prices.md
+- name: File types and uploads
+  href: file-types.md
 - name: Nullable and AOT
   href: nullable-and-aot.md
 - name: "Upgrading to 3.0"

@@ -23,7 +23,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>herokit.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>Turkish business data: bank from IBAN (GetBank, Countries.Turkey.Banks), MERSİS validation, e-Fatura/e-Arşiv QR code reader (GibInvoiceQrCode), amount parsing with currency separators (TryToAmount, ToAmount), masking for personal data (MaskMiddle, MaskEmail, MaskName), GTIN barcode validation, [Mersis] and [Gtin] attributes. Upgrading from 1.x or 2.x: https://herokit.emreakdemir.dev/articles/upgrading.html</PackageReleaseNotes>
+        <PackageReleaseNotes>No changes in HeroKit; released together with the new HeroKit.FileTypes package (file type detection and safe upload checks). 3.2.0 added bank from IBAN, MERSİS, e-Fatura QR code reader, amount parsing, masking and GTIN validation.</PackageReleaseNotes>
         <Copyright>Copyright © 2023-2026 Emre Akdemir</Copyright>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>
