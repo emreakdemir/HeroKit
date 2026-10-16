@@ -7,8 +7,9 @@ namespace HeroKit.FileTypes;
 /// Detects a ZIP-based file type, such as DOCX, ODT, EPUB, JAR or APK, by the names of the entries in the header.
 /// </summary>
 /// <remarks>
-/// The detector walks the local file headers that fit in the header bytes; it does not decompress anything.
-/// Entries after the header are not seen, so put the most specific types first and give them the ZIP type as <see cref="FileType.Parent"/>.
+/// The detector reads entry names without decompressing anything: the local file headers from the start of the file and,
+/// when <see cref="FileTypeRegistry"/> reads a seekable stream, the central directory at the end of the file. From a span with only
+/// the first bytes, later entries are not seen, so give ZIP-based types the ZIP type as <see cref="FileType.Parent"/>.
 /// </remarks>
 /// <example>
 /// <code>
@@ -20,6 +21,9 @@ public sealed class ZipEntryDetector : IFileTypeDetector
 {
     private const uint LocalFileHeader = 0x04034B50;
     private const int LocalHeaderLength = 30;
+    private const int CentralHeaderLength = 46;
+
+    private static ReadOnlySpan<byte> CentralDirectorySignature => [0x50, 0x4B, 0x01, 0x02];
 
     private readonly byte[] _entryName;
     private readonly byte[]? _mimeType;
@@ -56,6 +60,15 @@ public sealed class ZipEntryDetector : IFileTypeDetector
     /// <inheritdoc />
     public bool IsMatch(ReadOnlySpan<byte> header)
     {
+        if (header.Length < 4 || BinaryPrimitives.ReadUInt32LittleEndian(header) != LocalFileHeader)
+            return false;
+
+        return MatchesLocalEntries(header) || (_mimeType is null && MatchesCentralDirectory(header));
+    }
+
+    // Walks the local file headers from the start of the file.
+    private bool MatchesLocalEntries(ReadOnlySpan<byte> header)
+    {
         long position = 0;
         while (position + LocalHeaderLength <= header.Length)
         {
@@ -90,6 +103,33 @@ public sealed class ZipEntryDetector : IFileTypeDetector
                 return false;
 
             position += dataStart + compressedSize;
+        }
+
+        return false;
+    }
+
+    // Looks for central directory records, which FileTypeRegistry appends after the header for seekable ZIP streams.
+    private bool MatchesCentralDirectory(ReadOnlySpan<byte> header)
+    {
+        int position = 0;
+        while (position < header.Length)
+        {
+            int found = header[position..].IndexOf(CentralDirectorySignature);
+            if (found < 0)
+                return false;
+
+            int record = position + found;
+            if (record + CentralHeaderLength <= header.Length)
+            {
+                int nameLength = BinaryPrimitives.ReadUInt16LittleEndian(header[(record + 28)..]);
+                if (record + CentralHeaderLength + nameLength <= header.Length
+                    && header.Slice(record + CentralHeaderLength, nameLength).StartsWith(_entryName))
+                {
+                    return true;
+                }
+            }
+
+            position = record + 4;
         }
 
         return false;

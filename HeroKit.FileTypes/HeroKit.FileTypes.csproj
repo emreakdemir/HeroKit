@@ -23,7 +23,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>herokit.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>No changes since 3.3.0; released with the other HeroKit packages. 3.3.0 was the first release: FileTypes.Detect, FromExtension, FromMimeType, ContentMatchesExtension, UploadValidator, FileTypeRegistry and custom detectors and upload rules.</PackageReleaseNotes>
+        <PackageReleaseNotes>Macro-enabled Office detection (Docm, Xlsm, Pptm, HasMacros) with UploadPolicy.AllowMacros; ZIP central directory reading from seekable streams, so large DOCX/XLSX/PPTX files are recognized. The docm/xlsm/pptm extensions now map to the macro-enabled types.</PackageReleaseNotes>
         <Copyright>Copyright © 2023-2026 Emre Akdemir</Copyright>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>

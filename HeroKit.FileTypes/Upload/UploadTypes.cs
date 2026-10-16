@@ -35,7 +35,7 @@ public enum UploadRejection
     /// <summary>The type is not in <see cref="UploadPolicy.AllowedTypes"/>.</summary>
     NotAllowed,
 
-    /// <summary>The SVG contains script, event handlers, embedded HTML, entity declarations or external references, or is too large to scan.</summary>
+    /// <summary>The SVG contains script, event handlers, embedded HTML, entity declarations or external references, or is too large to scan; or the document carries macros and <see cref="UploadPolicy.AllowMacros"/> is false.</summary>
     ActiveContent,
 
     /// <summary>A rule from <see cref="UploadPolicy.Rules"/> rejected the upload; see <see cref="UploadCheckResult.Message"/>.</summary>
@@ -96,6 +96,9 @@ public sealed class UploadPolicy
 
     /// <summary>Gets whether content that no detector recognizes is accepted when its extension is allowed. Defaults to false.</summary>
     public bool AllowUnknownContent { get; init; }
+
+    /// <summary>Gets whether documents with macros (<see cref="FileType.HasMacros"/>, for example DOCM and XLSM) are accepted. Defaults to false.</summary>
+    public bool AllowMacros { get; init; }
 
     /// <summary>Gets the longest allowed file name. Defaults to 255.</summary>
     public int MaxFileNameLength { get; init; } = 255;

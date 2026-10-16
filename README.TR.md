@@ -74,6 +74,8 @@ FileTypes.GetMimeType("report.docx");             // "application/vnd.openxmlfor
 FileTypes.CheckUpload(stream, "photo.php.jpg").Rejection; // UploadRejection.DoubleExtension
 ```
 
+Yükleme, `Tckn` bağlama ve ilçeleri gösteren çalıştırılabilir ASP.NET Core örneği: [samples/HeroKit.Samples.WebApi](samples/HeroKit.Samples.WebApi).
+
 ## Dönüşümler
 
 Her dönüşümün varsayılan değer döndüren esnek bir hâli ve bir `Try` hâli vardır. İkisi de hatalı girdide hata fırlatmaz. Bir kültür verilmezse çözümleme kültürden bağımsızdır.

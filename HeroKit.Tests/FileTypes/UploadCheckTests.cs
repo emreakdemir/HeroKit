@@ -206,6 +206,51 @@ public class UploadCheckTests
     }
 
     [Fact]
+    public void CheckUpload_ShouldRejectMacrosUnlessAllowed()
+    {
+        byte[] docm = Zip(seekable: true, ("word/document.xml", 200), ("word/vbaProject.bin", 500));
+        byte[] docx = Zip(seekable: true, ("word/document.xml", 200));
+
+        Assert.Equal(UploadRejection.ActiveContent, FT.CheckUpload(docm, "report.docm").Rejection);
+        Assert.Equal("The document contains macros.", FT.CheckUpload(docm, "report.docm").Message);
+        Assert.Equal(UploadRejection.ExtensionMismatch, FT.CheckUpload(docm, "report.docx").Rejection);
+        Assert.True(FT.CheckUpload(docx, "report.docx").IsSafe);
+
+        var allowMacros = new UploadPolicy { AllowMacros = true };
+        Assert.True(FT.CheckUpload(docm, "report.docm", allowMacros).IsSafe);
+    }
+
+    [Fact]
+    public void CheckUpload_ShouldFindMacrosAtTheEndOfLargeFiles()
+    {
+        byte[] lateMacro = Zip(seekable: true, ("word/document.xml", 200), ("word/media/big.bin", 40_000), ("word/vbaProject.bin", 500));
+
+        Assert.Equal(UploadRejection.ExtensionMismatch, FT.CheckUpload(new MemoryStream(lateMacro), "report.docx").Rejection);
+        Assert.Equal(UploadRejection.ActiveContent, FT.CheckUpload(new MemoryStream(lateMacro), "report.docm").Rejection);
+    }
+
+    private sealed class FirstBytesRule : IUploadRule
+    {
+        public int Length { get; private set; }
+
+        public string? Validate(ReadOnlySpan<byte> header, string fileName, FileType? detectedType)
+        {
+            Length = header.Length;
+            return null;
+        }
+    }
+
+    [Fact]
+    public void CheckUpload_ShouldGiveRulesOnlyTheFirstBytes()
+    {
+        var rule = new FirstBytesRule();
+        byte[] late = Zip(seekable: true, ("media/big.bin", 40_000), ("word/document.xml", 100));
+
+        Assert.True(FT.CheckUpload(new MemoryStream(late), "report.docx", new UploadPolicy { Rules = [rule] }).IsSafe);
+        Assert.Equal(FT.HeaderSize, rule.Length);
+    }
+
+    [Fact]
     public void CheckUpload_ShouldValidateArguments()
     {
         Assert.Throws<ArgumentNullException>(() => FT.CheckUpload(Png, "a.png", null!));

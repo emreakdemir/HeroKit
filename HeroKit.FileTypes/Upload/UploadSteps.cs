@@ -120,6 +120,19 @@ internal sealed class AllowListStep : IUploadStep
     }
 }
 
+// Rejects macro-enabled documents, by content or by extension, unless the policy allows macros.
+internal sealed class MacroContentStep : IUploadStep
+{
+    public UploadCheckResult? Check(ref UploadInspection inspection)
+    {
+        if (inspection.Policy.AllowMacros)
+            return null;
+
+        bool hasMacros = inspection.DetectedType?.HasMacros == true || inspection.ExtensionType?.HasMacros == true;
+        return hasMacros ? inspection.Reject(UploadRejection.ActiveContent, "The document contains macros.") : null;
+    }
+}
+
 internal sealed class SvgContentStep : IUploadStep
 {
     public UploadCheckResult? Check(ref UploadInspection inspection)
@@ -143,7 +156,8 @@ internal sealed class CustomRulesStep : IUploadStep
     {
         foreach (IUploadRule rule in inspection.Policy.Rules)
         {
-            string? message = rule.Validate(inspection.Header, inspection.FileName, inspection.DetectedType);
+            ReadOnlySpan<byte> firstBytes = inspection.Content[..Math.Min(inspection.Content.Length, FileTypeRegistry.HeaderSize)];
+            string? message = rule.Validate(firstBytes, inspection.FileName, inspection.DetectedType);
             if (message is not null)
                 return inspection.Reject(UploadRejection.CustomRule, message);
         }

@@ -71,6 +71,12 @@ public sealed class FileType
     public FileType? Parent { get; init; }
 
     /// <summary>
+    /// Gets whether files of this type carry macros, for example macro-enabled Office documents (DOCM, XLSM, PPTM).
+    /// <see cref="UploadValidator"/> rejects them unless <see cref="UploadPolicy.AllowMacros"/> is true.
+    /// </summary>
+    public bool HasMacros { get; init; }
+
+    /// <summary>
     /// Gets whether files of this type can run code: <see cref="FileTypeCategory.Executable"/> or <see cref="FileTypeCategory.Script"/>.
     /// </summary>
     public bool IsExecutable => Category is FileTypeCategory.Executable or FileTypeCategory.Script;

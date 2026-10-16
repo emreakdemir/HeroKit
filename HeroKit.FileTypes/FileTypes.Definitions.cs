@@ -133,22 +133,46 @@ public static partial class FileTypes
         Parent = CompoundFile,
     };
 
+    /// <summary>Macro-enabled Word document (application/vnd.ms-word.document.macroenabled.12). Recognized by its VBA project entry; <see cref="FileType.HasMacros"/> is true.</summary>
+    public static FileType Docm { get; } = new("Macro-enabled Word document", "application/vnd.ms-word.document.macroEnabled.12", FileTypeCategory.Document, "docm", "dotm")
+    {
+        Detectors = [new ZipEntryDetector("word/vbaProject.bin")],
+        Parent = Zip,
+        HasMacros = true,
+    };
+
+    /// <summary>Macro-enabled Excel workbook (application/vnd.ms-excel.sheet.macroenabled.12). Recognized by its VBA project entry; <see cref="FileType.HasMacros"/> is true.</summary>
+    public static FileType Xlsm { get; } = new("Macro-enabled Excel workbook", "application/vnd.ms-excel.sheet.macroEnabled.12", FileTypeCategory.Document, "xlsm", "xltm", "xlam")
+    {
+        Detectors = [new ZipEntryDetector("xl/vbaProject.bin")],
+        Parent = Zip,
+        HasMacros = true,
+    };
+
+    /// <summary>Macro-enabled PowerPoint presentation (application/vnd.ms-powerpoint.presentation.macroenabled.12). Recognized by its VBA project entry; <see cref="FileType.HasMacros"/> is true.</summary>
+    public static FileType Pptm { get; } = new("Macro-enabled PowerPoint presentation", "application/vnd.ms-powerpoint.presentation.macroEnabled.12", FileTypeCategory.Document, "pptm", "potm", "ppsm", "ppam")
+    {
+        Detectors = [new ZipEntryDetector("ppt/vbaProject.bin")],
+        Parent = Zip,
+        HasMacros = true,
+    };
+
     /// <summary>Word document (application/vnd.openxmlformats-officedocument.wordprocessingml.document).</summary>
-    public static FileType Docx { get; } = new("Word document", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", FileTypeCategory.Document, "docx", "docm", "dotx")
+    public static FileType Docx { get; } = new("Word document", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", FileTypeCategory.Document, "docx", "dotx")
     {
         Detectors = [new ZipEntryDetector("word/")],
         Parent = Zip,
     };
 
     /// <summary>Excel workbook (application/vnd.openxmlformats-officedocument.spreadsheetml.sheet).</summary>
-    public static FileType Xlsx { get; } = new("Excel workbook", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", FileTypeCategory.Document, "xlsx", "xlsm", "xltx")
+    public static FileType Xlsx { get; } = new("Excel workbook", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", FileTypeCategory.Document, "xlsx", "xltx")
     {
         Detectors = [new ZipEntryDetector("xl/")],
         Parent = Zip,
     };
 
     /// <summary>PowerPoint presentation (application/vnd.openxmlformats-officedocument.presentationml.presentation).</summary>
-    public static FileType Pptx { get; } = new("PowerPoint presentation", "application/vnd.openxmlformats-officedocument.presentationml.presentation", FileTypeCategory.Document, "pptx", "pptm", "ppsx")
+    public static FileType Pptx { get; } = new("PowerPoint presentation", "application/vnd.openxmlformats-officedocument.presentationml.presentation", FileTypeCategory.Document, "pptx", "ppsx")
     {
         Detectors = [new ZipEntryDetector("ppt/")],
         Parent = Zip,
@@ -560,6 +584,9 @@ public static partial class FileTypes
     // Detection order: specific types before the types they are built on, plain text last.
     private static readonly FileType[] BuiltInTypes =
     [
+        Docm,
+        Xlsm,
+        Pptm,
         Docx,
         Xlsx,
         Pptx,

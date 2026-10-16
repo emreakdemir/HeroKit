@@ -74,6 +74,8 @@ FileTypes.GetMimeType("report.docx");             // "application/vnd.openxmlfor
 FileTypes.CheckUpload(stream, "photo.php.jpg").Rejection; // UploadRejection.DoubleExtension
 ```
 
+A runnable ASP.NET Core sample with uploads, `Tckn` binding and districts: [samples/HeroKit.Samples.WebApi](samples/HeroKit.Samples.WebApi).
+
 ## Conversions
 
 Every conversion has a lenient form that returns a default value and a `Try` form. Neither throws for bad input. Parsing is culture-invariant unless you pass a provider.

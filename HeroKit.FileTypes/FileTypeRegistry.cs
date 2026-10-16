@@ -113,20 +113,21 @@ public sealed class FileTypeRegistry
     }
 
     /// <summary>
-    /// Detects the type of a file from the start of a stream. Reads at most <see cref="HeaderSize"/> bytes and restores the position of a seekable stream.
+    /// Detects the type of a file from the start of a stream. Reads <see cref="HeaderSize"/> bytes and, for a seekable ZIP file, its central directory
+    /// (at most 1 MB), so DOCX, XLSX and similar files are recognized even when their entries are far from the start. Restores the position of a seekable stream.
     /// </summary>
     /// <param name="stream">The stream, positioned at the start of the file.</param>
     /// <returns>The first matching type, or null.</returns>
-    public FileType? Detect(Stream stream) => HeaderReader.Read(stream, HeaderSize, Detect);
+    public FileType? Detect(Stream stream) => HeaderReader.Read(stream, Detect);
 
     /// <summary>
-    /// Detects the type of a file from the start of a stream asynchronously. Reads at most <see cref="HeaderSize"/> bytes and restores the position of a seekable stream.
+    /// Detects the type of a file from the start of a stream asynchronously. Reads like <see cref="Detect(Stream)"/> and restores the position of a seekable stream.
     /// </summary>
     /// <param name="stream">The stream, positioned at the start of the file.</param>
     /// <param name="cancellationToken">A token to cancel the read.</param>
     /// <returns>The first matching type, or null.</returns>
     public ValueTask<FileType?> DetectAsync(Stream stream, CancellationToken cancellationToken = default) =>
-        HeaderReader.ReadAsync(stream, HeaderSize, Detect, cancellationToken);
+        HeaderReader.ReadAsync(stream, Detect, cancellationToken);
 
     /// <summary>
     /// Finds a type by the extension of a file name or by an extension, ignoring case.
@@ -185,7 +186,7 @@ public sealed class FileTypeRegistry
     /// <param name="fileName">The file name or extension.</param>
     /// <returns>True if both are known and fit.</returns>
     public bool ContentMatchesExtension(Stream stream, string? fileName) =>
-        HeaderReader.Read(stream, HeaderSize, header => ContentMatchesExtension(header, fileName));
+        HeaderReader.Read(stream, header => ContentMatchesExtension(header, fileName));
 
     // An immutable view of the registry; Register swaps it as a whole.
     private sealed class Snapshot

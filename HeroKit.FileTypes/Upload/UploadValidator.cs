@@ -8,7 +8,7 @@ namespace HeroKit.FileTypes;
 /// <remarks>
 /// <para>The checks run as a chain, in this order, and the first rejection stops it: file name, program or script extension
 /// (also hidden as in "a.php.jpg"), empty content, program or script content, known extension, detected content and whether it fits
-/// the extension, <see cref="UploadPolicy.AllowedTypes"/>, active content in SVG, then the rules in <see cref="UploadPolicy.Rules"/>.</para>
+/// the extension, <see cref="UploadPolicy.AllowedTypes"/>, macros in Office documents, active content in SVG, then the rules in <see cref="UploadPolicy.Rules"/>.</para>
 /// <para>An instance is immutable and thread-safe; register one per policy as a singleton. The check does not replace size limits,
 /// generated file names, re-encoding images or virus scanning.</para>
 /// </remarks>
@@ -32,6 +32,7 @@ public sealed class UploadValidator
         new KnownExtensionStep(),
         new ContentTypeStep(),
         new AllowListStep(),
+        new MacroContentStep(),
         new SvgContentStep(),
         new CustomRulesStep(),
     ];
@@ -92,8 +93,8 @@ public sealed class UploadValidator
         Run(content, content[..Math.Min(content.Length, FileTypeRegistry.HeaderSize)], contentTruncated: false, fileName);
 
     /// <summary>
-    /// Checks an uploaded file from a stream. Reads at most <see cref="FileTypeRegistry.HeaderSize"/> bytes, or the whole file up to
-    /// <see cref="UploadPolicy.MaxSvgScanLength"/> for SVG, and restores the position of a seekable stream.
+    /// Checks an uploaded file from a stream. Reads like <see cref="FileTypeRegistry.Detect(Stream)"/> (the header and, for ZIP files,
+    /// the central directory), or the whole file up to <see cref="UploadPolicy.MaxSvgScanLength"/> for SVG, and restores the position of a seekable stream.
     /// </summary>
     /// <param name="stream">The stream, positioned at the start of the file.</param>
     /// <param name="fileName">The file name as uploaded.</param>
@@ -102,18 +103,17 @@ public sealed class UploadValidator
     {
         ArgumentNullException.ThrowIfNull(stream);
         long start = stream.CanSeek ? stream.Position : 0;
-        byte[] headerBuffer = ArrayPool<byte>.Shared.Rent(FileTypeRegistry.HeaderSize);
+        DetectionBytes bytes = HeaderReader.ReadDetectionBytes(stream, start);
         byte[]? contentBuffer = null;
         try
         {
-            int read = stream.ReadAtLeast(headerBuffer.AsSpan(0, FileTypeRegistry.HeaderSize), FileTypeRegistry.HeaderSize, throwOnEndOfStream: false);
-            ReadOnlySpan<byte> header = headerBuffer.AsSpan(0, read);
-
-            bool moreToRead = read == FileTypeRegistry.HeaderSize;
+            ReadOnlySpan<byte> header = bytes.Header;
+            bool moreToRead = !bytes.HasDirectory && header.Length == FileTypeRegistry.HeaderSize;
             if (!moreToRead || Registry.Detect(header)?.IsA(FileTypes.Svg) != true)
-                return Run(header, header, contentTruncated: false, fileName);
+                return Run(header, bytes.Span, contentTruncated: false, fileName);
 
             // Read the rest of the SVG, one byte past the limit to notice a larger file.
+            int read = header.Length;
             int limit = Math.Max(Policy.MaxSvgScanLength, read);
             contentBuffer = ArrayPool<byte>.Shared.Rent(limit + 1);
             header.CopyTo(contentBuffer);
@@ -123,7 +123,7 @@ public sealed class UploadValidator
         }
         finally
         {
-            ArrayPool<byte>.Shared.Return(headerBuffer);
+            bytes.Return();
             if (contentBuffer is not null)
                 ArrayPool<byte>.Shared.Return(contentBuffer);
 

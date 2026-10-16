@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.5.0] - 2026-10-16
+
+### Added
+- HeroKit.FileTypes: macro-enabled Office types `Docm`, `Xlsm` and `Pptm` (`FileType.HasMacros`). `UploadValidator` rejects macros unless `UploadPolicy.AllowMacros` is true; a macro document named `.docx` is an extension mismatch.
+- HeroKit.FileTypes: detection from a seekable stream also reads the ZIP central directory, so DOCX, XLSX, PPTX, APK, JAR and macro entries are found in large files. A whole ZIP file passed as a span is read the same way.
+- A runnable ASP.NET Core minimal API sample (`samples/HeroKit.Samples.WebApi`) with uploads, `Tckn` route binding, districts and amounts, covered by integration tests.
+
+### Changed
+- HeroKit.FileTypes: the extensions `docm`, `dotm`, `xlsm`, `xltm`, `pptm` and `potm` now map to the macro-enabled types instead of DOCX, XLSX and PPTX.
+
 ## [3.4.0] - 2026-10-16
 
 ### Added
@@ -110,7 +120,8 @@ Superseded by 3.0.0. Highlights:
 
 1.0.0-alpha to 1.0.0-alpha.6: the first array, boolean, string, type and conversion helpers (contributors: @emreakdemir, @jepozdemir).
 
-[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/3.4.0...HEAD
+[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/3.5.0...HEAD
+[3.5.0]: https://github.com/emreakdemir/HeroKit/compare/3.4.0...3.5.0
 [3.4.0]: https://github.com/emreakdemir/HeroKit/compare/3.3.0...3.4.0
 [3.3.0]: https://github.com/emreakdemir/HeroKit/compare/3.2.0...3.3.0
 [3.2.0]: https://github.com/emreakdemir/HeroKit/compare/3.1.0...3.2.0
