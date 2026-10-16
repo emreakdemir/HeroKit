@@ -9,6 +9,10 @@ on:
         description: "Versions to unlist, separated by spaces (package:version, e.g. HeroKit:1.0.1). Leave empty to only pack."
         required: false
         default: ""
+      relist:
+        description: "Versions to list again, separated by spaces (package:version, e.g. HeroKit:1.0.0)."
+        required: false
+        default: ""
 
 env:
   DOTNET_NOLOGO: true
@@ -17,7 +21,7 @@ env:
 
 jobs:
   pack:
-    if: github.event_name == 'release' || inputs.unlist == ''
+    if: github.event_name == 'release' || (inputs.unlist == '' && inputs.relist == '')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -82,8 +86,8 @@ jobs:
 
   # Unlisting hides versions from search and version lists on nuget.org; they stay downloadable by exact version.
   # Lives in this workflow because the Trusted Publishing policy is bound to this file.
-  unlist:
-    if: github.event_name == 'workflow_dispatch' && inputs.unlist != ''
+  listing:
+    if: github.event_name == 'workflow_dispatch' && (inputs.unlist != '' || inputs.relist != '')
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -110,4 +114,17 @@ jobs:
             version="${item#*:}"
             echo "Unlisting $package $version"
             dotnet nuget delete "$package" "$version" --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --non-interactive
+          done
+
+      # nuget.org lists a package version again on POST to the v2 package endpoint.
+      - name: Relist versions
+        env:
+          VERSIONS: ${{ inputs.relist }}
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: |
+          for item in $VERSIONS; do
+            package="${item%%:*}"
+            version="${item#*:}"
+            echo "Relisting $package $version"
+            curl --fail-with-body -sS -X POST -H "X-NuGet-ApiKey: $NUGET_API_KEY" -H "Content-Length: 0" "https://www.nuget.org/api/v2/package/$package/$version"
           done
