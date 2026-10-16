@@ -5,7 +5,7 @@ public static partial class FileTypes
     /// <summary>Plain text: UTF-8 without control characters, or text with a UTF-16 byte order mark. Detected last, when no other type matches.</summary>
     public static FileType PlainText { get; } = new("Plain text", "text/plain", FileTypeCategory.Text, "txt", "text", "log")
     {
-        Detectors = [D(Sniffers.PlainText)],
+        Detectors = [D(TextSniffer.PlainText)],
     };
 
     /// <summary>ZIP archive (application/zip).</summary>
@@ -99,7 +99,7 @@ public static partial class FileTypes
     /// <summary>PDF document (application/pdf).</summary>
     public static FileType Pdf { get; } = new("PDF document", "application/pdf", FileTypeCategory.Document, "pdf")
     {
-        Detectors = [D(Sniffers.Pdf)],
+        Detectors = [D(BinarySniffers.Pdf)],
     };
 
     /// <summary>Rich Text Format document (application/rtf).</summary>
@@ -301,7 +301,7 @@ public static partial class FileTypes
     /// <summary>WebM video (video/webm).</summary>
     public static FileType WebM { get; } = new("WebM video", "video/webm", FileTypeCategory.Video, "webm")
     {
-        Detectors = [D(Sniffers.WebM)],
+        Detectors = [D(BinarySniffers.WebM)],
     };
 
     /// <summary>Matroska video (video/x-matroska).</summary>
@@ -369,13 +369,13 @@ public static partial class FileTypes
     /// <summary>Mach-O executable (application/x-mach-binary).</summary>
     public static FileType MachO { get; } = new("Mach-O executable", "application/x-mach-binary", FileTypeCategory.Executable, "dylib")
     {
-        Detectors = [D(Sniffers.MachO)],
+        Detectors = [D(BinarySniffers.MachO)],
     };
 
     /// <summary>Java class file (application/java-vm).</summary>
     public static FileType JavaClass { get; } = new("Java class file", "application/java-vm", FileTypeCategory.Executable, "class")
     {
-        Detectors = [D(Sniffers.JavaClass)],
+        Detectors = [D(BinarySniffers.JavaClass)],
     };
 
     /// <summary>Android Dalvik executable (application/vnd.android.dex).</summary>
@@ -420,7 +420,7 @@ public static partial class FileTypes
     /// <summary>Shell script. Content starting with "#!" (a shebang line) is detected as this type, whatever the interpreter.</summary>
     public static FileType ShellScript { get; } = new("Shell script", "application/x-sh", FileTypeCategory.Script, "sh", "bash", "zsh", "ksh", "csh")
     {
-        Detectors = [D(Sniffers.Shebang)],
+        Detectors = [D(TextSniffer.Shebang)],
         Parent = PlainText,
         OtherMimeTypes = ["text/x-shellscript"],
     };
@@ -461,7 +461,7 @@ public static partial class FileTypes
     /// <summary>HTML document. HTML can run script in a browser, so it is in the <see cref="FileTypeCategory.Script"/> category and is rejected by the default upload policy.</summary>
     public static FileType Html { get; } = new("HTML document", "text/html", FileTypeCategory.Script, "html", "htm", "xhtml", "shtml", "hta")
     {
-        Detectors = [D(Sniffers.Html)],
+        Detectors = [D(TextSniffer.Html)],
         Parent = PlainText,
         OtherMimeTypes = ["application/xhtml+xml"],
     };
@@ -469,22 +469,22 @@ public static partial class FileTypes
     /// <summary>XML document (application/xml).</summary>
     public static FileType Xml { get; } = new("XML document", "application/xml", FileTypeCategory.Text, "xml", "xsd", "xsl", "xslt", "rss", "atom")
     {
-        Detectors = [D(Sniffers.Xml)],
+        Detectors = [D(TextSniffer.Xml)],
         Parent = PlainText,
         OtherMimeTypes = ["text/xml"],
     };
 
-    /// <summary>SVG image. SVG is XML and can contain script; <see cref="FileTypes.CheckUpload(ReadOnlySpan{byte}, string, UploadPolicy)"/> rejects SVG with script, event handlers or external content.</summary>
+    /// <summary>SVG image. SVG is XML and can contain script; <see cref="UploadValidator"/> rejects SVG with script, event handlers or external content.</summary>
     public static FileType Svg { get; } = new("SVG image", "image/svg+xml", FileTypeCategory.Image, "svg", "svgz")
     {
-        Detectors = [D(Sniffers.Svg)],
+        Detectors = [D(TextSniffer.Svg)],
         Parent = Xml,
     };
 
     /// <summary>JSON document (application/json).</summary>
     public static FileType Json { get; } = new("JSON document", "application/json", FileTypeCategory.Text, "json", "map", "geojson", "webmanifest")
     {
-        Detectors = [D(Sniffers.Json)],
+        Detectors = [D(TextSniffer.Json)],
         Parent = PlainText,
     };
 
@@ -558,7 +558,7 @@ public static partial class FileTypes
     };
 
     // Detection order: specific types before the types they are built on, plain text last.
-    private static readonly FileType[] BuiltIn =
+    private static readonly FileType[] BuiltInTypes =
     [
         Docx,
         Xlsx,
@@ -647,10 +647,4 @@ public static partial class FileTypes
         VCard,
         Gltf,
     ];
-
-    private static MagicNumber M(string pattern, int offset = 0) => new(pattern, offset);
-
-    private static MagicNumber T(string text, int offset = 0) => MagicNumber.FromText(text, offset);
-
-    private static DelegateDetector D(DelegateDetector.Match match) => new(match);
 }

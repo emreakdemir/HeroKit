@@ -309,8 +309,9 @@ public class FileTypesTests
     }
 
     [Fact]
-    public void Register_ShouldCheckCustomTypesFirst()
+    public void Registry_ShouldCheckRegisteredTypesFirstWithoutTouchingTheDefault()
     {
+        var registry = new FileTypeRegistry();
         var custom = new FileType("HeroKit test", "Application/X-HeroKit-Test", FileTypeCategory.Other, ".HKT1", "")
         {
             Detectors = [MagicNumber.FromText("HKT1")],
@@ -320,19 +321,68 @@ public class FileTypesTests
             Detectors = [new ZipEntryDetector("herokit.json")],
             Parent = HeroKit.FileTypes.FileTypes.Zip,
         };
+        var pngOverride = new FileType("Custom PNG", "image/x-custom-png", FileTypeCategory.Image, "png");
 
-        HeroKit.FileTypes.FileTypes.Register(custom);
-        HeroKit.FileTypes.FileTypes.Register(customZip);
+        registry.Register(custom);
+        registry.Register(customZip);
+        registry.Register(pngOverride);
 
-        Assert.Same(custom, HeroKit.FileTypes.FileTypes.Detect(Text("HKT1 data")));
-        Assert.Same(customZip, HeroKit.FileTypes.FileTypes.Detect(Zip(seekable: true, ("herokit.json", 10))));
-        Assert.Same(HeroKit.FileTypes.FileTypes.Docx, HeroKit.FileTypes.FileTypes.Detect(Zip(seekable: true, ("word/document.xml", 10))));
-        Assert.Same(custom, HeroKit.FileTypes.FileTypes.FromExtension("x.hkt1"));
-        Assert.Same(custom, HeroKit.FileTypes.FileTypes.FromMimeType("application/x-herokit-test"));
+        Assert.Same(custom, registry.Detect(Text("HKT1 data")));
+        Assert.Same(customZip, registry.Detect(Zip(seekable: true, ("herokit.json", 10))));
+        Assert.Same(HeroKit.FileTypes.FileTypes.Docx, registry.Detect(Zip(seekable: true, ("word/document.xml", 10))));
+        Assert.Same(custom, registry.FromExtension("x.hkt1"));
+        Assert.Same(custom, registry.FromMimeType("application/x-herokit-test"));
+        Assert.Same(pngOverride, registry.FromExtension("a.png"));
         Assert.Equal(["hkt1"], custom.Extensions);
         Assert.Equal("application/x-herokit-test", custom.MimeType);
-        Assert.True(HeroKit.FileTypes.FileTypes.ContentMatchesExtension(Zip(seekable: true, ("herokit.json", 10)), "a.hkproj"));
-        Assert.Contains(custom, HeroKit.FileTypes.FileTypes.All);
+        Assert.True(registry.ContentMatchesExtension(Zip(seekable: true, ("herokit.json", 10)), "a.hkproj"));
+        Assert.Equal([pngOverride, customZip, custom], registry.All.Take(3));
+
+        Assert.Same(HeroKit.FileTypes.FileTypes.PlainText, HeroKit.FileTypes.FileTypes.Detect(Text("HKT1 data")));
+        Assert.Same(HeroKit.FileTypes.FileTypes.Png, HeroKit.FileTypes.FileTypes.FromExtension("a.png"));
+        Assert.Null(HeroKit.FileTypes.FileTypes.FromExtension("x.hkt1"));
+    }
+
+    [Fact]
+    public void Registry_CanHoldOnlyTheGivenTypes()
+    {
+        var registry = new FileTypeRegistry([HeroKit.FileTypes.FileTypes.Png, HeroKit.FileTypes.FileTypes.PlainText]);
+
+        Assert.Same(HeroKit.FileTypes.FileTypes.Png, registry.Detect(Bytes("89 50 4E 47 0D 0A 1A 0A")));
+        Assert.Null(registry.Detect(Bytes("25 50 44 46 2D")));
+        Assert.Null(registry.FromExtension("a.pdf"));
+        Assert.Equal("application/octet-stream", registry.GetMimeType("a.pdf"));
+        Assert.Equal(2, registry.All.Count);
+        Assert.Throws<ArgumentNullException>(() => new FileTypeRegistry(null!));
+    }
+
+    [Fact]
+    public void Default_ShouldBeTheSharedRegistryOfTheFacade()
+    {
+        var unique = new FileType("HeroKit facade test", "application/x-herokit-facade-test", FileTypeCategory.Other, "hkfacade")
+        {
+            Detectors = [MagicNumber.FromText("HKFACADE")],
+        };
+
+        HeroKit.FileTypes.FileTypes.Register(unique);
+
+        Assert.Same(unique, HeroKit.FileTypes.FileTypes.Default.FromExtension("hkfacade"));
+        Assert.Same(unique, HeroKit.FileTypes.FileTypes.Detect(Text("HKFACADE!")));
+        Assert.Contains(unique, HeroKit.FileTypes.FileTypes.All);
+        Assert.DoesNotContain(unique, HeroKit.FileTypes.FileTypes.BuiltIn);
+        Assert.Equal(HeroKit.FileTypes.FileTypes.HeaderSize, FileTypeRegistry.HeaderSize);
+    }
+
+    [Fact]
+    public void IsCompatibleWith_ShouldFollowParentsInBothDirections()
+    {
+        Assert.True(HeroKit.FileTypes.FileTypes.Zip.IsCompatibleWith(HeroKit.FileTypes.FileTypes.Docx));
+        Assert.True(HeroKit.FileTypes.FileTypes.Docx.IsCompatibleWith(HeroKit.FileTypes.FileTypes.Zip));
+        Assert.True(HeroKit.FileTypes.FileTypes.PlainText.IsCompatibleWith(HeroKit.FileTypes.FileTypes.Csv));
+        Assert.False(HeroKit.FileTypes.FileTypes.Png.IsCompatibleWith(HeroKit.FileTypes.FileTypes.Jpeg));
+        Assert.True(new FileType("Other PNG", "image/png", FileTypeCategory.Image, "png2").IsCompatibleWith(HeroKit.FileTypes.FileTypes.Png));
+        Assert.Throws<ArgumentNullException>(() => HeroKit.FileTypes.FileTypes.Png.IsCompatibleWith(null!));
+        Assert.Throws<ArgumentNullException>(() => HeroKit.FileTypes.FileTypes.Png.IsA(null!));
     }
 
     [Fact]

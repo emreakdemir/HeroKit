@@ -15,7 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `FromExtension`, `FromMimeType` (with aliases) and `GetMimeType` for 86 types.
   - `ContentMatchesExtension` accepts a more general detected type for a more specific extension (`FileType.Parent`).
   - `CheckUpload` with `UploadPolicy` rejects invalid file names, program and script extensions, hidden double extensions, program or script content, unknown or mismatching content, types outside an allow-list and SVG with active content.
-  - Your own types (`FileTypes.Register`, `MagicNumber`, `ZipEntryDetector`, `IsoMediaDetector`, `IFileTypeDetector`) and upload rules (`IUploadRule`).
+  - Your own types (`MagicNumber`, `ZipEntryDetector`, `IsoMediaDetector`, `IFileTypeDetector`) and upload rules (`IUploadRule`), `UploadPolicy.BlockedExtensions`.
+  - `FileTypeRegistry` and `UploadValidator` instances for dependency injection and isolated type sets; the static `FileTypes` methods use the shared `FileTypes.Default`.
 
 ### Fixed
 - The HeroKit.FluentValidation package readme showed method names that 3.0 removed.

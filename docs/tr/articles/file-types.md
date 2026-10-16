@@ -88,6 +88,30 @@ Stream overload'u SVG'nin tamamını `MaxSvgScanLength` (1 MB) sınırına kadar
 
 Bu kontrol ilk savunma hattıdır. Yükleme boyutunu da sınırlayın, dosyaları web kökünün dışında üretilmiş adlarla saklayın, mümkünse `Content-Disposition: attachment` ile sunun; gerektiğinde resimleri yeniden kodlayın ya da dosyaları tarayın.
 
+## Bağımlılık enjeksiyonu ve kendi kayıt defteriniz
+
+Statik `FileTypes` metotları ortak kayıt defteri `FileTypes.Default`'u kullanır. Bağımlılık enjeksiyonu, testler ya da kiracıya özel türler için örnek oluşturun:
+
+```csharp
+var registry = new FileTypeRegistry();            // hazır türler; yalnız kendi listeniz için new FileTypeRegistry(types)
+registry.Register(myType);                         // FileTypes.Default'u değiştirmez
+
+builder.Services.AddSingleton(registry);
+builder.Services.AddSingleton(new UploadValidator(new UploadPolicy { AllowedTypes = [FileTypes.Pdf] }, registry));
+
+public sealed class DocumentsController(UploadValidator validator) : ControllerBase
+{
+    [HttpPost]
+    public IActionResult Upload(IFormFile file)
+    {
+        UploadCheckResult result = validator.Validate(file.OpenReadStream(), file.FileName);
+        return result.IsSafe ? Ok() : BadRequest(result.Message);
+    }
+}
+```
+
+İki tip de thread-safe'tir. `UploadValidator` kontrollerini bir zincir olarak çalıştırır: her kontrol tek işi olan küçük bir adımdır, sizin `IUploadRule` kurallarınız son adımlardır. `UploadPolicy.BlockedExtensions` içindeki uzantılar, program ve betik türlerinin uzantılarıyla birlikte her zaman reddedilir; varsayılan listeyi `new HashSet<string>(UploadPolicy.DefaultBlockedExtensions) { "dwg" }` ile genişletin.
+
 ## Kendi türlerinizi ve kurallarınızı ekleyin
 
 Bir ya da daha çok dedektörle tür kaydedin. Kayıtlı türler hazır türlerden önce denenir; uzantıları ve MIME türleri öncelik kazanır.

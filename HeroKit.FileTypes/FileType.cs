@@ -4,7 +4,7 @@ namespace HeroKit.FileTypes;
 /// A file type: name, MIME type, extensions and the detectors that recognize its content. Built-in types are in <see cref="FileTypes"/>.
 /// </summary>
 /// <remarks>
-/// Create an instance and call <see cref="FileTypes.Register"/> to add a type of your own; registered types are checked before the built-in types.
+/// Create an instance and register it with <see cref="FileTypes.Register"/> or <see cref="FileTypeRegistry.Register"/>; registered types are checked before the built-in types.
 /// </remarks>
 /// <example>
 /// <code>
@@ -65,7 +65,7 @@ public sealed class FileType
     /// Gets the more general type this type is built on, or null. For example, DOCX is a ZIP file and JSON is plain text.
     /// </summary>
     /// <remarks>
-    /// <see cref="FileTypes.ContentMatchesExtension(ReadOnlySpan{byte}, string)"/> accepts content of a parent type for a more specific extension,
+    /// <see cref="FileTypeRegistry.ContentMatchesExtension(ReadOnlySpan{byte}, string)"/> accepts content of a parent type for a more specific extension,
     /// because the content can only be recognized as far as the header shows.
     /// </remarks>
     public FileType? Parent { get; init; }
@@ -106,6 +106,18 @@ public sealed class FileType
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Checks whether content of this type fits a file that claims to be <paramref name="other"/>:
+    /// the types are the same, have the same MIME type, or one is built on the other through <see cref="Parent"/>.
+    /// </summary>
+    /// <param name="other">The type the file claims to be, for example the type of its extension.</param>
+    /// <returns>True if the types fit.</returns>
+    public bool IsCompatibleWith(FileType other)
+    {
+        ArgumentNullException.ThrowIfNull(other);
+        return IsA(other) || other.IsA(this) || string.Equals(MimeType, other.MimeType, StringComparison.Ordinal);
     }
 
     /// <inheritdoc />

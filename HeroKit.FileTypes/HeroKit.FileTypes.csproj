@@ -23,7 +23,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>herokit.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>First release: FileTypes.Detect, FromExtension, FromMimeType, ContentMatchesExtension, CheckUpload with UploadPolicy, custom file types (MagicNumber, ZipEntryDetector, IsoMediaDetector) and custom upload rules.</PackageReleaseNotes>
+        <PackageReleaseNotes>First release: FileTypes.Detect, FromExtension, FromMimeType, ContentMatchesExtension and CheckUpload; FileTypeRegistry and UploadValidator instances for dependency injection; custom file types (MagicNumber, ZipEntryDetector, IsoMediaDetector, IFileTypeDetector) and upload rules (IUploadRule).</PackageReleaseNotes>
         <Copyright>Copyright © 2023-2026 Emre Akdemir</Copyright>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>

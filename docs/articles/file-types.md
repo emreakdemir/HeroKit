@@ -88,6 +88,30 @@ The stream overload reads the whole SVG up to `MaxSvgScanLength` (1 MB) so a scr
 
 The check is a first line of defense. Also limit the upload size, store files under generated names outside the web root, serve them with `Content-Disposition: attachment` where possible, and re-encode images or scan files when it matters.
 
+## Dependency injection and your own registry
+
+The static `FileTypes` methods use the shared registry `FileTypes.Default`. For dependency injection, tests or per-tenant types, create instances:
+
+```csharp
+var registry = new FileTypeRegistry();            // the built-in types; new FileTypeRegistry(types) for only your list
+registry.Register(myType);                         // does not change FileTypes.Default
+
+builder.Services.AddSingleton(registry);
+builder.Services.AddSingleton(new UploadValidator(new UploadPolicy { AllowedTypes = [FileTypes.Pdf] }, registry));
+
+public sealed class DocumentsController(UploadValidator validator) : ControllerBase
+{
+    [HttpPost]
+    public IActionResult Upload(IFormFile file)
+    {
+        UploadCheckResult result = validator.Validate(file.OpenReadStream(), file.FileName);
+        return result.IsSafe ? Ok() : BadRequest(result.Message);
+    }
+}
+```
+
+Both types are thread-safe. `UploadValidator` runs its checks as a chain: each check is a small step with one job, and your `IUploadRule` instances are the last steps. Extensions in `UploadPolicy.BlockedExtensions` are always rejected, together with the extensions of program and script types; extend the default list with `new HashSet<string>(UploadPolicy.DefaultBlockedExtensions) { "dwg" }`.
+
 ## Add your own types and rules
 
 Register a type with one or more detectors. Registered types are checked before the built-in types, and their extensions and MIME types win.

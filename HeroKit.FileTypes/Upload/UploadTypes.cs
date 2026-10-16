@@ -11,7 +11,7 @@ public enum UploadRejection
     /// <summary>The file name is empty, too long, starts or ends with a dot or space, or contains a path separator, a colon, a control character or another character Windows does not allow.</summary>
     InvalidFileName,
 
-    /// <summary>The extension belongs to a program or script, for example ".exe", ".js" or ".php".</summary>
+    /// <summary>The extension belongs to a program or script, for example ".exe", ".js" or ".php", or is in <see cref="UploadPolicy.BlockedExtensions"/>.</summary>
     DangerousExtension,
 
     /// <summary>A program or script extension is hidden before the last extension, for example "invoice.php.jpg".</summary>
@@ -43,7 +43,7 @@ public enum UploadRejection
 }
 
 /// <summary>
-/// The result of <see cref="FileTypes.CheckUpload(ReadOnlySpan{byte}, string, UploadPolicy)"/>.
+/// The result of <see cref="UploadValidator.Validate(ReadOnlySpan{byte}, string)"/>.
 /// </summary>
 /// <param name="Rejection">Why the upload was rejected, or <see cref="UploadRejection.None"/>.</param>
 /// <param name="DetectedType">The type detected from the content, or null.</param>
@@ -79,20 +79,18 @@ public interface IUploadRule
 }
 
 /// <summary>
-/// Settings for <see cref="FileTypes.CheckUpload(ReadOnlySpan{byte}, string, UploadPolicy)"/>.
+/// Settings for <see cref="UploadValidator"/>.
 /// </summary>
 /// <example>
 /// <code>
 /// var imagesOnly = new UploadPolicy { AllowedTypes = [FileTypes.Jpeg, FileTypes.Png, FileTypes.WebP] };
-/// UploadCheckResult result = FileTypes.CheckUpload(stream, file.FileName, imagesOnly);
+/// var validator = new UploadValidator(imagesOnly);
+/// UploadCheckResult result = validator.Validate(stream, file.FileName);
 /// if (!result.IsSafe) return BadRequest(result.Message);
 /// </code>
 /// </example>
 public sealed class UploadPolicy
 {
-    /// <summary>Gets the default policy: any type that is not a program or script, with a known extension that fits the content.</summary>
-    public static UploadPolicy Default { get; } = new();
-
     /// <summary>Gets the allowed types, or null to allow every type that is not a program or script. The extension's type must be in the list.</summary>
     public IReadOnlyCollection<FileType>? AllowedTypes { get; init; }
 
@@ -105,6 +103,31 @@ public sealed class UploadPolicy
     /// <summary>Gets the largest SVG that is scanned for active content when a stream is checked; larger SVG files are rejected. Defaults to 1 MB.</summary>
     public int MaxSvgScanLength { get; init; } = 1024 * 1024;
 
+    /// <summary>
+    /// Gets the extensions that are always rejected, in lower case without a dot. Extensions of program and script types
+    /// (<see cref="FileType.IsExecutable"/>) in the registry are rejected as well. Defaults to <see cref="DefaultBlockedExtensions"/>.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var policy = new UploadPolicy { BlockedExtensions = new HashSet&lt;string&gt;(UploadPolicy.DefaultBlockedExtensions) { "dwg" } };
+    /// </code>
+    /// </example>
+    public IReadOnlySet<string> BlockedExtensions { get; init; } = DefaultBlockedExtensions;
+
+    /// <summary>
+    /// Gets server-side and Windows script extensions that are not built-in types: "asp", "aspx", "jsp", "cgi", "py", "config", "reg" and similar.
+    /// </summary>
+    public static IReadOnlySet<string> DefaultBlockedExtensions { get; } = new HashSet<string>(StringComparer.Ordinal)
+    {
+        "asp", "aspx", "ascx", "ashx", "asmx", "asa", "axd", "cer", "config", "jsp", "jspx", "cgi", "pl", "py", "pyc", "rb",
+        "jse", "msc", "reg", "inf", "pif", "gadget", "application", "appref-ms", "vb", "ws", "url", "desktop", "iqy", "slk",
+    };
+
     /// <summary>Gets extra rules that run after the built-in checks.</summary>
     public IReadOnlyList<IUploadRule> Rules { get; init; } = [];
+
+    // Declared after DefaultBlockedExtensions: static initializers run in source order.
+
+    /// <summary>Gets the default policy: any type that is not a program or script, with a known extension that fits the content.</summary>
+    public static UploadPolicy Default { get; } = new();
 }

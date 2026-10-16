@@ -7,6 +7,7 @@ HeroKit.FileTypes.FileType.Extension.get -> string!
 HeroKit.FileTypes.FileType.Extensions.get -> System.Collections.Generic.IReadOnlyList<string!>!
 HeroKit.FileTypes.FileType.FileType(string! name, string! mimeType, HeroKit.FileTypes.FileTypeCategory category, params string![]! extensions) -> void
 HeroKit.FileTypes.FileType.IsA(HeroKit.FileTypes.FileType! other) -> bool
+HeroKit.FileTypes.FileType.IsCompatibleWith(HeroKit.FileTypes.FileType! other) -> bool
 HeroKit.FileTypes.FileType.IsExecutable.get -> bool
 HeroKit.FileTypes.FileType.IsMatch(System.ReadOnlySpan<byte> header) -> bool
 HeroKit.FileTypes.FileType.MimeType.get -> string!
@@ -26,6 +27,20 @@ HeroKit.FileTypes.FileTypeCategory.Other = 0 -> HeroKit.FileTypes.FileTypeCatego
 HeroKit.FileTypes.FileTypeCategory.Script = 9 -> HeroKit.FileTypes.FileTypeCategory
 HeroKit.FileTypes.FileTypeCategory.Text = 7 -> HeroKit.FileTypes.FileTypeCategory
 HeroKit.FileTypes.FileTypeCategory.Video = 5 -> HeroKit.FileTypes.FileTypeCategory
+HeroKit.FileTypes.FileTypeRegistry
+HeroKit.FileTypes.FileTypeRegistry.All.get -> System.Collections.Generic.IReadOnlyList<HeroKit.FileTypes.FileType!>!
+HeroKit.FileTypes.FileTypeRegistry.ContentMatchesExtension(System.IO.Stream! stream, string? fileName) -> bool
+HeroKit.FileTypes.FileTypeRegistry.ContentMatchesExtension(System.ReadOnlySpan<byte> header, string? fileName) -> bool
+HeroKit.FileTypes.FileTypeRegistry.Detect(System.IO.Stream! stream) -> HeroKit.FileTypes.FileType?
+HeroKit.FileTypes.FileTypeRegistry.Detect(System.ReadOnlySpan<byte> header) -> HeroKit.FileTypes.FileType?
+HeroKit.FileTypes.FileTypeRegistry.DetectAll(System.ReadOnlySpan<byte> header) -> System.Collections.Generic.IReadOnlyList<HeroKit.FileTypes.FileType!>!
+HeroKit.FileTypes.FileTypeRegistry.DetectAsync(System.IO.Stream! stream, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<HeroKit.FileTypes.FileType?>
+HeroKit.FileTypes.FileTypeRegistry.FileTypeRegistry() -> void
+HeroKit.FileTypes.FileTypeRegistry.FileTypeRegistry(System.Collections.Generic.IEnumerable<HeroKit.FileTypes.FileType!>! types) -> void
+HeroKit.FileTypes.FileTypeRegistry.FromExtension(string? fileNameOrExtension) -> HeroKit.FileTypes.FileType?
+HeroKit.FileTypes.FileTypeRegistry.FromMimeType(string? mimeType) -> HeroKit.FileTypes.FileType?
+HeroKit.FileTypes.FileTypeRegistry.GetMimeType(string? fileNameOrExtension) -> string!
+HeroKit.FileTypes.FileTypeRegistry.Register(HeroKit.FileTypes.FileType! fileType) -> void
 HeroKit.FileTypes.FileTypes
 HeroKit.FileTypes.IFileTypeDetector
 HeroKit.FileTypes.IFileTypeDetector.IsMatch(System.ReadOnlySpan<byte> header) -> bool
@@ -57,6 +72,8 @@ HeroKit.FileTypes.UploadPolicy.AllowUnknownContent.get -> bool
 HeroKit.FileTypes.UploadPolicy.AllowUnknownContent.init -> void
 HeroKit.FileTypes.UploadPolicy.AllowedTypes.get -> System.Collections.Generic.IReadOnlyCollection<HeroKit.FileTypes.FileType!>?
 HeroKit.FileTypes.UploadPolicy.AllowedTypes.init -> void
+HeroKit.FileTypes.UploadPolicy.BlockedExtensions.get -> System.Collections.Generic.IReadOnlySet<string!>!
+HeroKit.FileTypes.UploadPolicy.BlockedExtensions.init -> void
 HeroKit.FileTypes.UploadPolicy.MaxFileNameLength.get -> int
 HeroKit.FileTypes.UploadPolicy.MaxFileNameLength.init -> void
 HeroKit.FileTypes.UploadPolicy.MaxSvgScanLength.get -> int
@@ -77,9 +94,19 @@ HeroKit.FileTypes.UploadRejection.None = 0 -> HeroKit.FileTypes.UploadRejection
 HeroKit.FileTypes.UploadRejection.NotAllowed = 9 -> HeroKit.FileTypes.UploadRejection
 HeroKit.FileTypes.UploadRejection.UnknownContent = 7 -> HeroKit.FileTypes.UploadRejection
 HeroKit.FileTypes.UploadRejection.UnknownExtension = 4 -> HeroKit.FileTypes.UploadRejection
+HeroKit.FileTypes.UploadValidator
+HeroKit.FileTypes.UploadValidator.Policy.get -> HeroKit.FileTypes.UploadPolicy!
+HeroKit.FileTypes.UploadValidator.Registry.get -> HeroKit.FileTypes.FileTypeRegistry!
+HeroKit.FileTypes.UploadValidator.UploadValidator() -> void
+HeroKit.FileTypes.UploadValidator.UploadValidator(HeroKit.FileTypes.UploadPolicy! policy) -> void
+HeroKit.FileTypes.UploadValidator.UploadValidator(HeroKit.FileTypes.UploadPolicy! policy, HeroKit.FileTypes.FileTypeRegistry! registry) -> void
+HeroKit.FileTypes.UploadValidator.Validate(System.IO.Stream! stream, string! fileName) -> HeroKit.FileTypes.UploadCheckResult
+HeroKit.FileTypes.UploadValidator.Validate(System.ReadOnlySpan<byte> content, string! fileName) -> HeroKit.FileTypes.UploadCheckResult
 HeroKit.FileTypes.ZipEntryDetector
 HeroKit.FileTypes.ZipEntryDetector.IsMatch(System.ReadOnlySpan<byte> header) -> bool
 HeroKit.FileTypes.ZipEntryDetector.ZipEntryDetector(string! entryNamePrefix) -> void
+const HeroKit.FileTypes.FileTypeRegistry.DefaultMimeType = "application/octet-stream" -> string!
+const HeroKit.FileTypes.FileTypeRegistry.HeaderSize = 16384 -> int
 const HeroKit.FileTypes.FileTypes.DefaultMimeType = "application/octet-stream" -> string!
 const HeroKit.FileTypes.FileTypes.HeaderSize = 16384 -> int
 override HeroKit.FileTypes.FileType.ToString() -> string!
@@ -91,6 +118,7 @@ static HeroKit.FileTypes.FileTypes.Avi.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Avif.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Batch.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Bmp.get -> HeroKit.FileTypes.FileType!
+static HeroKit.FileTypes.FileTypes.BuiltIn.get -> System.Collections.Generic.IReadOnlyList<HeroKit.FileTypes.FileType!>!
 static HeroKit.FileTypes.FileTypes.Bzip2.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Calendar.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.CheckUpload(System.IO.Stream! stream, string! fileName) -> HeroKit.FileTypes.UploadCheckResult
@@ -102,6 +130,7 @@ static HeroKit.FileTypes.FileTypes.ContentMatchesExtension(System.IO.Stream! str
 static HeroKit.FileTypes.FileTypes.ContentMatchesExtension(System.ReadOnlySpan<byte> header, string? fileName) -> bool
 static HeroKit.FileTypes.FileTypes.Css.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Csv.get -> HeroKit.FileTypes.FileType!
+static HeroKit.FileTypes.FileTypes.Default.get -> HeroKit.FileTypes.FileTypeRegistry!
 static HeroKit.FileTypes.FileTypes.Detect(System.IO.Stream! stream) -> HeroKit.FileTypes.FileType?
 static HeroKit.FileTypes.FileTypes.Detect(System.ReadOnlySpan<byte> header) -> HeroKit.FileTypes.FileType?
 static HeroKit.FileTypes.FileTypes.DetectAll(System.ReadOnlySpan<byte> header) -> System.Collections.Generic.IReadOnlyList<HeroKit.FileTypes.FileType!>!
@@ -189,6 +218,7 @@ static HeroKit.FileTypes.MagicNumber.FromText(string! text, int offset = 0) -> H
 static HeroKit.FileTypes.UploadCheckResult.operator !=(HeroKit.FileTypes.UploadCheckResult left, HeroKit.FileTypes.UploadCheckResult right) -> bool
 static HeroKit.FileTypes.UploadCheckResult.operator ==(HeroKit.FileTypes.UploadCheckResult left, HeroKit.FileTypes.UploadCheckResult right) -> bool
 static HeroKit.FileTypes.UploadPolicy.Default.get -> HeroKit.FileTypes.UploadPolicy!
+static HeroKit.FileTypes.UploadPolicy.DefaultBlockedExtensions.get -> System.Collections.Generic.IReadOnlySet<string!>!
 static HeroKit.FileTypes.ZipEntryDetector.ForMimeTypeEntry(string! mimeType) -> HeroKit.FileTypes.ZipEntryDetector!
 ~override HeroKit.FileTypes.UploadCheckResult.Equals(object obj) -> bool
 ~override HeroKit.FileTypes.UploadCheckResult.ToString() -> string

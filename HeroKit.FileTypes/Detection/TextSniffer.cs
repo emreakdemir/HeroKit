@@ -1,52 +1,21 @@
-using System.Buffers.Binary;
 using System.Text.Unicode;
 
 namespace HeroKit.FileTypes;
 
-// Detectors for built-in types that need more than fixed bytes.
-internal sealed class DelegateDetector(DelegateDetector.Match match) : IFileTypeDetector
+// Recognizes text content and text formats by their start. Comparisons are ASCII and culture-free.
+internal static class TextSniffer
 {
-    public delegate bool Match(ReadOnlySpan<byte> header);
+    private static ReadOnlySpan<byte> Utf8Bom => [0xEF, 0xBB, 0xBF];
 
-    public bool IsMatch(ReadOnlySpan<byte> header) => match(header);
-}
+    private static ReadOnlySpan<byte> Utf16LittleEndianBom => [0xFF, 0xFE];
 
-internal static class Sniffers
-{
-    // "%PDF-" may follow a few junk bytes; readers accept it within the first 1024 bytes.
-    public static bool Pdf(ReadOnlySpan<byte> header) =>
-        header[..Math.Min(header.Length, 1024)].IndexOf("%PDF-"u8) >= 0;
+    private static ReadOnlySpan<byte> Utf16BigEndianBom => [0xFE, 0xFF];
 
-    public static bool WebM(ReadOnlySpan<byte> header) =>
-        header.StartsWith((ReadOnlySpan<byte>)[0x1A, 0x45, 0xDF, 0xA3]) && header[..Math.Min(header.Length, 64)].IndexOf("webm"u8) >= 0;
-
-    // CA FE BA BE is shared by Java class files and Mach-O universal binaries.
-    // Class files store the major version (45 or more) in bytes 6–7; universal binaries store a small architecture count in bytes 4–7.
-    public static bool JavaClass(ReadOnlySpan<byte> header) =>
-        header.Length >= 8 && header.StartsWith((ReadOnlySpan<byte>)[0xCA, 0xFE, 0xBA, 0xBE]) && BinaryPrimitives.ReadUInt16BigEndian(header[6..]) >= 45;
-
-    public static bool MachO(ReadOnlySpan<byte> header)
-    {
-        if (header.Length < 8)
-            return false;
-
-        uint magic = BinaryPrimitives.ReadUInt32BigEndian(header);
-        if (magic is 0xFEEDFACE or 0xFEEDFACF or 0xCEFAEDFE or 0xCFFAEDFE)
-            return true;
-
-        return magic == 0xCAFEBABE && BinaryPrimitives.ReadUInt32BigEndian(header[4..]) is >= 1 and <= 30;
-    }
+    public static bool PlainText(ReadOnlySpan<byte> header) =>
+        header.StartsWith(Utf16LittleEndianBom) || header.StartsWith(Utf16BigEndianBom) || TryGetUtf8Text(header, out _);
 
     public static bool Shebang(ReadOnlySpan<byte> header) =>
         header.Length >= 3 && header[0] == '#' && header[1] == '!' && (header[2] == '/' || header[2] == ' ');
-
-    public static bool PlainText(ReadOnlySpan<byte> header)
-    {
-        if (header.StartsWith((ReadOnlySpan<byte>)[0xFF, 0xFE]) || header.StartsWith((ReadOnlySpan<byte>)[0xFE, 0xFF]))
-            return true;
-
-        return TryGetUtf8Text(header, out _);
-    }
 
     public static bool Json(ReadOnlySpan<byte> header)
     {
@@ -95,7 +64,7 @@ internal static class Sniffers
     // A multi-byte character cut off at the end of the header is allowed.
     public static bool TryGetUtf8Text(ReadOnlySpan<byte> header, out ReadOnlySpan<byte> text)
     {
-        text = header.StartsWith((ReadOnlySpan<byte>)[0xEF, 0xBB, 0xBF]) ? header[3..] : header;
+        text = header.StartsWith(Utf8Bom) ? header[Utf8Bom.Length..] : header;
         if (text.IsEmpty)
             return false;
 

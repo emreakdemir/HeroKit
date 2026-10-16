@@ -25,6 +25,8 @@ UploadCheckResult result = FileTypes.CheckUpload(file.OpenReadStream(), file.Fil
 if (!result.IsSafe)
     return BadRequest(result.Message); // result.Rejection: DangerousContent, DoubleExtension, ExtensionMismatch, ...
 
+// Or inject instances: new FileTypeRegistry(), new UploadValidator(policy, registry)
+
 // Your own type, checked before the built-in types:
 FileTypes.Register(new FileType("Sketch document", "application/x-sketch", FileTypeCategory.Document, "sketch")
 {

@@ -174,10 +174,44 @@ public class UploadCheckTests
     }
 
     [Fact]
+    public void Validator_ShouldUseItsOwnPolicyAndRegistry()
+    {
+        var registry = new FileTypeRegistry();
+        registry.Register(new FileType("Drawing", "image/x-drawing", FileTypeCategory.Image, "drw") { Detectors = [MagicNumber.FromText("DRW1")] });
+        var validator = new UploadValidator(new UploadPolicy { AllowedTypes = [registry.FromExtension("drw")!] }, registry);
+
+        Assert.True(validator.Validate(Text("DRW1 lines"), "plan.drw").IsSafe);
+        Assert.Equal(UploadRejection.NotAllowed, validator.Validate(Png, "photo.png").Rejection);
+        Assert.Equal(UploadRejection.UnknownExtension, FT.CheckUpload(Text("DRW1 lines"), "plan.drw").Rejection);
+        Assert.Same(registry, validator.Registry);
+        Assert.Same(FT.Default, new UploadValidator().Registry);
+        Assert.Same(UploadPolicy.Default, new UploadValidator().Policy);
+    }
+
+    [Fact]
+    public void Validator_ShouldBlockExtensionsFromThePolicy()
+    {
+        Assert.Contains("aspx", UploadPolicy.DefaultBlockedExtensions);
+        Assert.Same(UploadPolicy.DefaultBlockedExtensions, UploadPolicy.Default.BlockedExtensions);
+
+        var policy = new UploadPolicy { BlockedExtensions = new HashSet<string>(UploadPolicy.DefaultBlockedExtensions) { "png" } };
+        var validator = new UploadValidator(policy);
+
+        Assert.Equal(UploadRejection.DangerousExtension, validator.Validate(Png, "photo.png").Rejection);
+        Assert.Equal(UploadRejection.DoubleExtension, validator.Validate(Png, "photo.png.jpg").Rejection);
+
+        var open = new UploadValidator(new UploadPolicy { BlockedExtensions = new HashSet<string>() });
+        Assert.True(open.Validate(Png, "photo.config.png").IsSafe);
+        Assert.Equal(UploadRejection.DangerousExtension, open.Validate(Png, "photo.exe").Rejection);
+    }
+
+    [Fact]
     public void CheckUpload_ShouldValidateArguments()
     {
         Assert.Throws<ArgumentNullException>(() => FT.CheckUpload(Png, "a.png", null!));
         Assert.Throws<ArgumentNullException>(() => FT.CheckUpload((Stream)null!, "a.png"));
+        Assert.Throws<ArgumentNullException>(() => new UploadValidator(null!));
+        Assert.Throws<ArgumentNullException>(() => new UploadValidator(UploadPolicy.Default, null!));
         Assert.Same(UploadPolicy.Default, UploadPolicy.Default);
         Assert.Equal(255, UploadPolicy.Default.MaxFileNameLength);
     }
