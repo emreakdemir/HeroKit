@@ -14,5 +14,6 @@ internal static class TurkeyCountry
         IbanRules = TurkeyIbanRules.Instance,
         Banks = TurkeyBanks.Instance,
         Regions = TurkeyProvinces.All,
+        Districts = TurkeyDistricts.All,
     };
 }

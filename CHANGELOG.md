@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.4.0] - 2026-10-16
+
+### Added
+- Districts: `Country.Districts`, `GetDistricts(region)`, `FindDistrict(region, name)` and `FindDistrict(code)`; Türkiye has its 973 districts (ilçe) with official MERNİS codes. New `District` type.
+- `Tckn` value type: validated once, then passed around. `Parse`, `TryParse`, `IParsable<Tckn>`, `ToMaskedString`, JSON converter (also for source generation and Native AOT) and type converter.
+- `IsValidKepAddress()` with `[KepAddress]` and the `KepAddress()` FluentValidation rule.
+- `IsValidIdCardSerial()` with `[IdCardSerial]` and the `IdCardSerial()` FluentValidation rule.
+
+### Quality
+- Native AOT smoke test with 23 checks, including JSON source generation with `Tckn`.
+
 ## [3.3.0] - 2026-10-16
 
 ### Added
@@ -99,7 +110,8 @@ Superseded by 3.0.0. Highlights:
 
 1.0.0-alpha to 1.0.0-alpha.6: the first array, boolean, string, type and conversion helpers (contributors: @emreakdemir, @jepozdemir).
 
-[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/3.3.0...HEAD
+[Unreleased]: https://github.com/emreakdemir/HeroKit/compare/3.4.0...HEAD
+[3.4.0]: https://github.com/emreakdemir/HeroKit/compare/3.3.0...3.4.0
 [3.3.0]: https://github.com/emreakdemir/HeroKit/compare/3.2.0...3.3.0
 [3.2.0]: https://github.com/emreakdemir/HeroKit/compare/3.1.0...3.2.0
 [3.1.0]: https://github.com/emreakdemir/HeroKit/compare/3.0.0...3.1.0

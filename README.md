@@ -35,6 +35,8 @@ Countries.Turkey.FindRegion("34")?.Name;                       // "İstanbul"
 1234.5m.ToCurrencyString(Currencies.TurkishLira);              // "₺1.234,50"
 "₺1.234,56".ToAmount(Currencies.TurkishLira);                  // 1234.56
 "10000000146".MaskMiddle(2, 2);                                // "10*******46" (KVKK)
+Countries.Turkey.FindDistrict("istanbul", "kadikoy")?.Name;    // "Kadıköy" (973 ilçe)
+Tckn.Parse("10000000146").ToMaskedString();                   // validated value type: "10*******46"
 "istanbul ılıca".ToTitleCase(Languages.Turkish);               // "İstanbul Ilıca"
 new DateOnly(2026, 3, 19).AddBusinessDays(1, Countries.Turkey); // 2026-03-23 (skips the bayram and the weekend)
 "ABC2026000000001".IsValidGibInvoiceNumber();                  // true  (e-Fatura / e-Arşiv)

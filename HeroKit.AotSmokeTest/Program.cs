@@ -10,6 +10,8 @@ using HeroKit.Globalization;
 using HeroKit.Globalization.Turkey;
 using HeroKit.Types;
 using HeroKit.Validation;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 // Exercises the public API under Native AOT and exits with a non-zero code on any unexpected result.
 var checks = new (string Name, bool Passed)[]
@@ -39,6 +41,10 @@ var checks = new (string Name, bool Passed)[]
         && FileTypes.GetMimeType("report.docx") == FileTypes.Docx.MimeType
         && FileTypes.CheckUpload("MZ\u0090\u0000"u8, "photo.png").Rejection == UploadRejection.DangerousContent
         && !FileTypes.CheckUpload("<svg onload=\"x\"/>"u8, "icon.svg").IsSafe),
+    ("Districts and identity", Countries.Turkey.FindDistrict("istanbul", "kadikoy")?.Code == 1421
+        && "firma@hs01.kep.tr".IsValidKepAddress() && "A12B34567".IsValidIdCardSerial()
+        && JsonSerializer.Serialize(new Citizen(Tckn.Parse("10000000146")), AotJson.Default.Citizen) == "{\"Id\":\"10000000146\"}"
+        && JsonSerializer.Deserialize("{\"Id\":\"10000000146\"}", AotJson.Default.Citizen)!.Id.ToMaskedString() == "10*******46"),
     ("United States", "(212) 555-0123".ToE164(Countries.UnitedStates) == "+12125550123"
         && 1.01m.ToCurrencyWords(Currencies.USDollar) == "one dollar and one cent"
         && new DateOnly(2026, 7, 2).AddBusinessDays(1, Countries.UnitedStates) == new DateOnly(2026, 7, 6)),
@@ -68,4 +74,11 @@ enum Status
 sealed class Order
 {
     public int Quantity { get; set; }
+}
+
+sealed record Citizen(Tckn Id);
+
+[JsonSerializable(typeof(Citizen))]
+sealed partial class AotJson : JsonSerializerContext
+{
 }

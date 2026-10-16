@@ -23,7 +23,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>herokit.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>No changes in HeroKit; released together with the new HeroKit.FileTypes package (file type detection and safe upload checks). 3.2.0 added bank from IBAN, MERSİS, e-Fatura QR code reader, amount parsing, masking and GTIN validation.</PackageReleaseNotes>
+        <PackageReleaseNotes>Turkish districts (Countries.Turkey.Districts, GetDistricts, FindDistrict; 973 ilçe with MERNİS codes), validated Tckn value type (IParsable, JSON and type converters, AOT-ready), KEP address and chip identity card serial validation with attributes. Upgrading from 1.x or 2.x: https://herokit.emreakdemir.dev/articles/upgrading.html</PackageReleaseNotes>
         <Copyright>Copyright © 2023-2026 Emre Akdemir</Copyright>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>

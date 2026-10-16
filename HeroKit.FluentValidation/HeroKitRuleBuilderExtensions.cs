@@ -87,6 +87,26 @@ public static class HeroKitRuleBuilderExtensions
                    .WithMessage("'{PropertyName}' must be a valid MERSİS number.");
 
     /// <summary>
+    /// Validates that the value is a KEP (Kayıtlı Elektronik Posta) address.
+    /// </summary>
+    /// <typeparam name="T">The validated object type.</typeparam>
+    /// <param name="ruleBuilder">The rule builder.</param>
+    /// <returns>The rule builder options, for chaining.</returns>
+    public static IRuleBuilderOptions<T, string?> KepAddress<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
+        ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidKepAddress())
+                   .WithMessage("'{PropertyName}' must be a valid KEP address.");
+
+    /// <summary>
+    /// Validates that the value is a Turkish chip identity card serial number.
+    /// </summary>
+    /// <typeparam name="T">The validated object type.</typeparam>
+    /// <param name="ruleBuilder">The rule builder.</param>
+    /// <returns>The rule builder options, for chaining.</returns>
+    public static IRuleBuilderOptions<T, string?> IdCardSerial<T>(this IRuleBuilder<T, string?> ruleBuilder) =>
+        ruleBuilder.Must(value => string.IsNullOrEmpty(value) || value.IsValidIdCardSerial())
+                   .WithMessage("'{PropertyName}' must be a valid identity card serial number.");
+
+    /// <summary>
     /// Validates that the value is a valid GTIN barcode number (EAN-8, UPC-A, EAN-13, GTIN-14).
     /// </summary>
     /// <typeparam name="T">The validated object type.</typeparam>
