@@ -99,4 +99,78 @@ public static class TurkeyIdentityExtensions
     /// </example>
     public static bool IsValidMersis(this string? value) =>
         value is { Length: 16 } && value[0] == '0' && IsAllDigits(value) && value.Substring(1, 10).IsValidVkn();
+
+    private static readonly System.Buffers.SearchValues<char> DomainCharacters =
+        System.Buffers.SearchValues.Create("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-");
+
+    /// <summary>
+    /// Checks whether a string is a KEP (Kayıtlı Elektronik Posta) address: an e-mail address on a ".kep.tr" domain.
+    /// </summary>
+    /// <remarks>
+    /// The check is structural: one "@", a local part without spaces and a domain such as "hs01.kep.tr". It does not check that the mailbox exists.
+    /// </remarks>
+    /// <param name="value">The address, for example "firma@hs01.kep.tr".</param>
+    /// <returns>True if the value is an e-mail address whose domain ends with ".kep.tr"; otherwise false.</returns>
+    /// <example>
+    /// <code>
+    /// "firma@hs01.kep.tr".IsValidKepAddress(); // true
+    /// "firma@example.com".IsValidKepAddress(); // false
+    /// </code>
+    /// </example>
+    public static bool IsValidKepAddress(this string? value)
+    {
+        if (string.IsNullOrEmpty(value) || value.Length > 254)
+            return false;
+
+        int at = value.IndexOf('@');
+        if (at <= 0 || at != value.LastIndexOf('@') || at > 64)
+            return false;
+
+        ReadOnlySpan<char> local = value.AsSpan(0, at);
+        ReadOnlySpan<char> domain = value.AsSpan(at + 1);
+        if (local[0] == '.' || local[^1] == '.' || local.Contains("..", StringComparison.Ordinal))
+            return false;
+
+        foreach (char c in local)
+        {
+            if (c <= ' ' || c > '~' || c is '(' or ')' or '<' or '>' or ',' or ';' or ':' or '\\' or '"' or '[' or ']')
+                return false;
+        }
+
+        if (!domain.EndsWith(".kep.tr", StringComparison.OrdinalIgnoreCase) || domain.Length <= ".kep.tr".Length)
+            return false;
+
+        // Domain labels: letters, digits and inner hyphens, separated by single dots.
+        while (!domain.IsEmpty)
+        {
+            int dot = domain.IndexOf('.');
+            ReadOnlySpan<char> label = dot >= 0 ? domain[..dot] : domain;
+            if (label.IsEmpty || label[0] == '-' || label[^1] == '-' || label.ContainsAnyExcept(DomainCharacters))
+                return false;
+
+            domain = dot >= 0 ? domain[(dot + 1)..] : [];
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Checks whether a string is a serial number of the Turkish chip identity card (T.C. Kimlik Kartı): a letter, two digits,
+    /// a letter and five digits, for example "A12B34567".
+    /// </summary>
+    /// <remarks>
+    /// The check is structural; the card serial has no check digit. The serial of the old paper identity card (nüfus cüzdanı) has another format and is not accepted.
+    /// </remarks>
+    /// <param name="value">The serial number in upper case.</param>
+    /// <returns>True if the value has the format of the chip identity card serial; otherwise false.</returns>
+    /// <example>
+    /// <code>
+    /// "A12B34567".IsValidIdCardSerial(); // true
+    /// "a12b34567".IsValidIdCardSerial(); // false: upper case only
+    /// </code>
+    /// </example>
+    public static bool IsValidIdCardSerial(this string? value) =>
+        value is { Length: 9 }
+        && char.IsAsciiLetterUpper(value[0]) && char.IsAsciiDigit(value[1]) && char.IsAsciiDigit(value[2])
+        && char.IsAsciiLetterUpper(value[3]) && !value.AsSpan(4).ContainsAnyExceptInRange('0', '9');
 }

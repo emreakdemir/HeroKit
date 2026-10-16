@@ -23,7 +23,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>herokit.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>First release: FileTypes.Detect, FromExtension, FromMimeType, ContentMatchesExtension and CheckUpload; FileTypeRegistry and UploadValidator instances for dependency injection; custom file types (MagicNumber, ZipEntryDetector, IsoMediaDetector, IFileTypeDetector) and upload rules (IUploadRule).</PackageReleaseNotes>
+        <PackageReleaseNotes>No changes since 3.3.0; released with the other HeroKit packages. 3.3.0 was the first release: FileTypes.Detect, FromExtension, FromMimeType, ContentMatchesExtension, UploadValidator, FileTypeRegistry and custom detectors and upload rules.</PackageReleaseNotes>
         <Copyright>Copyright © 2023-2026 Emre Akdemir</Copyright>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>

@@ -23,7 +23,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>herokit.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>Package readme updated for the 3.x country rules. Rules: Tckn, Vkn, Iban, CardNumber, GibInvoiceNumber, Ettn, Mersis, Gtin, PhoneNumber, VehiclePlate, PostalCode, NationalId, TaxId.</PackageReleaseNotes>
+        <PackageReleaseNotes>New KepAddress() and IdCardSerial() rules.</PackageReleaseNotes>
         <Copyright>Copyright © 2023-2026 Emre Akdemir</Copyright>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>

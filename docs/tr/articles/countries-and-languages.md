@@ -101,9 +101,27 @@ using HeroKit.Globalization.Turkey;
 "10000000146".IsValidNationalId(Countries.Turkey);  // true (TCKN)
 "4840847211".IsValidTaxId(Countries.Turkey);        // true: VKN veya TCKN
 "0879001756600379".IsValidMersis();                 // true: "0", VKN, 5 haneli sıra no
+"firma@hs01.kep.tr".IsValidKepAddress();            // true: .kep.tr alan adlı e-posta adresi
+"A12B34567".IsValidIdCardSerial();                  // true: çipli kimlik kartı seri no
 ```
 
 Bunlar sağlama toplamı kontrolleridir; `IsValidMersis` MERSİS numarasının içindeki VKN'yi kontrol eder. Bir numaranın biçiminin doğru olduğunu gösterir; numaranın verilmiş olduğunu göstermez. Girdi yalnızca rakam içermelidir.
+
+
+#### Doğrulanmış TCKN değeri
+
+`Tckn`, kontrolden geçmiş bir TCKN tutar. Değer sisteme girdiği yerde bir kez doğrulayın, sonra `string` yerine `Tckn` taşıyın:
+
+```csharp
+Tckn id = Tckn.Parse("10000000146"); // geçersiz numarada FormatException
+Tckn.TryParse(input, out Tckn checkedId);
+id.ToMaskedString();                 // loglar için "10*******46"
+
+public sealed record Customer(Tckn Id, string Name); // JSON: {"Id":"10000000146", ...}; geçersiz numara deserialize edilmez
+app.MapGet("/customers/{id}", (Tckn id) => ...);    // minimal API bağlar; geçersiz numara 400 döner
+```
+
+`Tckn`, `IParsable<Tckn>` uygular; JSON dönüştürücüsü (System.Text.Json kaynak üreticisi ve Native AOT dahil) ve MVC model bağlama için tip dönüştürücüsü vardır. `default(Tckn)` numara tutmaz: `IsEmpty` true'dur.
 
 ### IBAN
 
@@ -134,6 +152,10 @@ Countries.Turkey.FindRegion(6)?.Name;           // "Ankara"
 Countries.Turkey.FindRegion("sanliurfa")?.Code; // 63 (büyük-küçük harf ve aksanlar yok sayılır)
 Countries.Turkey.Regions.Count;                 // 81
 
+Countries.Turkey.GetDistricts("istanbul").Count;              // 39
+Countries.Turkey.FindDistrict("istanbul", "kadikoy")?.Name;   // "Kadıköy"
+Countries.Turkey.FindDistrict(1421)?.RegionCode;              // 34
+
 "34abc123".FormatVehiclePlate(Countries.Turkey);   // "34 ABC 123"
 "06 A 1234".IsValidVehiclePlate(Countries.Turkey); // true
 "34 Q 1234".IsValidVehiclePlate(Countries.Turkey); // false: Q plakada kullanılan bir harf değil
@@ -141,7 +163,7 @@ Countries.Turkey.Regions.Count;                 // 81
 "34710".IsValidPostalCode(Countries.Turkey);       // true
 ```
 
-`Regions`, `Region(Code, Name)` değerlerinin listesidir. Türkiye için bölgeler 81 ildir.
+`Regions`, `Region(Code, Name)` değerlerinin listesidir. Türkiye için bölgeler 81 ildir. `Districts`, 973 ilçeyi resmî MERNİS kodlarıyla `District(Code, Name, RegionCode)` olarak, her il içinde Türk alfabesine göre sıralı tutar. Mahalle ve sokaklar dahil değildir: on binlerce satırdır ve sık değişir.
 
 ### Telefon numaraları
 

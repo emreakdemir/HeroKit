@@ -101,9 +101,27 @@ using HeroKit.Globalization.Turkey;
 "10000000146".IsValidNationalId(Countries.Turkey);  // true (TCKN)
 "4840847211".IsValidTaxId(Countries.Turkey);        // true: VKN or TCKN
 "0879001756600379".IsValidMersis();                 // true: "0", VKN, 5-digit serial
+"firma@hs01.kep.tr".IsValidKepAddress();            // true: e-mail address on a .kep.tr domain
+"A12B34567".IsValidIdCardSerial();                  // true: serial of the chip identity card
 ```
 
 These are checksum checks; `IsValidMersis` checks the VKN inside the MERSİS number. They confirm that a number is well formed, not that it is issued. Input must contain digits only.
+
+
+#### A validated TCKN value
+
+`Tckn` holds a TCKN that has passed the check. Validate once where the value enters the system, then pass `Tckn` instead of `string`:
+
+```csharp
+Tckn id = Tckn.Parse("10000000146"); // FormatException for an invalid number
+Tckn.TryParse(input, out Tckn checkedId);
+id.ToMaskedString();                 // "10*******46" for logs
+
+public sealed record Customer(Tckn Id, string Name); // JSON: {"Id":"10000000146", ...}; an invalid number fails deserialization
+app.MapGet("/customers/{id}", (Tckn id) => ...);    // minimal APIs bind it; an invalid number returns 400
+```
+
+`Tckn` implements `IParsable<Tckn>` and has a JSON converter (also for the System.Text.Json source generator and Native AOT) and a type converter for MVC model binding. `default(Tckn)` holds no number: `IsEmpty` is true.
 
 ### IBAN
 
@@ -134,6 +152,10 @@ Countries.Turkey.FindRegion(6)?.Name;           // "Ankara"
 Countries.Turkey.FindRegion("sanliurfa")?.Code; // 63 (case and diacritics ignored)
 Countries.Turkey.Regions.Count;                 // 81
 
+Countries.Turkey.GetDistricts("istanbul").Count;              // 39
+Countries.Turkey.FindDistrict("istanbul", "kadikoy")?.Name;   // "Kadıköy"
+Countries.Turkey.FindDistrict(1421)?.RegionCode;              // 34
+
 "34abc123".FormatVehiclePlate(Countries.Turkey);   // "34 ABC 123"
 "06 A 1234".IsValidVehiclePlate(Countries.Turkey); // true
 "34 Q 1234".IsValidVehiclePlate(Countries.Turkey); // false: Q is not a plate letter
@@ -141,7 +163,7 @@ Countries.Turkey.Regions.Count;                 // 81
 "34710".IsValidPostalCode(Countries.Turkey);       // true
 ```
 
-`Regions` is a list of `Region(Code, Name)`. For Türkiye the regions are the 81 provinces.
+`Regions` is a list of `Region(Code, Name)`. For Türkiye the regions are the 81 provinces. `Districts` holds the 973 districts (ilçe) as `District(Code, Name, RegionCode)` with their official MERNİS codes, in Turkish alphabetical order per province. Neighbourhoods and streets are not included: they are tens of thousands of rows and change often.
 
 ### Phone numbers
 

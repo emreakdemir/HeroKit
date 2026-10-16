@@ -53,6 +53,71 @@ public sealed class Country(string code, string name, Language language)
     /// <summary>Gets the first-level administrative regions, for example the 81 Turkish provinces.</summary>
     public IReadOnlyList<Region> Regions { get; init; } = [];
 
+    /// <summary>Gets the second-level administrative units, for example the 973 Turkish districts (ilçe).</summary>
+    public IReadOnlyList<District> Districts { get; init; } = [];
+
+    /// <summary>
+    /// Returns the districts of a region.
+    /// </summary>
+    /// <param name="regionCode">The region code, for example 34.</param>
+    /// <returns>The districts in the order of <see cref="Districts"/>; empty for an unknown region.</returns>
+    /// <example>
+    /// <code>
+    /// Countries.Turkey.GetDistricts(34).Count; // 39
+    /// </code>
+    /// </example>
+    public IReadOnlyList<District> GetDistricts(int regionCode) => [.. Districts.Where(d => d.RegionCode == regionCode)];
+
+    /// <summary>
+    /// Returns the districts of a region found by <see cref="FindRegion(string?)"/>.
+    /// </summary>
+    /// <param name="regionCodeOrName">The region code or name, for example "34" or "istanbul".</param>
+    /// <returns>The districts; empty for an unknown region.</returns>
+    public IReadOnlyList<District> GetDistricts(string? regionCodeOrName) =>
+        FindRegion(regionCodeOrName) is { } region ? GetDistricts(region.Code) : [];
+
+    /// <summary>
+    /// Finds a district by its official code.
+    /// </summary>
+    /// <param name="code">The district code, for example 1757.</param>
+    /// <returns>The district, or null.</returns>
+    public District? FindDistrict(int code)
+    {
+        foreach (District district in Districts)
+        {
+            if (district.Code == code)
+                return district;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Finds a district by its name within a region, ignoring case and diacritics.
+    /// </summary>
+    /// <param name="regionCodeOrName">The region code or name, for example "34" or "istanbul".</param>
+    /// <param name="districtName">The district name, for example "kadikoy".</param>
+    /// <returns>The district, or null if the region or the district is unknown.</returns>
+    /// <example>
+    /// <code>
+    /// Countries.Turkey.FindDistrict("istanbul", "kadikoy")?.Name; // "Kadıköy"
+    /// </code>
+    /// </example>
+    public District? FindDistrict(string? regionCodeOrName, string? districtName)
+    {
+        if (string.IsNullOrWhiteSpace(districtName) || FindRegion(regionCodeOrName) is not { } region)
+            return null;
+
+        string key = TextFolding.Fold(districtName.Trim(), Language.TextRules);
+        foreach (District district in Districts)
+        {
+            if (district.RegionCode == region.Code && TextFolding.Fold(district.Name, Language.TextRules) == key)
+                return district;
+        }
+
+        return null;
+    }
+
     /// <summary>
     /// Finds a region by its code.
     /// </summary>
