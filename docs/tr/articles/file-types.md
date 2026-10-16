@@ -23,7 +23,7 @@ Tespit, dosyanın başındaki imza baytlarını (magic bytes) okur. Yaklaşık 7
 | Grup | Türler |
 |---|---|
 | Resimler | PNG, JPEG, GIF, WebP, BMP, TIFF, ICO, PSD, AVIF, HEIC, HEIF, JPEG XL, SVG |
-| Belgeler | PDF, RTF, DOCX, XLSX, PPTX, ODT, ODS, ODP, EPUB, eski Office (OLE) |
+| Belgeler | PDF, RTF, DOCX, XLSX, PPTX, DOCM, XLSM, PPTM, ODT, ODS, ODP, EPUB, eski Office (OLE) |
 | Arşivler | ZIP, 7z, RAR, gzip, bzip2, xz, Zstandard, tar |
 | Ses ve video | MP3, AAC, FLAC, Ogg, WAV, M4A, MIDI, MP4, M4V, MOV, 3GP, WebM, Matroska, AVI, MPEG, FLV |
 | Fontlar | WOFF, WOFF2, TTF, OTF |
@@ -33,7 +33,8 @@ Tespit, dosyanın başındaki imza baytlarını (magic bytes) okur. Yaklaşık 7
 
 Bazı türler sabit baytlardan fazlasını ister; HeroKit bunları ele alır:
 
-- **Office ve OpenDocument dosyaları ZIP'tir.** HeroKit başlıktaki kayıt adlarını (`word/`, `xl/`, `ppt/`) ve OpenDocument ile EPUB dosyalarının `mimetype` kaydını okur; hiçbir şeyi açmaz. Kayıtlar başlığın ötesindeyse sonuç `FileTypes.Zip` olur.
+- **Office ve OpenDocument dosyaları ZIP'tir.** HeroKit kayıt adlarını (`word/`, `xl/`, `ppt/`) ve OpenDocument ile EPUB dosyalarının `mimetype` kaydını okur; hiçbir şeyi açmaz. Konumlanabilir (seekable) bir stream'de dosyanın sonundaki ZIP içindekiler listesini (central directory, en fazla 1 MB) de okur; böylece büyük dosyalar da tanınır. Yalnız ilk baytları içeren bir span'de ya da konumlanamayan bir stream'de başlığın ötesindeki kayıtlar görünmez ve sonuç `FileTypes.Zip` olabilir.
+- **Makrolu Office dosyaları** (DOCM, XLSM, PPTM) VBA proje kayıtlarından tanınır ve `HasMacros` değerleri true'dur.
 - **MP4, MOV, M4A, 3GP, HEIC ve AVIF aynı kabı kullanır.** HeroKit `ftyp` kutusundaki markaları okur; birden çok eşleşmede hata vermez.
 - **WebM ile Matroska, Java class dosyaları ile Mach-O evrensel dosyaları** aynı baytlarla başlar. HeroKit onları ayıran baytları okur.
 - **Metin türleri** başlangıçlarından tanınır: JSON için `{` ya da `[`, `<?xml`, `<svg`, `<html`. CSV, YAML ve Markdown düz metin gibi görünür; bu yüzden `FileTypes.PlainText` olarak bulunur.
@@ -81,10 +82,12 @@ if (!result.IsSafe)
 | `UnknownContent` | hiçbir dedektörün tanımadığı içerik (`AllowUnknownContent` ile izin verilir) |
 | `ExtensionMismatch` | `photo.png` adlı bir PDF |
 | `NotAllowed` | `AllowedTypes` dışındaki tür |
-| `ActiveContent` | betik, olay işleyicisi, `javascript:` bağlantısı, `foreignObject`, entity tanımı ya da dış kaynak içeren SVG |
+| `ActiveContent` | betik, olay işleyicisi, `javascript:` bağlantısı, `foreignObject`, entity tanımı ya da dış kaynak içeren SVG; `AllowMacros` true değilse makrolu Office belgeleri |
 | `CustomRule` | sizin `Rules` kurallarınızdan biri |
 
-Stream overload'u SVG'nin tamamını `MaxSvgScanLength` (1 MB) sınırına kadar okur; böylece sondaki bir betik de bulunur.
+Stream overload'u SVG'nin tamamını `MaxSvgScanLength` (1 MB) sınırına kadar okur; böylece sondaki bir betik de bulunur. `.docx` kılığındaki makrolu bir belge, makro kaydı büyük bir dosyanın sonunda olsa bile `ExtensionMismatch` ile reddedilir. Eski Office dosyaları (DOC, XLS) da makro taşıyabilir; HeroKit bunların içine bakmaz.
+
+`UploadValidator` ve `Tckn` kullanan eksiksiz bir ASP.NET Core minimal API örneği [samples/HeroKit.Samples.WebApi](https://github.com/emreakdemir/HeroKit/tree/master/samples/HeroKit.Samples.WebApi) klasöründedir.
 
 Bu kontrol ilk savunma hattıdır. Yükleme boyutunu da sınırlayın, dosyaları web kökünün dışında üretilmiş adlarla saklayın, mümkünse `Content-Disposition: attachment` ile sunun; gerektiğinde resimleri yeniden kodlayın ya da dosyaları tarayın.
 

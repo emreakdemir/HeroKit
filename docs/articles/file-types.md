@@ -23,7 +23,7 @@ Detection reads the magic bytes at the start of the file. About 70 types are bui
 | Group | Types |
 |---|---|
 | Images | PNG, JPEG, GIF, WebP, BMP, TIFF, ICO, PSD, AVIF, HEIC, HEIF, JPEG XL, SVG |
-| Documents | PDF, RTF, DOCX, XLSX, PPTX, ODT, ODS, ODP, EPUB, legacy Office (OLE) |
+| Documents | PDF, RTF, DOCX, XLSX, PPTX, DOCM, XLSM, PPTM, ODT, ODS, ODP, EPUB, legacy Office (OLE) |
 | Archives | ZIP, 7z, RAR, gzip, bzip2, xz, Zstandard, tar |
 | Audio and video | MP3, AAC, FLAC, Ogg, WAV, M4A, MIDI, MP4, M4V, MOV, 3GP, WebM, Matroska, AVI, MPEG, FLV |
 | Fonts | WOFF, WOFF2, TTF, OTF |
@@ -33,7 +33,8 @@ Detection reads the magic bytes at the start of the file. About 70 types are bui
 
 Some types need more than fixed bytes, and HeroKit handles them:
 
-- **Office and OpenDocument files are ZIP files.** HeroKit reads the entry names in the header (`word/`, `xl/`, `ppt/`) and the `mimetype` entry of OpenDocument and EPUB files, without decompressing anything. When the entries are beyond the header, the result is `FileTypes.Zip`.
+- **Office and OpenDocument files are ZIP files.** HeroKit reads the entry names (`word/`, `xl/`, `ppt/`) and the `mimetype` entry of OpenDocument and EPUB files, without decompressing anything. From a seekable stream it also reads the ZIP central directory at the end of the file (at most 1 MB), so large files are recognized too. From a span with only the first bytes, or from a stream that cannot seek, entries beyond the header are not seen and the result can be `FileTypes.Zip`.
+- **Macro-enabled Office files** (DOCM, XLSM, PPTM) are recognized by their VBA project entry and have `HasMacros` set.
 - **MP4, MOV, M4A, 3GP, HEIC and AVIF share one container.** HeroKit reads the brands of the `ftyp` box and never fails on several matches.
 - **WebM and Matroska, Java class files and Mach-O universal binaries** share their first bytes. HeroKit reads the bytes that tell them apart.
 - **Text types** are recognized by their start: `{` or `[` for JSON, `<?xml`, `<svg`, `<html`. CSV, YAML and Markdown look like plain text, so they are detected as `FileTypes.PlainText`.
@@ -81,10 +82,12 @@ if (!result.IsSafe)
 | `UnknownContent` | content no detector recognizes (allow it with `AllowUnknownContent`) |
 | `ExtensionMismatch` | a PDF named `photo.png` |
 | `NotAllowed` | a type outside `AllowedTypes` |
-| `ActiveContent` | SVG with script, event handlers, `javascript:` links, `foreignObject`, entity declarations or external references |
+| `ActiveContent` | SVG with script, event handlers, `javascript:` links, `foreignObject`, entity declarations or external references; Office documents with macros unless `AllowMacros` is true |
 | `CustomRule` | one of your `Rules` |
 
-The stream overload reads the whole SVG up to `MaxSvgScanLength` (1 MB) so a script at the end is found.
+The stream overload reads the whole SVG up to `MaxSvgScanLength` (1 MB) so a script at the end is found. A macro-enabled document disguised as `.docx` is rejected as `ExtensionMismatch`, also when the macro entry is at the end of a large file. Legacy Office files (DOC, XLS) can carry macros too; HeroKit does not look inside them.
+
+A complete ASP.NET Core minimal API that uses `UploadValidator` and `Tckn` is in [samples/HeroKit.Samples.WebApi](https://github.com/emreakdemir/HeroKit/tree/master/samples/HeroKit.Samples.WebApi).
 
 The check is a first line of defense. Also limit the upload size, store files under generated names outside the web root, serve them with `Content-Disposition: attachment` where possible, and re-encode images or scan files when it matters.
 

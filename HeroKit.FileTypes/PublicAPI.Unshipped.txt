@@ -6,6 +6,8 @@ HeroKit.FileTypes.FileType.Detectors.init -> void
 HeroKit.FileTypes.FileType.Extension.get -> string!
 HeroKit.FileTypes.FileType.Extensions.get -> System.Collections.Generic.IReadOnlyList<string!>!
 HeroKit.FileTypes.FileType.FileType(string! name, string! mimeType, HeroKit.FileTypes.FileTypeCategory category, params string![]! extensions) -> void
+HeroKit.FileTypes.FileType.HasMacros.get -> bool
+HeroKit.FileTypes.FileType.HasMacros.init -> void
 HeroKit.FileTypes.FileType.IsA(HeroKit.FileTypes.FileType! other) -> bool
 HeroKit.FileTypes.FileType.IsCompatibleWith(HeroKit.FileTypes.FileType! other) -> bool
 HeroKit.FileTypes.FileType.IsExecutable.get -> bool
@@ -68,6 +70,8 @@ HeroKit.FileTypes.UploadCheckResult.Rejection.init -> void
 HeroKit.FileTypes.UploadCheckResult.UploadCheckResult() -> void
 HeroKit.FileTypes.UploadCheckResult.UploadCheckResult(HeroKit.FileTypes.UploadRejection Rejection, HeroKit.FileTypes.FileType? DetectedType, string? Message) -> void
 HeroKit.FileTypes.UploadPolicy
+HeroKit.FileTypes.UploadPolicy.AllowMacros.get -> bool
+HeroKit.FileTypes.UploadPolicy.AllowMacros.init -> void
 HeroKit.FileTypes.UploadPolicy.AllowUnknownContent.get -> bool
 HeroKit.FileTypes.UploadPolicy.AllowUnknownContent.init -> void
 HeroKit.FileTypes.UploadPolicy.AllowedTypes.get -> System.Collections.Generic.IReadOnlyCollection<HeroKit.FileTypes.FileType!>?
@@ -137,6 +141,7 @@ static HeroKit.FileTypes.FileTypes.DetectAll(System.ReadOnlySpan<byte> header) -
 static HeroKit.FileTypes.FileTypes.DetectAsync(System.IO.Stream! stream, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<HeroKit.FileTypes.FileType?>
 static HeroKit.FileTypes.FileTypes.Dex.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Doc.get -> HeroKit.FileTypes.FileType!
+static HeroKit.FileTypes.FileTypes.Docm.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Docx.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Elf.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Epub.get -> HeroKit.FileTypes.FileType!
@@ -182,6 +187,7 @@ static HeroKit.FileTypes.FileTypes.PlainText.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Png.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.PowerShell.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Ppt.get -> HeroKit.FileTypes.FileType!
+static HeroKit.FileTypes.FileTypes.Pptm.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Pptx.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Psd.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.QuickTime.get -> HeroKit.FileTypes.FileType!
@@ -208,6 +214,7 @@ static HeroKit.FileTypes.FileTypes.WindowsShortcut.get -> HeroKit.FileTypes.File
 static HeroKit.FileTypes.FileTypes.Woff.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Woff2.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Xls.get -> HeroKit.FileTypes.FileType!
+static HeroKit.FileTypes.FileTypes.Xlsm.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Xlsx.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Xml.get -> HeroKit.FileTypes.FileType!
 static HeroKit.FileTypes.FileTypes.Xz.get -> HeroKit.FileTypes.FileType!

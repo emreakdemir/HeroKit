@@ -1,0 +1,24 @@
+@host = http://localhost:5000
+
+### A valid identity number (masked in the response)
+GET {{host}}/people/10000000146
+
+### An invalid identity number: 400
+GET {{host}}/people/10000000147
+
+### A province and its districts
+GET {{host}}/provinces/istanbul
+
+### A Turkish amount
+GET {{host}}/amounts?text=₺1.234,56
+
+### Upload a file
+POST {{host}}/documents
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="photo.png"
+Content-Type: image/png
+
+< ./photo.png
+--boundary--

@@ -164,17 +164,77 @@ public class FileTypesTests
     }
 
     [Fact]
-    public void Detect_ShouldFallBackToZipWhenEntriesAreBeyondTheHeader()
+    public void Detect_ShouldReadTheCentralDirectoryOfSeekableZipStreams()
     {
         byte[] late = Zip(seekable: true, ("media/big.bin", 40_000), ("word/document.xml", 100));
         byte[] streamed = Zip(seekable: false, ("[Content_Types].xml", 300), ("word/document.xml", 100));
 
-        // The stream overloads read only the header; a span with the whole file lets the detector see every entry.
-        Assert.Same(HeroKit.FileTypes.FileTypes.Zip, HeroKit.FileTypes.FileTypes.Detect(new MemoryStream(late)));
-        Assert.Same(HeroKit.FileTypes.FileTypes.Docx, HeroKit.FileTypes.FileTypes.Detect(late));
+        // A seekable stream: the registry appends the central directory, so the late entry is seen.
+        Assert.Same(HeroKit.FileTypes.FileTypes.Docx, HeroKit.FileTypes.FileTypes.Detect(new MemoryStream(late)));
         Assert.True(HeroKit.FileTypes.FileTypes.ContentMatchesExtension(new MemoryStream(late), "report.docx"));
-        Assert.Same(HeroKit.FileTypes.FileTypes.Zip, HeroKit.FileTypes.FileTypes.Detect(streamed));
+
+        // Only the first bytes, or a stream that cannot seek: the entry is not seen and the result is ZIP.
+        Assert.Same(HeroKit.FileTypes.FileTypes.Zip, HeroKit.FileTypes.FileTypes.Detect(late.AsSpan(0, HeroKit.FileTypes.FileTypes.HeaderSize)));
+        Assert.Same(HeroKit.FileTypes.FileTypes.Zip, HeroKit.FileTypes.FileTypes.Detect(new NonSeekableStream(new MemoryStream(late))));
+        Assert.True(HeroKit.FileTypes.FileTypes.ContentMatchesExtension(late.AsSpan(0, HeroKit.FileTypes.FileTypes.HeaderSize), "report.docx"));
+
+        // The whole file as a span: the local headers reach the late entry.
+        Assert.Same(HeroKit.FileTypes.FileTypes.Docx, HeroKit.FileTypes.FileTypes.Detect(late));
+        // A ZIP written with data descriptors: the local headers cannot be walked, but the whole file includes the central directory.
+        Assert.Same(HeroKit.FileTypes.FileTypes.Docx, HeroKit.FileTypes.FileTypes.Detect(streamed));
+        Assert.Same(HeroKit.FileTypes.FileTypes.Zip, HeroKit.FileTypes.FileTypes.Detect(streamed.AsSpan(0, 40)));
         Assert.Same(HeroKit.FileTypes.FileTypes.Docx, HeroKit.FileTypes.FileTypes.Detect(Zip(seekable: false, ("word/document.xml", 100))));
+    }
+
+    [Fact]
+    public async Task DetectAsync_ShouldReadTheCentralDirectoryToo()
+    {
+        byte[] late = Zip(seekable: true, ("media/big.bin", 40_000), ("xl/workbook.xml", 100));
+        using var stream = new MemoryStream(late);
+        stream.Position = 0;
+
+        Assert.Same(HeroKit.FileTypes.FileTypes.Xlsx, await HeroKit.FileTypes.FileTypes.DetectAsync(stream));
+        Assert.Equal(0, stream.Position);
+    }
+
+    [Fact]
+    public void Detect_ShouldFallBackWhenTheEndRecordIsMissingOrInvalid()
+    {
+        byte[] late = Zip(seekable: true, ("media/big.bin", 40_000), ("word/document.xml", 100));
+
+        byte[] cut = late[..^22];
+        Assert.Same(HeroKit.FileTypes.FileTypes.Zip, HeroKit.FileTypes.FileTypes.Detect(new MemoryStream(cut)));
+
+        byte[] badOffset = (byte[])late.Clone();
+        BitConverter.TryWriteBytes(badOffset.AsSpan(badOffset.Length - 22 + 16), uint.MaxValue - 1);
+        Assert.Same(HeroKit.FileTypes.FileTypes.Zip, HeroKit.FileTypes.FileTypes.Detect(new MemoryStream(badOffset)));
+    }
+
+    [Fact]
+    public void Detect_ShouldReadAZipStreamThatStartsMidStream()
+    {
+        byte[] late = Zip(seekable: true, ("media/big.bin", 40_000), ("ppt/presentation.xml", 100));
+        using var stream = new MemoryStream([.. new byte[10], .. late]);
+        stream.Position = 10;
+
+        Assert.Same(HeroKit.FileTypes.FileTypes.Pptx, HeroKit.FileTypes.FileTypes.Detect(stream));
+        Assert.Equal(10, stream.Position);
+    }
+
+    [Theory]
+    [InlineData("word/vbaProject.bin", "application/vnd.ms-word.document.macroenabled.12")]
+    [InlineData("xl/vbaProject.bin", "application/vnd.ms-excel.sheet.macroenabled.12")]
+    [InlineData("ppt/vbaProject.bin", "application/vnd.ms-powerpoint.presentation.macroenabled.12")]
+    public void Detect_ShouldRecognizeMacroEnabledOfficeFiles(string entry, string mimeType)
+    {
+        string part = entry[..entry.IndexOf('/')];
+        byte[] macro = Zip(seekable: true, ("[Content_Types].xml", 300), ($"{part}/document.xml", 200), (entry, 500));
+
+        FileType? type = HeroKit.FileTypes.FileTypes.Detect(macro);
+        Assert.Equal(mimeType, type?.MimeType);
+        Assert.True(type!.HasMacros);
+        Assert.False(HeroKit.FileTypes.FileTypes.Docx.HasMacros);
+        Assert.Same(HeroKit.FileTypes.FileTypes.Docm, HeroKit.FileTypes.FileTypes.FromExtension("x.docm"));
     }
 
     [Theory]

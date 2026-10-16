@@ -16,7 +16,7 @@ internal ref struct UploadInspection
     // The bytes to scan: the whole file for SVG read from a stream, otherwise what the caller passed.
     public ReadOnlySpan<byte> Content { get; }
 
-    // The first bytes used for detection, at most FileTypeRegistry.HeaderSize.
+    // The bytes used for detection: the first bytes of the file and, for a seekable ZIP stream, its central directory.
     public ReadOnlySpan<byte> Header { get; }
 
     // True when the file is longer than the content that was read for scanning.
